@@ -16,6 +16,6 @@ namespace MeFitBackend.Data.Entities
         public int Duration { get; set; }
         // Navigation
         public ICollection<Exercise> Exercise { get; set; } // 1-M
-
+        
     }
 }
