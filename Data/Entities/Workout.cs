@@ -8,14 +8,15 @@ namespace MeFitBackend.Data.Entities
     {
         public int Id { get; set; }
         [StringLength(50)]
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public string Category { get; set; } = null!;
-        public string RecomendedLvl { get; set; } = null!;
-        public string? Image {  get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public string RecomendedLvl { get; set; }
+        public string Image {  get; set; }
         public int Duration { get; set; }
         // Navigation
-        public ICollection<Exercise> Exercise { get; set; } = null!; // 1-M
+        public ICollection<Exercise> Exercises { get; set; } // 
+        public ICollection<UserWorkout> UserWorkouts { get; set; }
         
     }
 }
