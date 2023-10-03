@@ -16,7 +16,7 @@ namespace MeFitBackend.Data.Entities
         public string Image {  get; set; }
         public int Duration { get; set; }
         // Navigation
-        public ICollection<Workout> Workout { get; set; } // 1-M
-
+        public ICollection<Workout> Workouts { get; set; } // M-M
+        public ICollection<UserProgram> UserPrograms { get; set; }
     }
 }
