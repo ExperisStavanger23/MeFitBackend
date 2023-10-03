@@ -11,6 +11,7 @@ namespace MeFitBackend.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Program> Programs { get; set; } = null!;
         public DbSet<Workout> Workouts { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
