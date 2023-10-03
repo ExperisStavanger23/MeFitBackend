@@ -20,5 +20,7 @@ namespace MeFitBackend.Data.Entities
         public int Height { get; set; }
         public int Age { get; set; }
         public int WorkoutGoal { get; set; }
-    }
+        // Navigation
+        public Role Role { get; set; } = null!; // 1-1
+}
 }
