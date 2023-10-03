@@ -1,6 +1,8 @@
 ﻿namespace MeFitBackend.Data.Exceptions
 {
-    public class EntityValidationException
+    public class EntityValidationException : Exception
     {
+        public EntityValidationException(string? message) : base(message) 
+        { }
     }
 }
