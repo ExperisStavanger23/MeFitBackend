@@ -12,7 +12,7 @@ namespace MeFitBackend.Data.Entities
         [StringLength(50)]
         public string Description { get; set; } = null!;
         public string Category { get; set; } = null!;
-        public string RecomendedLvl { get; set; } = null!;
+        public Level RecomendedLevel { get; set; }
         public string? Image {  get; set; }
         public int Duration { get; set; }
         // Navigation

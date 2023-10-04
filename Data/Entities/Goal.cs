@@ -1,7 +1,12 @@
-﻿namespace MeFitBackend.Data.Entities
+﻿using Microsoft.Identity.Client;
+
+namespace MeFitBackend.Data.Entities
 {
     public class Goal
     {
-        pu
-    }
+        public int GoaldId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public ICollection<UserGoal> UserGoals{ get; set; }
+    } 
 }

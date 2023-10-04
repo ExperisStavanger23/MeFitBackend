@@ -76,7 +76,7 @@ namespace MeFitBackend.Services.Exercises
                 {
                     exe!.Name = obj.Name;
                     exe!.Description = obj.Description;
-                    exe!.MuscleGroup = obj.MuscleGroup;
+                    exe!.MuscleGroups = obj.MuscleGroups;
                     exe!.Image = obj.Image;
                     exe!.Video = obj.Video;
 

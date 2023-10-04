@@ -10,6 +10,8 @@ namespace MeFitBackend.Data.Entities
         public string Description { get; set; }
         public ICollection<UserExercise> UserExercises { get; set; } 
         public ICollection<MuscleGroup> MuscleGroups { get; set; } 
+        public int Reps { get; set; }
+        public int Sets { get; set; }
         public string Image {  get; set; }
         public string Video { get; set; }
     }
