@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MeFitBackend.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeFitBackend.Data.Entities
@@ -21,11 +22,11 @@ namespace MeFitBackend.Data.Entities
         public int Age { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
-        public ICollection<UserGoal> Goals { get; set; }
-        public ICollection<Created> Created { get; set; }
-        public ICollection<UserExercise> UserExercises { get; set; }
-        public ICollection<UserWorkout> UserWorkouts { get; set; } 
-        public ICollection<UserProgram>? UserPrograms { get; set; }
+        public ICollection<UserGoal> Goals { get; set; } = new List<UserGoal>();
+        public ICollection<Created> Created { get; set; } = new List<Created>();
+        public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
+        public ICollection<UserWorkout> UserWorkouts { get; set; } = new List<UserWorkout>();        
+        public ICollection<UserProgram> UserPrograms { get; set; } = new List<UserProgram>();
 
     }
 }

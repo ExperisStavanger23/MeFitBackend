@@ -1,22 +1,25 @@
-﻿public enum ProgramCategory
+﻿namespace MeFitBackend.Data.Enums
 {
-    GeneralFitness,
+    public enum ProgramCategory
+    {
+        GeneralFitness,
 
-    MuscleGain,
+        MuscleGain,
 
-    Strength,
+        Strength,
 
-    Cardio,
+        Cardio,
 
-    WeightManagement,
+        WeightManagement,
 
-    FlexibilityAndMobility,
+        FlexibilityAndMobility,
 
-    FunctionalFitness,
+        FunctionalFitness,
 
-    CrossFit, 
+        CrossFit,
 
-    SportsSpecific,
+        SportsSpecific,
 
-    // maybe more idk...
+        // maybe more idk...
+    }
 }

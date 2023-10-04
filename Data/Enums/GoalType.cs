@@ -1,14 +1,17 @@
-﻿public enum GoalType
+﻿namespace MeFitBackend.Data.Enums
 {
-    WeightLoss,
-    MuscleGain,
-    Strength,
-    Endurance,
-    Flexibility,
-    WeightMaintenance,
-    BodyToning,
-    CardiovascularHealth,
-    StressReduction,
-    Rehabilitation,
-    SportsPerformance,
+    public enum GoalType
+    {
+        WeightLoss,
+        MuscleGain,
+        Strength,
+        Endurance,
+        Flexibility,
+        WeightMaintenance,
+        BodyToning,
+        CardiovascularHealth,
+        StressReduction,
+        Rehabilitation,
+        SportsPerformance,
+    }
 }

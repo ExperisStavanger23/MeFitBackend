@@ -1,5 +1,8 @@
-﻿namespace MeFitBackend.Data.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MeFitBackend.Data.Entities
 {
+    [Table(nameof(UserWorkout))]
     public class UserWorkout
     {
         public int Id { get; set; }

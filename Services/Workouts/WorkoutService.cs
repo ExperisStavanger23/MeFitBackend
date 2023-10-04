@@ -18,13 +18,13 @@ namespace MeFitBackend.Services.Workouts
 
         public async Task<ICollection<Workout>> GetAllAsync()
         {
-            return await _context.Workouts.Include(w => w.Exercise).ToListAsync();
+            return await _context.Workouts.Include(w => w.Exercises).ToListAsync();
         }
 
         public async Task<Workout> GetByIdAsync(int id)
         {
             var work = await _context.Workouts.Where(w => w.Id == id)
-                .Include(w => w.Exercise)
+                .Include(w => w.Exercises)
                 .FirstAsync();
 
             if (work == null)
@@ -78,7 +78,7 @@ namespace MeFitBackend.Services.Workouts
                     work!.Name = obj.Name;
                     work!.Description = obj.Description;
                     work!.Category = obj.Category;
-                    work!.RecomendedLvl = obj.RecomendedLvl;
+                    work!.RecommendedLevel = obj.RecommendedLevel;
                     work!.Image = obj.Image;
                     work!.Duration = obj.Duration;
                     await _context.SaveChangesAsync();

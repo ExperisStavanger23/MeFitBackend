@@ -1,6 +1,9 @@
-﻿public enum Level
+﻿namespace MeFitBackend.Data.Enums
 {
-    Beginner,
-    Intermediate,
-    Advanced
+    public enum Level
+    {
+        Beginner,
+        Intermediate,
+        Advanced
+    }
 }

@@ -1,31 +1,34 @@
-﻿public enum WorkoutCategory
-{
-    // General Fitness workouts
-    StressReduction,
-    Rehabilitation,
+﻿namespace MeFitBackend.Data.Enums
+{ 
+    public enum WorkoutCategory
+    {
+        // General Fitness workouts
+        StressReduction,
+        Rehabilitation,
 
-    // Bodybuidling workouts
-    MuscleGain,
-    Bulking,
+        // Bodybuidling workouts
+        MuscleGain,
+        Bulking,
     
-    // Strength workouts
-    PowerLifting,
-    StrongmanTraning,
-    GeneralStrengthTraining,
+        // Strength workouts
+        PowerLifting,
+        StrongmanTraning,
+        GeneralStrengthTraining,
 
-    // Cardio Workouts
-    Running,
-    HIIT,
+        // Cardio Workouts
+        Running,
+        HIIT,
 
-    // WeightManagement workouts
-    WeightLoss,
-    FatLoss,
-    WeightMaintenance,
+        // WeightManagement workouts
+        WeightLoss,
+        FatLoss,
+        WeightMaintenance,
 
-    BodyWeightTraining,
+        BodyWeightTraining,
 
-    Yoga,
-    SportsPerformance,
+        Yoga,
+        SportsPerformance,
 
-    // maybe more idk...
+        // maybe more idk...
+    }
 }

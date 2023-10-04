@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using MeFitBackend.Data.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeFitBackend.Data.Entities
@@ -10,6 +11,6 @@ namespace MeFitBackend.Data.Entities
         public int EntityId { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
-        public EntityType EntityType { get; set; }
+        public Enums.EntityType EntityType { get; set; }
     }
 }
