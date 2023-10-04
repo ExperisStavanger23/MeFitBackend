@@ -81,7 +81,7 @@ namespace MeFitBackend.Services.Programs
                     prog!.Duration = obj.Duration;
                     prog!.Description = obj.Description;
                     prog!.Category = obj.Category;
-                    prog!.RecomendedLvl = obj.RecomendedLvl;
+                    prog!.RecomendedLevel = obj.RecomendedLevel;
                     prog!.Image = obj.Image;
 
                     await _context.SaveChangesAsync();
