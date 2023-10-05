@@ -70,6 +70,21 @@ namespace MeFitBackend.Data
                     Id = 3,
                     RoleTitle = "User"
                 });
+            // user
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Name = "Jeff",
+                    Email = "jeffit@gmail.com",
+                    ExperienceLvl = Level.Advanced,
+                    Gender = "Male",
+                    Weight = 80,
+                    Height = 180,
+                    Age = 23,
+                    RoleId = 1,
+                });
+
         }
     }
 }

@@ -17,20 +17,28 @@ namespace MeFitBackend.Services.Exercises
 
         public async Task<ICollection<Exercise>> GetAllAsync()
         {
-            return await _context.Exercises.ToListAsync();
+            return await _context.Exercises.Include(ex => ex.MuscleGroups).ToListAsync();
         }
 
         public async Task<Exercise> GetByIdAsync(int id)
         {
-
             try
             {
-                var exe = await _context.Exercises.Where(p => p.Id == id).FirstOrDefaultAsync();
-                return exe;
+                var exercise = await _context.Exercises
+                    .Where(ex => ex.Id == id)
+                    .Include(ex => ex.MuscleGroups)
+                    .FirstOrDefaultAsync();
+
+                if (exercise == null)
+                {
+                    throw new EntityNotFoundException(nameof(exercise), id);
+                }
+
+                return exercise;
             }
-            catch
+            catch (SqlException ex)
             {
-                throw new EntityNotFoundException("exercise", id);
+                throw ex;
             }
         }
 
@@ -46,16 +54,19 @@ namespace MeFitBackend.Services.Exercises
 
             try
             {
-                var exercisesToDelete = await _context.Exercises.SingleOrDefaultAsync(p => p.Id == id);
+                var exerciseToDelete = await GetByIdAsync(id);
 
-                if (exercisesToDelete == null)
+                if (exerciseToDelete != null)
                 {
-                    throw new EntityNotFoundException(nameof(exercisesToDelete), id);
+                    // removing related entities cause of fk constain
+                    exerciseToDelete.MuscleGroups.Clear();
+                    exerciseToDelete.UserExercises.Clear();
+                    _context.Exercises.Remove(exerciseToDelete);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
-                    _context.Remove(exercisesToDelete);
-                    await _context.SaveChangesAsync();
+                    throw new EntityNotFoundException(nameof(exerciseToDelete), id);
                 }
             }
             catch (SqlException ex)
@@ -68,22 +79,39 @@ namespace MeFitBackend.Services.Exercises
         {
             try
             {
-                var exe = await _context.Exercises.SingleOrDefaultAsync(p => p.Id == obj.Id);
+                var exerciseToUpdate = await GetByIdAsync(obj.Id);
 
-                if (exe == null)
+                if (exerciseToUpdate != null)
                 {
-                    throw new EntityNotFoundException(nameof(exe), obj.Id);
+                    // Clear related entities
+                    exerciseToUpdate.MuscleGroups.Clear();
+                    exerciseToUpdate.UserExercises.Clear();
+
+                    // Update exercise properties only
+                    exerciseToUpdate.Name = obj.Name;
+                    exerciseToUpdate.Description = obj.Description;
+                    exerciseToUpdate.Image = obj.Image;
+                    exerciseToUpdate.Video = obj.Video;
+                    exerciseToUpdate.Reps = obj.Reps;
+                    exerciseToUpdate.Sets = obj.Sets;
+
+                    // add back
+                    foreach (var muscleGroup in obj.MuscleGroups)
+                    {
+                        exerciseToUpdate.MuscleGroups.Add(muscleGroup);
+                    }
+                    foreach( var userExercise in obj.UserExercises)
+                    {
+                        exerciseToUpdate.UserExercises.Add(userExercise);
+                    }
+
+                    // Save changes
+                    await _context.SaveChangesAsync();
+                    return exerciseToUpdate;
                 }
                 else
                 {
-                    exe!.Name = obj.Name;
-                    exe!.Description = obj.Description;
-                    exe!.MuscleGroups = obj.MuscleGroups;
-                    exe!.Image = obj.Image;
-                    exe!.Video = obj.Video;
-
-                    await _context.SaveChangesAsync();
-                    return exe!;
+                    throw new EntityNotFoundException(nameof(exerciseToUpdate), obj.Id);
                 }
             }
             catch (SqlException ex)
@@ -91,5 +119,6 @@ namespace MeFitBackend.Services.Exercises
                 throw ex;
             }
         }
+
     }
 }

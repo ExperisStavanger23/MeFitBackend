@@ -1,4 +1,7 @@
-﻿using MeFitBackend.Data.Enums;
+﻿using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.UserWorkout;
+using MeFitBackend.Data.Entities;
+using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Workouts
 {
@@ -11,7 +14,7 @@ namespace MeFitBackend.Data.DTO.Workouts
         public Level RecomendedLevel { get; set; }
         public string Image { get; set; }
         public int Duration { get; set; }
-        public int[] Exercises { get; set; }
-        public int[] UserWorkouts { get; set; }
+        public ICollection<ExerciseDTO> Exercises { get; set; }
+        public ICollection<UserWorkoutDTO> UserWorkouts { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using MeFitBackend.Data.Entities;
+﻿using MeFitBackend.Data.DTO.MuscleGroup;
+using MeFitBackend.Data.DTO.UserExercise;
+using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Data.DTO.Exercises
 {
@@ -11,7 +13,7 @@ namespace MeFitBackend.Data.DTO.Exercises
         public int Sets { get; set; }
         public string Image { get; set; }
         public string Video { get; set; }
-        public int[] UserExercises { get; set; }
-        public int[] MuscleGroups { get; set; }
+        public ICollection<UserExerciseDTO> UserExercises { get; set; }
+        public ICollection<MuscleGroupDTO> MuscleGroups { get; set; }
     }
 }

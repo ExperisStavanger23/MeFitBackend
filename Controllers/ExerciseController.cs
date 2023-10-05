@@ -25,53 +25,57 @@ namespace MeFitBackend.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises()
+        public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetAllExercises()
         {
             var exercises = await _exerciseService.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<ExerciseDTO>>(exercises));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ExerciseDTO>> GetExercise(int id)
+        public async Task<ActionResult<ExerciseDTO>> GetExerciseById(int id)
         {
-            var exercise = await _exerciseService.GetByIdAsync(id);
-            if (exercise == null)
-            {
-                return NotFound(new EntityNotFoundException("exercise", id));
-            }
-
-            return Ok(_mapper.Map<ExerciseDTO>(exercise));
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutExercise(int id, ExercisePutDTO exercise)
-        {
-            if (id != exercise.Id)
-            {
-                throw new EntityNotFoundException("exercise", id);
-            }
-
             try
             {
-                await _exerciseService.UpdateAsync(_mapper.Map<Exercise>(exercise));
+                var exercise = await _exerciseService.GetByIdAsync(id);
+                var exerciseDTO = _mapper.Map<ExerciseDTO>(exercise);
+                return Ok(exerciseDTO);
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
+        }
 
-            return NoContent();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateExercise(int id, ExercisePutDTO exercisePutDTO)
+        {
+            if (id != exercisePutDTO.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var exercise = _mapper.Map<Exercise>(exercisePutDTO);
+                var updatedExercise = await _exerciseService.UpdateAsync(exercise);
+                var exerciseDTO = _mapper.Map<ExerciseDTO>(updatedExercise);
+
+                return Ok(exerciseDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<ExerciseDTO>> PostExercise(ExercisePostDTO exercise)
+        public async Task<ActionResult<ExerciseDTO>> CreateExercise(ExercisePostDTO exercisePostDTO)
         {
-            var newExercise = await _exerciseService.AddAsync(_mapper.Map<Exercise>(exercise));
-
-            return CreatedAtAction("GetExercise",
-                new { id = newExercise.Id },
-                _mapper.Map<ExerciseDTO>(newExercise));
+            var exercise = _mapper.Map<Exercise>(exercisePostDTO);
+            var createdExercise = await _exerciseService.AddAsync(exercise);
+            var exerciseDTO = _mapper.Map<ExerciseDTO>(createdExercise);
+            return CreatedAtAction(nameof(GetExerciseById), new { id = exerciseDTO.Id }, exerciseDTO);
         }
+    
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExercise(int id)
