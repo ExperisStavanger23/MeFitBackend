@@ -19,9 +19,9 @@ namespace MeFitBackend.Data.Entities
         public string Gender { get; set; } = null!;
         public int Weight { get; set; }
         public int Height { get; set; }
-        public int Age { get; set; }
-        // public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public DateTime Birthday { get; set; }
+        public int? RoleId { get; set; }
+        public Role? Role { get; set; }
         public ICollection<UserGoal> Goals { get; set; } = new List<UserGoal>();
         public ICollection<Created> Created { get; set; } = new List<Created>();
         public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
