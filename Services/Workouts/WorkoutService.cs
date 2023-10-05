@@ -25,10 +25,16 @@ namespace MeFitBackend.Services.Workouts
         {
             try
             {
-                var work = await _context.Workouts.Where(w => w.Id == id)
+                var workout = await _context.Workouts
+                    .Where(w => w.Id == id)
                     .Include(w => w.Exercises)
                     .FirstOrDefaultAsync();
-                return work;
+
+                if (workout == null)
+                {
+                    throw new EntityNotFoundException(nameof(workout), id);
+                }
+                return workout;
             }
             catch (SqlException ex)
             {
@@ -47,16 +53,18 @@ namespace MeFitBackend.Services.Workouts
         {
             try
             {
-                var workoutToDelete = await _context.Workouts.SingleOrDefaultAsync(w => w.Id == id);
+                var workoutToDelete = await GetByIdAsync(id);
 
-                if (workoutToDelete == null)
+                if (workoutToDelete != null)
                 {
-                    throw new EntityNotFoundException(nameof(workoutToDelete), id);
+                    // have to delete related entities containg a fk with ref to the parent entity
+                    workoutToDelete.UserWorkouts.Clear();
+                    _context.Remove(workoutToDelete);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
-                    _context.Remove(workoutToDelete);
-                    await _context.SaveChangesAsync();
+                    throw new EntityNotFoundException(nameof(workoutToDelete), id);
                 }
             }
             catch (SqlException ex)
@@ -68,22 +76,33 @@ namespace MeFitBackend.Services.Workouts
         {
             try
             {
-                var work = await _context.Workouts.SingleOrDefaultAsync(w => w.Id == obj.Id);
+                var workoutToUpdate = await GetByIdAsync(obj.Id);
 
-                if (work == null)
+                if (workoutToUpdate != null)
                 {
-                    throw new EntityNotFoundException(nameof(work), obj.Id);
+                    // clear related entity with FK to it
+                    workoutToUpdate.UserWorkouts.Clear();
+
+                    // update props
+                    workoutToUpdate!.Name = obj.Name;
+                    workoutToUpdate!.Description = obj.Description;
+                    workoutToUpdate!.Category = obj.Category;
+                    workoutToUpdate!.RecommendedLevel = obj.RecommendedLevel;
+                    workoutToUpdate!.Image = obj.Image;
+                    workoutToUpdate!.Duration = obj.Duration;
+
+                    // add back 
+                    foreach( var userWorkout in obj.UserWorkouts )
+                    {
+                        workoutToUpdate.UserWorkouts.Add( userWorkout );
+                    }
+                    await _context.SaveChangesAsync();
+                    return workoutToUpdate!;
+
                 }
                 else
                 {
-                    work!.Name = obj.Name;
-                    work!.Description = obj.Description;
-                    work!.Category = obj.Category;
-                    work!.RecommendedLevel = obj.RecommendedLevel;
-                    work!.Image = obj.Image;
-                    work!.Duration = obj.Duration;
-                    await _context.SaveChangesAsync();
-                    return work!;
+                    throw new EntityNotFoundException(nameof(workoutToUpdate), obj.Id);
                 }
             }
             catch (SqlException ex)

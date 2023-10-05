@@ -9,12 +9,33 @@ namespace MeFitBackend.Mappers
         public WorkoutProfile() 
         {
             CreateMap<Workout, WorkoutDTO>()
-                .ForMember(wdto => wdto.Exercises, opt => opt
-                    .MapFrom(w => w.Exercises.Select(s => s.Id).ToList()))
-                .ForMember(wdto => wdto.UserWorkouts, opt => opt
-                    .MapFrom(w => w.UserWorkouts.Select(s => s.Id).ToList()));
-            CreateMap<WorkoutPostDTO, Workout>();
-            CreateMap<WorkoutPutDTO, Workout>();
+                .ForMember(workoutDto => workoutDto.Exercises, opt => opt
+                    .MapFrom(workout => workout.Exercises
+                    .Select(exercise => new Exercise
+                    {
+                        Id = exercise.Id,
+                        Name = exercise.Name,
+                        Description = exercise.Description,
+                        MuscleGroups = exercise.MuscleGroups,
+                        Reps = exercise.Reps,
+                        Sets = exercise.Sets,
+                        Image = exercise.Image,
+                        Video = exercise.Video,
+
+                    })
+                    .ToList()))
+                .ForMember(workoutDto => workoutDto.UserWorkouts, opt => opt
+                    .MapFrom(workout => workout.UserWorkouts
+                    .Select(userWorkout => new UserWorkout
+                    {
+                        Id= userWorkout.Id,
+                        UserId = userWorkout.Id,
+                        WorkoutId = userWorkout.Id,
+                    })
+                    .ToList()));
+            CreateMap<WorkoutDTO, Workout>();
+
+            CreateMap<WorkoutPutDTO, Workout>().ReverseMap();
         }
     }
 }
