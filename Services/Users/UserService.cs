@@ -78,7 +78,7 @@ namespace MeFitBackend.Services.Users
                 {
                     usr!.Name = obj.Name;
                     usr!.Email = obj.Email;
-                    usr!.Age = obj.Age;
+                    usr!.Birthday = obj.Birthday;
                     usr!.Gender = obj.Gender;
                     usr!.Weight = obj.Weight;
                     usr!.Height = obj.Height;

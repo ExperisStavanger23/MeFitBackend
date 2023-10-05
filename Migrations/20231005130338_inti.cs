@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MeFitBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class inti : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,8 +97,8 @@ namespace MeFitBackend.Migrations
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Weight = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,8 +107,7 @@ namespace MeFitBackend.Migrations
                         name: "FK_User_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -285,6 +284,16 @@ namespace MeFitBackend.Migrations
                 table: "Exercise",
                 columns: new[] { "Id", "Description", "Image", "Name", "Reps", "Sets", "Video", "WorkoutId" },
                 values: new object[] { 1, " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ", "Barbell Bench Press", 8, 4, "https://www.youtube.com/watch?v=tuwHzzPdaGc", null });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "RoleTitle" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Contributer" },
+                    { 3, "User" }
+                });
 
             migrationBuilder.InsertData(
                 table: "MuscleGroup",
