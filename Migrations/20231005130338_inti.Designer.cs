@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeFitBackend.Migrations
 {
     [DbContext(typeof(MeFitDbContext))]
-    [Migration("20231004123335_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231005130338_inti")]
+    partial class inti
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,6 +217,23 @@ namespace MeFitBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoleTitle = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoleTitle = "Contributer"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoleTitle = "User"
+                        });
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.User", b =>
@@ -227,12 +244,12 @@ namespace MeFitBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
                     b.Property<string>("Bio")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -257,7 +274,7 @@ namespace MeFitBackend.Migrations
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<int>("Weight")
@@ -441,9 +458,7 @@ namespace MeFitBackend.Migrations
                 {
                     b.HasOne("MeFitBackend.Data.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
                 });
