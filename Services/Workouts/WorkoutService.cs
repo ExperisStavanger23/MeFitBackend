@@ -23,16 +23,17 @@ namespace MeFitBackend.Services.Workouts
 
         public async Task<Workout> GetByIdAsync(int id)
         {
-            var work = await _context.Workouts.Where(w => w.Id == id)
-                .Include(w => w.Exercises)
-                .FirstAsync();
-
-            if (work == null)
+            try
             {
-                throw new EntityNotFoundException(nameof(work), id);
+                var work = await _context.Workouts.Where(w => w.Id == id)
+                    .Include(w => w.Exercises)
+                    .FirstOrDefaultAsync();
+                return work;
             }
-
-            return work;
+            catch (SqlException ex)
+            {
+                throw new EntityNotFoundException("Workout", id);
+            }
         }
 
         public async Task<Workout> AddAsync(Workout obj)

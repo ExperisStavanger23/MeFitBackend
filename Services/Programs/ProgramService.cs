@@ -23,16 +23,19 @@ namespace MeFitBackend.Services.Programs
 
         public async Task<Program> GetByIdAsync(int id)
         {
-            var prog = await _context.Programs.Where(p => p.Id == id)
-                .Include(p => p.Workout)
-                .FirstAsync();
 
-            if (prog == null)
+            try
             {
-                throw new EntityNotFoundException(nameof(prog), id);
-            }
+                var prog = await _context.Programs.Where(p => p.Id == id)
+               .Include(p => p.Workout)
+               .FirstOrDefaultAsync();
 
-            return prog;
+                return prog;
+            }
+            catch
+            {
+                throw new EntityNotFoundException("Program", id);
+            }
         }
 
         public async Task<Program> AddAsync(Program obj)

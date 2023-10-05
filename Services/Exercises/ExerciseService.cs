@@ -22,14 +22,16 @@ namespace MeFitBackend.Services.Exercises
 
         public async Task<Exercise> GetByIdAsync(int id)
         {
-            var exe = await _context.Exercises.Where(p => p.Id == id).FirstAsync();
 
-            if (exe == null)
+            try
             {
-                throw new EntityNotFoundException(nameof(exe), id);
+                var exe = await _context.Exercises.Where(p => p.Id == id).FirstOrDefaultAsync();
+                return exe;
             }
-
-            return exe;
+            catch
+            {
+                throw new EntityNotFoundException("exercise", id);
+            }
         }
 
         public async Task<Exercise> AddAsync(Exercise obj)

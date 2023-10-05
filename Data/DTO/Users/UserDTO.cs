@@ -1,4 +1,5 @@
 ﻿using MeFitBackend.Data.Entities;
+using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Users
 {
@@ -14,7 +15,7 @@ namespace MeFitBackend.Data.DTO.Users
         public int Weight { get; set; }
         public int Height { get; set; }
         public int Age { get; set; }
-        public int RoleId { get; set; }
+        // public int RoleId { get; set; }
         public Role Role { get; set; }
         public int[] Goals { get; set; }
         public int[] Created { get; set; }
