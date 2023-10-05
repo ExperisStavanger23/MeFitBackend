@@ -22,16 +22,18 @@ namespace MeFitBackend.Services.Users
 
         public async Task<User> GetByIdAsync(int id)
         {
-            var usr = await _context.Users.Where(u => u.Id == id)
-                .Include(u => u.Role)
-                .FirstAsync();
-
-            if (usr == null)
+            try
             {
-                throw new EntityNotFoundException(nameof(usr), id);
-            }
+                var usr = await _context.Users.Where(u => u.Id == id)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync();
 
-            return usr;
+                return usr;
+            }
+            catch (SqlException ex)
+            {
+                throw new EntityNotFoundException("User", id);
+            }           
         }
 
         public async Task<User> AddAsync(User obj)

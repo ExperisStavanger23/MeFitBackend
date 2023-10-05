@@ -11,8 +11,8 @@ namespace MeFitBackend.Mappers
             CreateMap<Exercise, ExerciseDTO>()
                 .ForMember(edto => edto.UserExercises, opt => opt
                     .MapFrom(e => e.UserExercises.Select(s => s.Id).ToList()));
-            CreateMap<Exercise, ExercisePostDTO>();
-            CreateMap<Exercise, ExercisePutDTO>();
+            CreateMap<ExercisePostDTO, Exercise>();
+            CreateMap<ExercisePutDTO, Exercise>();
         }
     }
 }

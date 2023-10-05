@@ -1,4 +1,6 @@
-﻿namespace MeFitBackend.Data.DTO.Users
+﻿using MeFitBackend.Data.Entities;
+
+namespace MeFitBackend.Data.DTO.Users
 {
     public class UserPutDTO
     {
@@ -8,8 +10,10 @@
         public string Email { get; set; }
         public string ProfilePicture { get; set; }
         public string Gender { get; set; }
-        public string Weight { get; set; }
-        public string Height { get; set; }
-        public string Age { get; set; }
+        public int Weight { get; set; }
+        public int Height { get; set; }
+        public int Age { get; set; }
+        // public int RoleId { get; set; }
+        public Role Role { get; set; }
     }
 }

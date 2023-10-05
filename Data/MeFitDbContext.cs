@@ -23,7 +23,7 @@ namespace MeFitBackend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
+            // MuscleGroup
             modelBuilder.Entity<MuscleGroup>().HasData(
                 new MuscleGroup { 
                     Id = 1, Name = "Chest" ,
@@ -38,7 +38,7 @@ namespace MeFitBackend.Data
                     ExerciseId = 1
                 });
 
-
+            // Exercise
             modelBuilder.Entity<Exercise>().HasData(
                 new Exercise
                 {
@@ -51,6 +51,24 @@ namespace MeFitBackend.Data
                     Video = "https://www.youtube.com/watch?v=tuwHzzPdaGc",
                     Reps = 8,
                     Sets = 4,
+                });
+
+            // Role
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = 1,
+                    RoleTitle = "Admin"
+                },
+                new Role
+                {
+                    Id = 2,
+                    RoleTitle = "Contributer"
+                },
+                new Role
+                {
+                    Id = 3,
+                    RoleTitle = "User"
                 });
         }
     }
