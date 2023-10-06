@@ -92,8 +92,8 @@ namespace MeFitBackend.Services.Exercises
                     exerciseToUpdate.Description = obj.Description;
                     exerciseToUpdate.Image = obj.Image;
                     exerciseToUpdate.Video = obj.Video;
-                    exerciseToUpdate.Reps = obj.Reps;
-                    exerciseToUpdate.Sets = obj.Sets;
+                    //exerciseToUpdate.Reps = obj.Reps;
+                    //exerciseToUpdate.Sets = obj.Sets;
 
                     // add back
                     foreach (var muscleGroup in obj.MuscleGroups)
