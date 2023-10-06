@@ -2,6 +2,7 @@
 using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.Programs;
+using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using MeFitBackend.Services.Exercises;
@@ -113,6 +114,35 @@ namespace MeFitBackend.Controllers
             try
             {
                 await _exerciseService.UpdateMuscleGroupsAsync(id, musclegroupIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("{id}/userexercises")]
+        public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(int id)
+        {
+            try
+            {
+                var userexercises = await _exerciseService.GetUserExerciseAsync(id);
+                var ueDTO = _mapper.Map<IEnumerable<UserExerciseDTO>>(userexercises);
+                return Ok(ueDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/userexercises")]
+        public async Task<ActionResult> PutUserExercises(int id, [FromBody] int[] userexerciseIds)
+        {
+            try
+            {
+                await _exerciseService.UpdateUserExercisesAsync(id, userexerciseIds);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
