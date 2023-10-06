@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
@@ -88,6 +89,35 @@ namespace MeFitBackend.Controllers
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/musclegroups")]
+        public async Task<ActionResult<IEnumerable<MuscleGroupDTO>>> GetAllMusclegroups(int id)
+        {
+            try
+            {
+                var musclegroups = await _exerciseService.GetMuscleGroupsAsync(id);
+                var mgDTO = _mapper.Map<IEnumerable<MuscleGroupDTO>>(musclegroups);
+                return Ok(mgDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/musclegroups")]
+        public async Task<ActionResult> PutMuscleGroups(int id, [FromBody] int[] musclegroupIds)
+        {
+            try
+            {
+                await _exerciseService.UpdateMuscleGroupsAsync(id, musclegroupIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MeFitBackend.Data.Entities;
+﻿using MeFitBackend.Data.DTO.UserGoal;
+using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Goal

@@ -120,5 +120,68 @@ namespace MeFitBackend.Services.Exercises
             }
         }
 
+        public async Task<ICollection<MuscleGroup>> GetMuscleGroupsAsync(int id)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<MuscleGroup> muscleGroups = new List<MuscleGroup>();
+
+            var exercises = await _context.Exercises
+                .Include(e => e.MuscleGroups)
+                .Where(e => e.Id == id).ToListAsync();
+
+            foreach (var exercise in exercises)
+            {
+                foreach (var musclegroup in exercise.MuscleGroups)
+                {
+                    if (!muscleGroups.Contains(musclegroup))
+                    {
+                        muscleGroups.Add(musclegroup);
+                    }
+                }
+            }
+            return muscleGroups;
+        }
+
+        public async Task UpdateMuscleGroupsAsync(int id, int[] musclegroupIds)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<MuscleGroup> musclegroupList = new List<MuscleGroup>();
+
+            foreach (var mId in musclegroupIds)
+            {
+                if (!await MuscleGroupExistsAsync(mId))
+                {
+                    throw new EntityNotFoundException("Muscle group", mId);
+                }
+
+                musclegroupList.Add(_context.MuscleGroups.Single(m => m.Id == mId));
+            }
+
+            var mgToUpdate = await _context.Exercises.Include(e => e.MuscleGroups).SingleAsync(e => e.Id == id);
+            mgToUpdate.MuscleGroups = musclegroupList;
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        // Helper functions
+
+        public async Task<bool> ExerciseExistAsync(int id)
+        {
+            return await _context.Exercises.AnyAsync(e => e.Id == id);
+        }
+
+        public async Task<bool> MuscleGroupExistsAsync(int id)
+        {
+            return await _context.MuscleGroups.AnyAsync(m => m.Id == id);
+        }
     }
 }
