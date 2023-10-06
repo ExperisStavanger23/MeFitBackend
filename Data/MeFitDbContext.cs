@@ -22,7 +22,6 @@ namespace MeFitBackend.Data
         public DbSet<Role> Roles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             // MuscleGroup
             modelBuilder.Entity<MuscleGroup>().HasData(
                 new MuscleGroup { 
@@ -81,7 +80,7 @@ namespace MeFitBackend.Data
                     Gender = "Male",
                     Weight = 80,
                     Height = 180,
-                    Age = 23,
+                    Birthday = new DateTime(1999-12-03),
                     RoleId = 1,
                 });
 

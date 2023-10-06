@@ -120,5 +120,124 @@ namespace MeFitBackend.Services.Exercises
             }
         }
 
+        public async Task<ICollection<MuscleGroup>> GetMuscleGroupsAsync(int id)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<MuscleGroup> muscleGroups = new List<MuscleGroup>();
+
+            var exercises = await _context.Exercises
+                .Include(e => e.MuscleGroups)
+                .Where(e => e.Id == id).ToListAsync();
+
+            foreach (var exercise in exercises)
+            {
+                foreach (var musclegroup in exercise.MuscleGroups)
+                {
+                    if (!muscleGroups.Contains(musclegroup))
+                    {
+                        muscleGroups.Add(musclegroup);
+                    }
+                }
+            }
+            return muscleGroups;
+        }
+
+        public async Task UpdateMuscleGroupsAsync(int id, int[] musclegroupIds)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<MuscleGroup> musclegroupList = new List<MuscleGroup>();
+
+            foreach (var mId in musclegroupIds)
+            {
+                if (!await MuscleGroupExistsAsync(mId))
+                {
+                    throw new EntityNotFoundException("Muscle group", mId);
+                }
+
+                musclegroupList.Add(_context.MuscleGroups.Single(m => m.Id == mId));
+            }
+
+            var mgToUpdate = await _context.Exercises.Include(e => e.MuscleGroups).SingleAsync(e => e.Id == id);
+            mgToUpdate.MuscleGroups = musclegroupList;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<UserExercise>> GetUserExerciseAsync(int id)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<UserExercise> userexercises = new List<UserExercise>();
+
+            var exercises = await _context.Exercises
+                .Include(e => e.UserExercises)
+                .Where(e => e.Id == id).ToListAsync();
+
+            foreach (var exercise in exercises)
+            {
+                foreach (var userexercise in exercise.UserExercises)
+                {
+                    if (!userexercises.Contains(userexercise))
+                    {
+                        userexercises.Add(userexercise);
+                    }
+                }
+            }
+            return userexercises;
+        }
+
+        public async Task UpdateUserExercisesAsync(int id, int[] userexerciseIds)
+        {
+            if (!await ExerciseExistAsync(id))
+            {
+                throw new EntityNotFoundException("Exercise", id);
+            }
+
+            List<UserExercise> userexercsieList = new List<UserExercise>();
+
+            foreach (var uId in userexerciseIds)
+            {
+                if (!await UserExerciseExistsAsync(uId))
+                {
+                    throw new EntityNotFoundException("User exercise", uId);
+                }
+
+                userexercsieList.Add(_context.UserExercises.Single(m => m.Id == uId));
+            }
+
+            var mgToUpdate = await _context.Exercises.Include(e => e.UserExercises).SingleAsync(e => e.Id == id);
+            mgToUpdate.UserExercises = userexercsieList;
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        // Helper functions
+
+        public async Task<bool> ExerciseExistAsync(int id)
+        {
+            return await _context.Exercises.AnyAsync(e => e.Id == id);
+        }
+
+        public async Task<bool> MuscleGroupExistsAsync(int id)
+        {
+            return await _context.MuscleGroups.AnyAsync(m => m.Id == id);
+        }
+
+        public async Task<bool> UserExerciseExistsAsync(int id)
+        {
+            return await _context.UserExercises.AnyAsync(u => u.Id == id);
+        }
     }
 }
