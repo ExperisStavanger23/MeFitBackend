@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Programs;
+using MeFitBackend.Data.DTO.UserProgram;
+using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using MeFitBackend.Services.Programs;
@@ -82,6 +84,64 @@ namespace MeFitBackend.Controllers
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/workouts")]
+        public async Task<ActionResult<IEnumerable<WorkoutDTO>>> GetAllWorkouts(int id)
+        {
+            try
+            {
+                var workouts = await _programService.GetWorkoutsAsync(id);
+                var workoutDTO = _mapper.Map<IEnumerable<WorkoutDTO>>(workouts);
+                return Ok(workoutDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/workouts")]
+        public async Task<ActionResult> PutProgramWorkouts(int id, [FromBody] int[] workoutIds)
+        {
+            try
+            {
+                await _programService.UpdateWorkoutsAsync(id, workoutIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("{id}/userprograms")]
+        public async Task<ActionResult<IEnumerable<UserProgramDTO>>> GetAllUserPrograms(int id)
+        {
+            try
+            {
+                var userprograms = await _programService.GetUserProgramsAsync(id);
+                var userprogramDTO = _mapper.Map<IEnumerable<UserProgramDTO>>(userprograms);
+                return Ok(userprogramDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/userprograms")]
+        public async Task<ActionResult> PutUserPrograms(int id, [FromBody] int[] userprogramIds)
+        {
+            try
+            {
+                await _programService.UpdateUserProgramsAsync(id, userprogramIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }
