@@ -81,7 +81,15 @@ namespace MeFitBackend.Data
                     Weight = 80,
                     Height = 180,
                     Birthday = new DateTime(1999-12-03),
-                    RoleId = 1,
+                    RoleId = 1
+                });
+            modelBuilder.Entity<Created>().HasData(
+                new Created
+                {
+                    Id = 1,
+                    CreatorId = 1,
+                    EntityId = 1,
+                    EntityType = EntityType.Exercise
                 });
 
         }

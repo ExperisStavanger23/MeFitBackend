@@ -32,14 +32,18 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
-            var user = await _userService.GetByIdAsync(id);
+            // id will actually be a string
+            if (!int.TryParse(id, out var userId)) 
+            {
+                return BadRequest();
+            }
+            var user = await _userService.GetByIdAsync(userId);
             if (user == null)
             {
-                return NotFound(new EntityNotFoundException("user", id));
+                return NotFound(new EntityNotFoundException(nameof(user), id));
             }
-
             return Ok(_mapper.Map<UserDTO>(user));
         }
 
@@ -48,7 +52,7 @@ namespace MeFitBackend.Controllers
         {
             if(id != user.Id)
             {
-                throw new EntityNotFoundException("User", id);
+                throw new EntityNotFoundException(nameof(user), id);
             }
 
             try

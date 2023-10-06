@@ -9,6 +9,8 @@ namespace MeFitBackend.Mappers
         public UserProfile() 
         { 
             CreateMap<User, UserDTO>()
+                .ForMember(udto => udto.Id, opt => opt
+                .MapFrom(u => u.Id.ToString()))
                 .ForMember(udto => udto.Goals, opt => opt
                     .MapFrom(u => u.Goals.Select(s => s.Id).ToList()))
                 .ForMember(udto => udto.Created, opt => opt
