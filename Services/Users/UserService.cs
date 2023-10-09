@@ -17,7 +17,7 @@ namespace MeFitBackend.Services.Users
 
         public async Task<ICollection<User>> GetAllAsync()
         {
-            return await _context.Users.Include(u => u.Role).ToListAsync();
+            return await _context.Users.Include(u => u.Roles).ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(int id)
@@ -25,7 +25,7 @@ namespace MeFitBackend.Services.Users
             try
             {
                 var usr = await _context.Users.Where(u => u.Id == id)
-                .Include(u => u.Role)
+                .Include(u => u.Roles)
                 .FirstOrDefaultAsync();
 
                 return usr;
