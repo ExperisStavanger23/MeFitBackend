@@ -31,53 +31,6 @@ namespace MeFitBackend.Data
             //     .WithOne(r => r.User)
             //     .HasForeignKey(r => r.UserId);
 
-            // userprogram
-            modelBuilder.Entity<UserProgram>()
-                .HasKey(up => up.Id);
-            modelBuilder.Entity<UserProgram>()
-                .HasOne(up => up.User)
-                .WithMany(u => u.UserPrograms)
-                .HasForeignKey(up => up.UserId);
-            modelBuilder.Entity<UserProgram>()
-                .HasOne(up => up.Program)
-                .WithMany(p => p.UserPrograms)
-                .HasForeignKey(up => up.ProgramId);
-            // UserWorkout
-            modelBuilder.Entity<UserWorkout>()
-                .HasKey(uw => uw.Id);
-            modelBuilder.Entity<UserWorkout>()
-                .HasOne(uw => uw.User)
-                .WithMany( u => u.UserWorkouts)
-                .HasForeignKey(uw => uw.UserId);
-            modelBuilder.Entity<UserWorkout>()
-                .HasOne(uw => uw.Workout)
-                .WithMany(w => w.UserWorkouts)
-                .HasForeignKey(uw => uw.WorkoutId);
-
-            // uSERexercise
-            modelBuilder.Entity<UserExercise>()
-                .HasKey(ue => ue.Id);
-            modelBuilder.Entity<UserExercise>()
-                .HasOne(ue => ue.User)
-                .WithMany(u => u.UserExercises)
-                .HasForeignKey(ue => ue.UserId);
-            modelBuilder.Entity<UserExercise>()
-                .HasOne(ue => ue.Exercise)
-                .WithMany(e => e.UserExercises)
-                .HasForeignKey(ue => ue.ExerciseId);
-
-            // UserGoal
-            modelBuilder.Entity<UserGoal>()
-                .HasKey(ug => ug.Id);
-            modelBuilder.Entity<UserGoal>()
-                .HasOne(ug => ug.User)
-                .WithMany(u => u.Goals)
-                .HasForeignKey(ug => ug.UserId);
-            modelBuilder.Entity<UserGoal>()
-                .HasOne(ug => ug.Goal)
-                .WithMany(g => g.UserGoals)
-                .HasForeignKey(ug => ug.GoalId);
-
             // workoutexercise
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<WorkoutExercise>()

@@ -3,7 +3,7 @@
 /// <summary>
 /// This DTO is used to show the exercises in a workout context.
 /// </summary>
-public class ExerciseInWorkoutDto
+public class ExerciseInWorkoutDTO
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
