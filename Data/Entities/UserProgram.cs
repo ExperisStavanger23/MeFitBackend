@@ -11,5 +11,7 @@ namespace MeFitBackend.Data.Entities
         public User User { get; set; }
         public int ProgramId { get; set; }
         public Program Program { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
