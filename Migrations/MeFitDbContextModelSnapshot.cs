@@ -33,6 +33,9 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CreatorId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("EntityId")
                         .HasColumnType("int");
 
@@ -41,7 +44,7 @@ namespace MeFitBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId1");
 
                     b.ToTable("Created");
 
@@ -236,11 +239,8 @@ namespace MeFitBackend.Migrations
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Bio")
                         .HasMaxLength(250)
@@ -287,7 +287,7 @@ namespace MeFitBackend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = "1",
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984),
                             Email = "jeffit@gmail.com",
                             ExperienceLvl = 2,
@@ -310,8 +310,9 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -339,8 +340,9 @@ namespace MeFitBackend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -362,8 +364,9 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("ProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -382,8 +385,9 @@ namespace MeFitBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("WorkoutId")
                         .HasColumnType("int");
@@ -497,9 +501,7 @@ namespace MeFitBackend.Migrations
                 {
                     b.HasOne("MeFitBackend.Data.Entities.User", "Creator")
                         .WithMany("Created")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatorId1");
 
                     b.Navigation("Creator");
                 });

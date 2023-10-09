@@ -123,7 +123,7 @@ namespace MeFitBackend.Data
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Jeff",
                     Email = "jeffit@gmail.com",
                     ExperienceLvl = Level.Advanced,

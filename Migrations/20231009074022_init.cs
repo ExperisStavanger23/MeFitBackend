@@ -122,8 +122,7 @@ namespace MeFitBackend.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -187,17 +186,17 @@ namespace MeFitBackend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EntityId = table.Column<int>(type: "int", nullable: false),
                     CreatorId = table.Column<int>(type: "int", nullable: false),
+                    CreatorId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     EntityType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Created", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Created_User_CreatorId",
-                        column: x => x.CreatorId,
+                        name: "FK_Created_User_CreatorId1",
+                        column: x => x.CreatorId1,
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -206,7 +205,7 @@ namespace MeFitBackend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ExerciseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -232,7 +231,7 @@ namespace MeFitBackend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     GoalId = table.Column<int>(type: "int", nullable: true)
@@ -259,7 +258,7 @@ namespace MeFitBackend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProgramId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -285,7 +284,7 @@ namespace MeFitBackend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     WorkoutId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -304,6 +303,11 @@ namespace MeFitBackend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Created",
+                columns: new[] { "Id", "CreatorId", "CreatorId1", "EntityId", "EntityType" },
+                values: new object[] { 1, 1, null, 1, 0 });
 
             migrationBuilder.InsertData(
                 table: "Exercise",
@@ -342,22 +346,17 @@ namespace MeFitBackend.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Bio", "Birthday", "Email", "ExperienceLvl", "Gender", "Height", "Name", "ProfilePicture", "RoleId", "Weight" },
-                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984), "jeffit@gmail.com", 2, "Male", 180, "Jeff", null, 1, 80 });
+                values: new object[] { "1", null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984), "jeffit@gmail.com", 2, "Male", 180, "Jeff", null, 1, 80 });
 
             migrationBuilder.InsertData(
                 table: "WorkoutExercise",
                 columns: new[] { "Id", "ExerciseId", "ExerciseId1", "Reps", "Sets", "WorkoutId" },
                 values: new object[] { 1, 1, null, 8, 4, 1 });
 
-            migrationBuilder.InsertData(
-                table: "Created",
-                columns: new[] { "Id", "CreatorId", "EntityId", "EntityType" },
-                values: new object[] { 1, 1, 1, 0 });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Created_CreatorId",
+                name: "IX_Created_CreatorId1",
                 table: "Created",
-                column: "CreatorId");
+                column: "CreatorId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MuscleGroup_ExerciseId",

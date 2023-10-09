@@ -20,7 +20,7 @@ namespace MeFitBackend.Services.Users
             return await _context.Users.Include(u => u.Role).ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(string id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace MeFitBackend.Services.Users
             return obj;
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string id)
         {
             try
             {
@@ -93,33 +93,34 @@ namespace MeFitBackend.Services.Users
             }
         }
 
-        public async Task<ICollection<UserGoal>> GetUserGoalsAsync(int id)
+        public async Task<ICollection<UserGoal>> GetUserGoalsAsync(string id)
         {
-            if (!await UserExistAsync(id))
-            {
-                throw new EntityNotFoundException("User", id);
-            }
+            throw new NotImplementedException();
+            //if (!await UserExistAsync(id))
+            //{
+            //    throw new EntityNotFoundException("User", id);
+            //}
 
-            List<UserGoal> goals = new List<UserGoal>();
+        //    List<UserGoal> goals = new List<UserGoal>();
 
-            var users = await _context.Goals
-                .Include(e => e.UserGoals)
-                .Where(e => e.Id == id).ToListAsync();
+        //    var users = await _context.Goals
+        //        .Include(e => e.UserGoals)
+        //        .Where(e => e.Id == id).ToListAsync();
 
-            foreach (var user in users)
-            {
-                foreach (var goal in user.UserGoals)
-                {
-                    if (!goals.Contains(goal))
-                    {
-                        goals.Add(goal);
-                    }
-                }
-            }
-            return goals;
+        //    foreach (var user in users)
+        //    {
+        //        foreach (var goal in user.UserGoals)
+        //        {
+        //            if (!goals.Contains(goal))
+        //            {
+        //                goals.Add(goal);
+        //            }
+        //        }
+        //    }
+        //    return goals;
         }
 
-        public async Task UpdateUserGoalsAsync(int id, int[] usergoalIds)
+        public async Task UpdateUserGoalsAsync(string id, int[] usergoalIds)
         {
             if (!await UserExistAsync(id))
             {
@@ -145,7 +146,7 @@ namespace MeFitBackend.Services.Users
         }
 
 
-        public async Task<ICollection<Created>> GetCreatedAsync(int id)
+        public async Task<ICollection<Created>> GetCreatedAsync(string id)
         {
             if (!await UserExistAsync(id))
             {
@@ -172,7 +173,7 @@ namespace MeFitBackend.Services.Users
             return created;
         }
 
-        public async Task UpdateCreatedAsync(int id, int[] createdIds)
+        public async Task UpdateCreatedAsync(string id, int[] createdIds)
         {
             if (!await UserExistAsync(id))
             {
@@ -195,7 +196,7 @@ namespace MeFitBackend.Services.Users
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<UserExercise>> GetUserExercisesAsync(int id)
+        public async Task<ICollection<UserExercise>> GetUserExercisesAsync(string id)
         {
             if (!await UserExistAsync(id))
             {
@@ -220,7 +221,7 @@ namespace MeFitBackend.Services.Users
             return userexercises;
         }
 
-        public async Task UpdateUserExercisesAsync(int id, int[] userexerciseIds)
+        public async Task UpdateUserExercisesAsync(string id, int[] userexerciseIds)
         {
             if (!await UserExistAsync(id))
             {
@@ -244,7 +245,7 @@ namespace MeFitBackend.Services.Users
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(int id)
+        public async Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(string id)
         {
             if (!await UserExistAsync(id))
             {
@@ -269,7 +270,7 @@ namespace MeFitBackend.Services.Users
             return userworkoute;
         }
 
-        public async Task UpdateUserWorkoutsAsync(int id, int[] userworkoutIds)
+        public async Task UpdateUserWorkoutsAsync(string id, int[] userworkoutIds)
         {
             if (!await UserExistAsync(id))
             {
@@ -295,7 +296,7 @@ namespace MeFitBackend.Services.Users
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
+        public async Task<ICollection<UserProgram>> GetUserProgramsAsync(string id)
         {
             if (!await UserExistAsync(id))
             {
@@ -321,7 +322,7 @@ namespace MeFitBackend.Services.Users
             return userprograms;
         }
 
-        public async Task UpdateUserProgramsAsync(int id, int[] programIds)
+        public async Task UpdateUserProgramsAsync(string id, int[] programIds)
         {
             if (!await UserExistAsync(id))
             {
@@ -345,10 +346,9 @@ namespace MeFitBackend.Services.Users
 
             await _context.SaveChangesAsync();
         }
-  
 
-    // Helper functions
-    public async Task<bool> UserExistAsync(int id)
+        // Helper functions
+        public async Task<bool> UserExistAsync(string id)
         {
             return await _context.Users.AnyAsync(u => u.Id == id);
         }
@@ -377,5 +377,8 @@ namespace MeFitBackend.Services.Users
         {
             return await _context.UserPrograms.AnyAsync(u => u.Id == id);
         }
+
     }
+
+    
 }

@@ -7,7 +7,7 @@ namespace MeFitBackend.Data.Entities
     [Table(nameof(User))]
     public class User
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = null!;
         [StringLength(50)]
         public string Name { get; set; } = null!;
         [StringLength(250)]
