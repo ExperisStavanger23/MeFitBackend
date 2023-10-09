@@ -66,12 +66,6 @@ namespace MeFitBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
                     b.Property<string>("Video")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -92,8 +86,6 @@ namespace MeFitBackend.Migrations
                             Description = " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.",
                             Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ",
                             Name = "Barbell Bench Press",
-                            Reps = 8,
-                            Sets = 4,
                             Video = "https://www.youtube.com/watch?v=tuwHzzPdaGc"
                         });
                 });

@@ -118,8 +118,6 @@ namespace MeFitBackend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Reps = table.Column<int>(type: "int", nullable: false),
-                    Sets = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Video = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WorkoutId = table.Column<int>(type: "int", nullable: true)
@@ -282,8 +280,8 @@ namespace MeFitBackend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Exercise",
-                columns: new[] { "Id", "Description", "Image", "Name", "Reps", "Sets", "Video", "WorkoutId" },
-                values: new object[] { 1, " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ", "Barbell Bench Press", 8, 4, "https://www.youtube.com/watch?v=tuwHzzPdaGc", null });
+                columns: new[] { "Id", "Description", "Image", "Name", "Video", "WorkoutId" },
+                values: new object[] { 1, " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ", "Barbell Bench Press", "https://www.youtube.com/watch?v=tuwHzzPdaGc", null });
 
             migrationBuilder.InsertData(
                 table: "Role",
