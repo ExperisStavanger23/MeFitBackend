@@ -46,8 +46,19 @@ namespace MeFitBackend.Data
                     Description = " Lay on your back" +
                 "on a flat bench, lower the barbell down in a slow pace to your chest level, and then" +
                 "press upwards by extending your arms.",
-                    Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ",
-                    Video = "https://www.youtube.com/watch?v=tuwHzzPdaGc",
+                    Image = "https://www.verywellfit.com/thmb/V4KJH4idbUskL-xSE85WSe8OsPA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/man-training-with-weights-in-gym-147486767-c0eece2a50154d04ad521c1c3c391380.jpg",
+                    Video = "https://www.youtube.com/embed/rxD321l2svE",
+                    Reps = 8,
+                    Sets = 4,
+                });
+            modelBuilder.Entity<Exercise>().HasData(
+                new Exercise
+                {
+                    Id = 2,
+                    Name = "Situp",
+                    Description = "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.",
+                    Image = "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg",
+                    Video = "https://www.youtube.com/embed=UMaZGY6CbC4",
                     Reps = 8,
                     Sets = 4,
                 });
@@ -91,7 +102,19 @@ namespace MeFitBackend.Data
                     EntityId = 1,
                     EntityType = EntityType.Exercise
                 });
-
+            // workout
+            modelBuilder.Entity<Workout>().HasData(
+                new Workout
+                {
+                    Id = 1,
+                    Name = "Chest Day",
+                    Description = "Chest day is a day where you train your chest muscles",
+                    Category = WorkoutCategory.BodyWeightTraining,
+                    RecommendedLevel = Level.Beginner,
+                    Image =
+                        "https://www.mensjournal.com/.image/t_share/MTk2MTM2NjcyOTc1NzI2MDg1/afitasianguyinawhitetanktopdoes.jpg",
+                    Duration = 60,
+                });
         }
     }
 }
