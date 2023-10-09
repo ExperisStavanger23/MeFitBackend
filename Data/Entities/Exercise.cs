@@ -14,8 +14,7 @@ namespace MeFitBackend.Data.Entities
         public string Video { get; set; }
 
         // Navs
-        public ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
-        public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
-        public ICollection<MuscleGroup> MuscleGroups { get; set; } = new List<MuscleGroup>();
+        public int MuscleGroupId { get; set;}
+        public MuscleGroup? MuscleGroup {get; set; }
     }
 }

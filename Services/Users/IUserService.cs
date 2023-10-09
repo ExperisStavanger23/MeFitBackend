@@ -1,6 +1,6 @@
 ﻿namespace MeFitBackend.Services.Users
 {
-    public interface IUserService : ICRUDService<MeFitBackend.Data.Entities.User, int>
+    public interface IUserService : ICRUDService<MeFitBackend.Data.Entities.User, string>
     {
     }
 }

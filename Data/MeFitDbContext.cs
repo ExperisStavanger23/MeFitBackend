@@ -13,11 +13,6 @@ namespace MeFitBackend.Data
         public DbSet<Program> Programs { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserExercise> UserExercises { get; set; }
-        public DbSet<UserWorkout> UserWorkouts { get; set; }
-        public DbSet<UserProgram> UserPrograms { get; set; }
-        public DbSet<UserGoal> UserGoals { get; set; }
-        public DbSet<Created> Created { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<Role> Roles { get; set; }
 
@@ -115,7 +110,7 @@ namespace MeFitBackend.Data
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Jeff",
                     Email = "jeffit@gmail.com",
                     ExperienceLvl = Level.Advanced,

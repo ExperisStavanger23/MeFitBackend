@@ -7,7 +7,7 @@ namespace MeFitBackend.Data.Entities
     [Table(nameof(User))]
     public class User
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = null!;
         [StringLength(50)]
         public string Name { get; set; } = null!;
         [StringLength(250)]
@@ -22,11 +22,10 @@ namespace MeFitBackend.Data.Entities
         public DateTime Birthday { get; set; }
         public int? RoleId { get; set; }
         public Role? Role { get; set; }
-        public ICollection<UserGoal> Goals { get; set; } = new List<UserGoal>();
-        public ICollection<Created> Created { get; set; } = new List<Created>();
-        public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
-        public ICollection<UserWorkout> UserWorkouts { get; set; } = new List<UserWorkout>();        
-        public ICollection<UserProgram> UserPrograms { get; set; } = new List<UserProgram>();
+        public ICollection<Goal> Goals { get; set; }
+        public ICollection<Exercise> Exercises { get; set; }
+        public ICollection<Workout> Workouts { get; set; }  
+        public ICollection<Program> Programs { get; set; }
 
     }
 }

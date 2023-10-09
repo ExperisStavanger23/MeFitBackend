@@ -4,7 +4,7 @@ namespace MeFitBackend.Data.DTO.Users
 {
     public class UserPutDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Bio { get; set; }
         public string Email { get; set; }
@@ -13,7 +13,7 @@ namespace MeFitBackend.Data.DTO.Users
         public int Weight { get; set; }
         public int Height { get; set; }
         public DateTime Birthday { get; set; }
-        // public int RoleId { get; set; }
-        public Role Role { get; set; }
+        public int? RoleId { get; set; }
+        public Role? Role { get; set; }
     }
 }

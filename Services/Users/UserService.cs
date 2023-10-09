@@ -20,7 +20,7 @@ namespace MeFitBackend.Services.Users
             return await _context.Users.Include(u => u.Role).ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(string id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace MeFitBackend.Services.Users
             return obj;
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string id)
         {
             try
             {

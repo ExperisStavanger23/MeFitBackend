@@ -32,7 +32,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
@@ -43,7 +43,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserPutDTO user)
+        public async Task<IActionResult> PutUser(string id, UserPutDTO user)
         {
             if(id != user.Id)
             {
@@ -73,7 +73,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
