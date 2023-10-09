@@ -13,8 +13,8 @@ namespace MeFitBackend.Mappers
             CreateMap<Exercise, ExerciseDTO>()
             .ForMember(exerciseDto => exerciseDto.UserExercises,opt => opt
             .MapFrom(exercise => exercise.UserExercises
-            .Select(userExercise => new UserExerciseDTO
-                {
+            .Select(userExercise => new UserExercise
+            {
                     Id = userExercise.Id,
                     UserId = userExercise.UserId,
                     ExerciseId = userExercise.Id,
