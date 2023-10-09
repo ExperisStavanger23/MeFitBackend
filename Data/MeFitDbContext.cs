@@ -25,10 +25,10 @@ namespace MeFitBackend.Data
         private void ConfigWorkoutExerciseRelation(ModelBuilder modelBuilder)
         {
             // user
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Roles)
-                .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId);
+            // modelBuilder.Entity<User>()
+            //     .HasMany(u => u.Roles)
+            //     .WithOne(r => r.User)
+            //     .HasForeignKey(r => r.UserId);
 
             // userprogram
             modelBuilder.Entity<UserProgram>()
@@ -186,8 +186,8 @@ namespace MeFitBackend.Data
                     Weight = 80,
                     Height = 180,
                     Birthday = new DateTime(1999 - 12 - 03),
-                    Roles = new List<Role>
-                    { new Role { Id = 1,}}
+                    // Roles = new List<Role>
+                    // { new Role { Id = 1,}}
                 }
             );
 
