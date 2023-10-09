@@ -460,9 +460,6 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ExerciseId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("Reps")
                         .HasColumnType("int");
 
@@ -475,8 +472,6 @@ namespace MeFitBackend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
-
-                    b.HasIndex("ExerciseId1");
 
                     b.HasIndex("WorkoutId");
 
@@ -600,14 +595,10 @@ namespace MeFitBackend.Migrations
             modelBuilder.Entity("MeFitBackend.Data.Entities.WorkoutExercise", b =>
                 {
                     b.HasOne("MeFitBackend.Data.Entities.Exercise", "Exercise")
-                        .WithMany()
+                        .WithMany("WorkoutExercises")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MeFitBackend.Data.Entities.Exercise", null)
-                        .WithMany("WorkoutExercises")
-                        .HasForeignKey("ExerciseId1");
 
                     b.HasOne("MeFitBackend.Data.Entities.Workout", "Workout")
                         .WithMany("WorkoutExercises")

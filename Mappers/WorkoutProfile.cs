@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 
@@ -32,6 +33,20 @@ namespace MeFitBackend.Mappers
             CreateMap<WorkoutPutDTO, Workout>().ReverseMap();
 
             CreateMap<Workout,WorkoutGetAllDTO>();
+            CreateMap<Workout, WorkoutGetByIdDTO>()
+                .ForMember(
+                    wdto => wdto.Exercises,
+                    options => options.MapFrom(workout => workout.WorkoutExercises
+                        .Select(workoutExercise => new ExerciseInWorkoutDto
+                        {
+                            ExerciseId = workoutExercise.Exercise != null ? workoutExercise.Exercise.Id : 0, 
+                            Name = workoutExercise.Exercise != null ? workoutExercise.Exercise.Name : "Unknown",
+                            Sets = workoutExercise.Sets,
+                            Reps = workoutExercise.Reps,
+                            Id = workoutExercise.Id
+                        })
+                        .ToList())
+                );
         }
     }
 }

@@ -31,12 +31,12 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkoutDTO>> GetWorkoutById(int id)
+        public async Task<ActionResult<WorkoutGetByIdDTO>> GetWorkoutById(int id)
         {
             try
             {
                 var workout = await _workoutService.GetByIdAsync(id);
-                var workoutDTO = _mapper.Map<WorkoutDTO>(workout);
+                var workoutDTO = _mapper.Map<WorkoutGetByIdDTO>(workout);
                 return Ok(workoutDTO);
             }
             catch (EntityNotFoundException ex)
@@ -44,6 +44,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWorkout(int id, WorkoutPutDTO workoutPutDTO)
