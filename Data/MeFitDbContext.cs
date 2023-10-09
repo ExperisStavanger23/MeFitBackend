@@ -20,6 +20,7 @@ namespace MeFitBackend.Data
         public DbSet<Created> Created { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
 
         /* ----------------------- Relationship configurations -------------------------- */
         private void ConfigWorkoutExerciseRelation(ModelBuilder modelBuilder)

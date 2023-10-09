@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.UserWorkout;
+using MeFitBackend.Data.DTO.WorkoutExercise;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
@@ -86,6 +88,64 @@ namespace MeFitBackend.Controllers
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/workoutexercises")]
+        public async Task<ActionResult<IEnumerable<WorkoutExerciseDTO>>> GetAllWorkoutExercises(int id)
+        {
+            try
+            {
+                var workoutexercises = await _workoutService.GetWorkoutExercisesAsync(id);
+                var weDTO = _mapper.Map<IEnumerable<WorkoutExerciseDTO>>(workoutexercises);
+                return Ok(weDTO);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/workoutexercises")]
+        public async Task<ActionResult> PutWorkoutExercises(int id, [FromBody] int[] workoutexerciseIds)
+        {
+            try
+            {
+                await _workoutService.UpdateWorkoutExersiesAsync(id, workoutexerciseIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("{id}/userworkouts")]
+        public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(int id)
+        {
+            try
+            {
+                var userworkouts = await _workoutService.GetUserWorkoutAsync(id);
+                var uwDTO = _mapper.Map<IEnumerable<UserWorkoutDTO>>(userworkouts);
+                return Ok(uwDTO);
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/userworkouts")]
+        public async Task<ActionResult> PutUserWorkoutAsync(int id, [FromBody] int[] userworkoutIds)
+        {
+            try
+            {
+                await _workoutService.UpdateUserWorkoutsAsync(id, userworkoutIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }
