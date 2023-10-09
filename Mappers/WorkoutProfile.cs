@@ -30,6 +30,8 @@ namespace MeFitBackend.Mappers
             CreateMap<WorkoutDTO, Workout>();
 
             CreateMap<WorkoutPutDTO, Workout>().ReverseMap();
+
+            CreateMap<Workout,WorkoutGetAllDTO>();
         }
     }
 }

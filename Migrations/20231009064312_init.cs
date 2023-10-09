@@ -8,11 +8,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MeFitBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class inti : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Exercise",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Video = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Goal",
                 columns: table => new
@@ -57,6 +73,25 @@ namespace MeFitBackend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MuscleGroup",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExerciseId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MuscleGroup", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MuscleGroup_Exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -111,27 +146,37 @@ namespace MeFitBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "WorkoutExercise",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WorkoutId = table.Column<int>(type: "int", nullable: false),
+                    ExerciseId = table.Column<int>(type: "int", nullable: false),
                     Reps = table.Column<int>(type: "int", nullable: false),
                     Sets = table.Column<int>(type: "int", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Video = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WorkoutId = table.Column<int>(type: "int", nullable: true)
+                    ExerciseId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.PrimaryKey("PK_WorkoutExercise", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exercise_Workout_WorkoutId",
+                        name: "FK_WorkoutExercise_Exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WorkoutExercise_Exercise_ExerciseId1",
+                        column: x => x.ExerciseId1,
+                        principalTable: "Exercise",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_WorkoutExercise_Workout_WorkoutId",
                         column: x => x.WorkoutId,
                         principalTable: "Workout",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -150,6 +195,32 @@ namespace MeFitBackend.Migrations
                     table.ForeignKey(
                         name: "FK_Created_User_CreatorId",
                         column: x => x.CreatorId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserExercise",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ExerciseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserExercise", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserExercise_Exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserExercise_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -234,56 +305,24 @@ namespace MeFitBackend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MuscleGroup",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "Exercise",
+                columns: new[] { "Id", "Description", "Image", "Name", "Video" },
+                values: new object[,]
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MuscleGroup", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MuscleGroup_Exercise_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercise",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserExercise",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserExercise", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserExercise_Exercise_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercise",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserExercise_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    { 1, " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.", "https://www.verywellfit.com/thmb/V4KJH4idbUskL-xSE85WSe8OsPA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/man-training-with-weights-in-gym-147486767-c0eece2a50154d04ad521c1c3c391380.jpg", "Barbell Bench Press", "https://www.youtube.com/embed/rxD321l2svE" },
+                    { 2, "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.", "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg", "Situp", "https://www.youtube.com/embed=UMaZGY6CbC4" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Exercise",
-                columns: new[] { "Id", "Description", "Image", "Name", "Reps", "Sets", "Video", "WorkoutId" },
-                values: new object[] { 1, " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ", "Barbell Bench Press", 8, 4, "https://www.youtube.com/watch?v=tuwHzzPdaGc", null });
+                table: "MuscleGroup",
+                columns: new[] { "Id", "ExerciseId", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, "Chest" },
+                    { 2, null, "Triceps" },
+                    { 3, null, "Shoulders" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Role",
@@ -296,24 +335,29 @@ namespace MeFitBackend.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "MuscleGroup",
-                columns: new[] { "Id", "ExerciseId", "Name" },
-                values: new object[,]
-                {
-                    { 1, 1, "Chest" },
-                    { 2, 1, "Triceps" },
-                    { 3, 1, "Shoulders" }
-                });
+                table: "Workout",
+                columns: new[] { "Id", "Category", "Description", "Duration", "Image", "Name", "ProgramId", "RecommendedLevel" },
+                values: new object[] { 1, 12, "Chest day is a day where you train your chest muscles", 60, "https://www.mensjournal.com/.image/t_share/MTk2MTM2NjcyOTc1NzI2MDg1/afitasianguyinawhitetanktopdoes.jpg", "Chest Day", null, 0 });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Bio", "Birthday", "Email", "ExperienceLvl", "Gender", "Height", "Name", "ProfilePicture", "RoleId", "Weight" },
+                values: new object[] { 1, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984), "jeffit@gmail.com", 2, "Male", 180, "Jeff", null, 1, 80 });
+
+            migrationBuilder.InsertData(
+                table: "WorkoutExercise",
+                columns: new[] { "Id", "ExerciseId", "ExerciseId1", "Reps", "Sets", "WorkoutId" },
+                values: new object[] { 1, 1, null, 8, 4, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Created",
+                columns: new[] { "Id", "CreatorId", "EntityId", "EntityType" },
+                values: new object[] { 1, 1, 1, 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Created_CreatorId",
                 table: "Created",
                 column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exercise_WorkoutId",
-                table: "Exercise",
-                column: "WorkoutId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MuscleGroup_ExerciseId",
@@ -369,6 +413,21 @@ namespace MeFitBackend.Migrations
                 name: "IX_Workout_ProgramId",
                 table: "Workout",
                 column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkoutExercise_ExerciseId",
+                table: "WorkoutExercise",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkoutExercise_ExerciseId1",
+                table: "WorkoutExercise",
+                column: "ExerciseId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkoutExercise_WorkoutId",
+                table: "WorkoutExercise",
+                column: "WorkoutId");
         }
 
         /// <inheritdoc />
@@ -393,13 +452,16 @@ namespace MeFitBackend.Migrations
                 name: "UserWorkout");
 
             migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "WorkoutExercise");
 
             migrationBuilder.DropTable(
                 name: "Goal");
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Exercise");
 
             migrationBuilder.DropTable(
                 name: "Workout");

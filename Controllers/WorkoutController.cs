@@ -24,10 +24,10 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkoutDTO>>> GetAllWorkouts()
+        public async Task<ActionResult<IEnumerable<WorkoutGetAllDTO>>> GetAllWorkouts()
         {
             var workouts = await _workoutService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<WorkoutDTO>>(workouts));
+            return Ok(_mapper.Map<IEnumerable<WorkoutGetAllDTO>>(workouts));
         }
 
         [HttpGet("{id}")]

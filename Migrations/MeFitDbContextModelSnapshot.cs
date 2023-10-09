@@ -44,6 +44,15 @@ namespace MeFitBackend.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Created");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatorId = 1,
+                            EntityId = 1,
+                            EntityType = 0
+                        });
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.Exercise", b =>
@@ -66,22 +75,11 @@ namespace MeFitBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
                     b.Property<string>("Video")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkoutId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("WorkoutId");
 
                     b.ToTable("Exercise");
 
@@ -90,11 +88,17 @@ namespace MeFitBackend.Migrations
                         {
                             Id = 1,
                             Description = " Lay on your backon a flat bench, lower the barbell down in a slow pace to your chest level, and thenpress upwards by extending your arms.",
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.verywellfit.com%2Fhow-to-perform-a-decline-chest-press-4683977&psig=AOvVaw1AsWoqslQYhXrtaQGieg22&ust=1696409560409000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDN45vA2YEDFQAAAAAdAAAAABAZ",
+                            Image = "https://www.verywellfit.com/thmb/V4KJH4idbUskL-xSE85WSe8OsPA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/man-training-with-weights-in-gym-147486767-c0eece2a50154d04ad521c1c3c391380.jpg",
                             Name = "Barbell Bench Press",
-                            Reps = 8,
-                            Sets = 4,
-                            Video = "https://www.youtube.com/watch?v=tuwHzzPdaGc"
+                            Video = "https://www.youtube.com/embed/rxD321l2svE"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.",
+                            Image = "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg",
+                            Name = "Situp",
+                            Video = "https://www.youtube.com/embed=UMaZGY6CbC4"
                         });
                 });
 
@@ -130,7 +134,7 @@ namespace MeFitBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ExerciseId")
+                    b.Property<int?>("ExerciseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -147,19 +151,16 @@ namespace MeFitBackend.Migrations
                         new
                         {
                             Id = 1,
-                            ExerciseId = 1,
                             Name = "Chest"
                         },
                         new
                         {
                             Id = 2,
-                            ExerciseId = 1,
                             Name = "Triceps"
                         },
                         new
                         {
                             Id = 3,
-                            ExerciseId = 1,
                             Name = "Shoulders"
                         });
                 });
@@ -282,6 +283,20 @@ namespace MeFitBackend.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984),
+                            Email = "jeffit@gmail.com",
+                            ExperienceLvl = 2,
+                            Gender = "Male",
+                            Height = 180,
+                            Name = "Jeff",
+                            RoleId = 1,
+                            Weight = 80
+                        });
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.UserExercise", b =>
@@ -420,6 +435,62 @@ namespace MeFitBackend.Migrations
                     b.HasIndex("ProgramId");
 
                     b.ToTable("Workout");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Category = 12,
+                            Description = "Chest day is a day where you train your chest muscles",
+                            Duration = 60,
+                            Image = "https://www.mensjournal.com/.image/t_share/MTk2MTM2NjcyOTc1NzI2MDg1/afitasianguyinawhitetanktopdoes.jpg",
+                            Name = "Chest Day",
+                            RecommendedLevel = 0
+                        });
+                });
+
+            modelBuilder.Entity("MeFitBackend.Data.Entities.WorkoutExercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ExerciseId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("ExerciseId1");
+
+                    b.HasIndex("WorkoutId");
+
+                    b.ToTable("WorkoutExercise");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ExerciseId = 1,
+                            Reps = 8,
+                            Sets = 4,
+                            WorkoutId = 1
+                        });
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.Created", b =>
@@ -433,22 +504,11 @@ namespace MeFitBackend.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("MeFitBackend.Data.Entities.Exercise", b =>
-                {
-                    b.HasOne("MeFitBackend.Data.Entities.Workout", null)
-                        .WithMany("Exercises")
-                        .HasForeignKey("WorkoutId");
-                });
-
             modelBuilder.Entity("MeFitBackend.Data.Entities.MuscleGroup", b =>
                 {
-                    b.HasOne("MeFitBackend.Data.Entities.Exercise", "Exercise")
+                    b.HasOne("MeFitBackend.Data.Entities.Exercise", null)
                         .WithMany("MuscleGroups")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
+                        .HasForeignKey("ExerciseId");
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.User", b =>
@@ -495,7 +555,7 @@ namespace MeFitBackend.Migrations
             modelBuilder.Entity("MeFitBackend.Data.Entities.UserProgram", b =>
                 {
                     b.HasOne("MeFitBackend.Data.Entities.Program", "Program")
-                        .WithMany()
+                        .WithMany("UserPrograms")
                         .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -537,11 +597,36 @@ namespace MeFitBackend.Migrations
                         .HasForeignKey("ProgramId");
                 });
 
+            modelBuilder.Entity("MeFitBackend.Data.Entities.WorkoutExercise", b =>
+                {
+                    b.HasOne("MeFitBackend.Data.Entities.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeFitBackend.Data.Entities.Exercise", null)
+                        .WithMany("WorkoutExercises")
+                        .HasForeignKey("ExerciseId1");
+
+                    b.HasOne("MeFitBackend.Data.Entities.Workout", "Workout")
+                        .WithMany("WorkoutExercises")
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("Workout");
+                });
+
             modelBuilder.Entity("MeFitBackend.Data.Entities.Exercise", b =>
                 {
                     b.Navigation("MuscleGroups");
 
                     b.Navigation("UserExercises");
+
+                    b.Navigation("WorkoutExercises");
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.Goal", b =>
@@ -551,6 +636,8 @@ namespace MeFitBackend.Migrations
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.Program", b =>
                 {
+                    b.Navigation("UserPrograms");
+
                     b.Navigation("Workout");
                 });
 
@@ -569,9 +656,9 @@ namespace MeFitBackend.Migrations
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.Workout", b =>
                 {
-                    b.Navigation("Exercises");
-
                     b.Navigation("UserWorkouts");
+
+                    b.Navigation("WorkoutExercises");
                 });
 #pragma warning restore 612, 618
         }
