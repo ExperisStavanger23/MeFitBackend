@@ -2,18 +2,18 @@
 
 namespace MeFitBackend.Services.Users
 {
-    public interface IUserService : ICRUDService<User, int>
+    public interface IUserService : ICRUDService<User, string>
     {
-        Task<ICollection<UserGoal>> GetUserGoalsAsync(int id);
-        Task<ICollection<Created>> GetCreatedAsync(int id);
-        Task<ICollection<UserExercise>> GetUserExercisesAsync(int id);
-        Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(int id);
-        Task<ICollection<UserProgram>> GetUserProgramsAsync(int id);
-        Task UpdateUserGoalsAsync(int id, int[] usergoalIds);
-        Task UpdateCreatedAsync(int id, int[] createdIds);
-        Task UpdateUserExercisesAsync(int id, int[] userexerciseIds);
-        Task UpdateUserWorkoutsAsync(int id, int[] userworkoutIds);
-        Task UpdateUserProgramsAsync(int id, int[] userprogramIds);
+        Task<ICollection<UserGoal>> GetUserGoalsAsync(string id);
+        Task<ICollection<Created>> GetCreatedAsync(string id);
+        Task<ICollection<UserExercise>> GetUserExercisesAsync(string id);
+        Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(string id);
+        Task<ICollection<UserProgram>> GetUserProgramsAsync(string id);
+        Task UpdateUserGoalsAsync(string id, int[] usergoalIds);
+        Task UpdateCreatedAsync(string id, int[] createdIds);
+        Task UpdateUserExercisesAsync(string id, int[] userexerciseIds);
+        Task UpdateUserWorkoutsAsync(string id, int[] userworkoutIds);
+        Task UpdateUserProgramsAsync(string id, int[] userprogramIds);
 
     }
 }
