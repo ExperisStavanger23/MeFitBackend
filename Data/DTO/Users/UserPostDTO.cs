@@ -1,4 +1,5 @@
 ﻿using MeFitBackend.Data.Entities;
+using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Users
 {
@@ -12,6 +13,7 @@ namespace MeFitBackend.Data.DTO.Users
         public string Gender { get; set; }
         public int Weight { get; set; }
         public int Height { get; set; }
+        public Level ExperienceLvl { get; set; }
         public DateTime Birthday { get; set; }
         // public int RoleId { get; set; }
     }

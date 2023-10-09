@@ -1,4 +1,6 @@
-﻿namespace MeFitBackend.Data.DTO.UserWorkout
+﻿using MeFitBackend.Data.Entities;
+
+namespace MeFitBackend.Data.DTO.UserWorkout
 {
     public class UserWorkoutDTO
     {
