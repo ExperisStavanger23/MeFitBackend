@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MeFitBackend.Data.DTO.UserExercise;
+using MeFitBackend.Data.DTO.UserProgram;
 using MeFitBackend.Data.DTO.Users;
 using MeFitBackend.Data.DTO.UserWorkout;
 using MeFitBackend.Data.Entities;
@@ -27,7 +29,11 @@ namespace MeFitBackend.Mappers
             // Put
             CreateMap<User, UserPutDTO>().ReverseMap();
 
+            CreateMap<UserExercise, UserExerciseDTO>();
+
             CreateMap<UserWorkout, UserWorkoutDTO>();
+
+            CreateMap<UserProgram, UserProgramDTO>();
         }
     }
 }

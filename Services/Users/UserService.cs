@@ -221,26 +221,36 @@ namespace MeFitBackend.Services.Users
             return userexercises;
         }
 
-        public async Task UpdateUserExercisesAsync(string id, int[] userexerciseIds)
+        public async Task UpdateUserExercisesAsync(string id, int[] exerciseIds)
         {
             if (!await UserExistAsync(id))
             {
                 throw new EntityNotFoundException("User", id);
             }
 
-            List<UserExercise> userexercsieList = new List<UserExercise>();
-            foreach (var uId in userexerciseIds)
+            var mgToUpdate = await _context.Users
+                .Include(e => e.UserExercises)
+                .SingleAsync(e => e.Id == id);
+
+
+            var userexerciseList = exerciseIds.Select(eId =>
             {
-                if (!await UserExerciseExistAsync(uId))
+                var exercise = _context.Exercises.FirstOrDefault(e => e.Id == eId);
+                if (exercise == null)
                 {
-                    throw new EntityNotFoundException("User exercise", uId);
+                    throw new EntityNotFoundException("Exercise", eId);
                 }
 
-                userexercsieList.Add(_context.UserExercises.Single(m => m.Id == uId));
-            }
+                return new UserExercise
+                {
+                    UserId = id,
+                    ExerciseId = eId,
 
-            var mgToUpdate = await _context.Users.Include(e => e.UserExercises).SingleAsync(e => e.Id == id);
-            mgToUpdate.UserExercises = userexercsieList;
+                };
+            }).ToList();
+
+            
+            mgToUpdate.UserExercises = userexerciseList;
 
             await _context.SaveChangesAsync();
         }

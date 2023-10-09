@@ -11,9 +11,9 @@ namespace MeFitBackend.Services.Users
         Task<ICollection<UserProgram>> GetUserProgramsAsync(string id);
         Task UpdateUserGoalsAsync(string id, int[] usergoalIds);
         Task UpdateCreatedAsync(string id, int[] createdIds);
-        Task UpdateUserExercisesAsync(string id, int[] userexerciseIds);
-        Task UpdateUserWorkoutsAsync(string id, int[] userworkoutIds);
-        Task UpdateUserProgramsAsync(string id, int[] userprogramIds);
+        Task UpdateUserExercisesAsync(string id, int[] exerciseIds);
+        Task UpdateUserWorkoutsAsync(string id, int[] workoutIds);
+        Task UpdateUserProgramsAsync(string id, int[] programIds);
 
     }
 }
