@@ -192,11 +192,11 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/userworkout")]
-        public async Task<ActionResult> PutUserWorkouts(string id, [FromBody] int[] userworkoutIds)
+        public async Task<ActionResult> PutUserWorkouts(string id, [FromBody] int[] workoutIds)
         {
             try
             {
-                await _userService.UpdateUserWorkoutsAsync(id, userworkoutIds);
+                await _userService.UpdateUserWorkoutsAsync(id, workoutIds);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
