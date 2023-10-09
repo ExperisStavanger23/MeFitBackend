@@ -75,9 +75,7 @@ namespace MeFitBackend.Data
                 "on a flat bench, lower the barbell down in a slow pace to your chest level, and then" +
                 "press upwards by extending your arms.",
                     Image = "https://www.verywellfit.com/thmb/V4KJH4idbUskL-xSE85WSe8OsPA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/man-training-with-weights-in-gym-147486767-c0eece2a50154d04ad521c1c3c391380.jpg",
-                    Video = "https://www.youtube.com/embed/rxD321l2svE",
-                    Reps = 8,
-                    Sets = 4,
+                    Video = "https://www.youtube.com/embed/rxD321l2svE"
                 });
             modelBuilder.Entity<Exercise>().HasData(
                 new Exercise
@@ -87,8 +85,6 @@ namespace MeFitBackend.Data
                     Description = "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.",
                     Image = "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg",
                     Video = "https://www.youtube.com/embed=UMaZGY6CbC4",
-                    Reps = 8,
-                    Sets = 4,
                 });
 
             // Role
