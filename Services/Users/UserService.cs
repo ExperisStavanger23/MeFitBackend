@@ -344,19 +344,37 @@ namespace MeFitBackend.Services.Users
                 throw new EntityNotFoundException("User", id);
             }
 
-            List<UserProgram> userprogramList = new List<UserProgram>();
+            //List<UserProgram> userprogramList = new List<UserProgram>();
 
-            foreach (var uId in programIds)
+            //foreach (var uId in programIds)
+            //{
+            //    if (!await UserProgramExistAsync(uId))
+            //    {
+            //        throw new EntityNotFoundException("User program", uId);
+            //    }
+
+            //    userprogramList.Add(_context.UserPrograms.Single(m => m.Id == uId));
+            //}
+
+            var upToUpdate = await _context.Users
+                .Include(e => e.UserPrograms)
+                .SingleAsync(e => e.Id == id);
+
+
+            var userprogramList = programIds.Select(pId =>
             {
-                if (!await UserProgramExistAsync(uId))
+                var program = _context.Programs.FirstOrDefault(p => p.Id == pId);
+                if (program == null)
                 {
-                    throw new EntityNotFoundException("User program", uId);
+                    throw new EntityNotFoundException("Program", pId);
                 }
+                return new UserProgram
+                {
+                    UserId = id,
+                    ProgramId = pId,
+                };
+            }).ToList();
 
-                userprogramList.Add(_context.UserPrograms.Single(m => m.Id == uId));
-            }
-
-            var upToUpdate = await _context.Users.Include(e => e.UserPrograms).SingleAsync(e => e.Id == id);
             upToUpdate.UserPrograms = userprogramList;
 
             await _context.SaveChangesAsync();
