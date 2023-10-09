@@ -23,7 +23,6 @@ namespace MeFitBackend.Mappers
                     .Select(userWorkout => new UserWorkout
                     {
                         Id= userWorkout.Id,
-                        UserId = userWorkout.Id,
                         WorkoutId = userWorkout.Id,
                     })
                     .ToList()));

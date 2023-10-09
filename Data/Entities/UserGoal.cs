@@ -7,7 +7,7 @@ namespace MeFitBackend.Data.Entities
     public class UserGoal
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
         public int GoalId { get; set; }
         public Goal Goal { get; set; }

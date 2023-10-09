@@ -35,7 +35,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
@@ -46,7 +46,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserPutDTO user)
+        public async Task<IActionResult> PutUser(string id, UserPutDTO user)
         {
             if(id != user.Id)
             {
@@ -76,7 +76,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/usergoals")]
-        public async Task<ActionResult<IEnumerable<UserGoalDTO>>> GetAllUserGoals(int id)
+        public async Task<ActionResult<IEnumerable<UserGoalDTO>>> GetAllUserGoals(string id)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/usergoals")]
-        public async Task<ActionResult> PutUserGoals(int id, [FromBody] int[] usergoalIds)
+        public async Task<ActionResult> PutUserGoals(string id, [FromBody] int[] usergoalIds)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/created")]
-        public async Task<ActionResult<IEnumerable<CreatedDTO>>> GetAllCreated(int id)
+        public async Task<ActionResult<IEnumerable<CreatedDTO>>> GetAllCreated(string id)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/created")]
-        public async Task<ActionResult> PutCreated(int id, [FromBody] int[] createdIds)
+        public async Task<ActionResult> PutCreated(string id, [FromBody] int[] createdIds)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/userexercises")]
-        public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(int id)
+        public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(string id)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/userexercises")]
-        public async Task<ActionResult> PutUserExercises(int id, [FromBody] int[] userexerciseIds)
+        public async Task<ActionResult> PutUserExercises(string id, [FromBody] int[] userexerciseIds)
         {
             try
             {
@@ -177,7 +177,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/userworkout")]
-        public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(int id)
+        public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(string id)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/userworkout")]
-        public async Task<ActionResult> PutUserWorkouts(int id, [FromBody] int[] userworkoutIds)
+        public async Task<ActionResult> PutUserWorkouts(string id, [FromBody] int[] userworkoutIds)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/userprogram")]
-        public async Task<ActionResult<IEnumerable<UserProgramDTO>>> GetAllUserPrograms(int id)
+        public async Task<ActionResult<IEnumerable<UserProgramDTO>>> GetAllUserPrograms(string id)
         {
             try
             {
@@ -221,7 +221,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/userprogram")]
-        public async Task<ActionResult> PutUserPrograms(int id, [FromBody] int[] userprogramIds)
+        public async Task<ActionResult> PutUserPrograms(string id, [FromBody] int[] userprogramIds)
         {
             try
             {

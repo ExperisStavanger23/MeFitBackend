@@ -33,6 +33,9 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CreatorId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("EntityId")
                         .HasColumnType("int");
 
@@ -41,7 +44,7 @@ namespace MeFitBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CreatorId1");
 
                     b.ToTable("Created");
 
@@ -212,7 +215,12 @@ namespace MeFitBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Role");
 
@@ -236,11 +244,8 @@ namespace MeFitBackend.Migrations
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Bio")
                         .HasMaxLength(250)
@@ -272,29 +277,23 @@ namespace MeFitBackend.Migrations
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = "1",
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1984),
                             Email = "jeffit@gmail.com",
                             ExperienceLvl = 2,
                             Gender = "Male",
                             Height = 180,
                             Name = "Jeff",
-                            RoleId = 1,
                             Weight = 80
                         });
                 });
@@ -310,8 +309,9 @@ namespace MeFitBackend.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -333,14 +333,15 @@ namespace MeFitBackend.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GoalId")
+                    b.Property<int>("GoalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -359,11 +360,18 @@ namespace MeFitBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -382,8 +390,9 @@ namespace MeFitBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("WorkoutId")
                         .HasColumnType("int");
@@ -497,9 +506,7 @@ namespace MeFitBackend.Migrations
                 {
                     b.HasOne("MeFitBackend.Data.Entities.User", "Creator")
                         .WithMany("Created")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatorId1");
 
                     b.Navigation("Creator");
                 });
@@ -511,13 +518,11 @@ namespace MeFitBackend.Migrations
                         .HasForeignKey("ExerciseId");
                 });
 
-            modelBuilder.Entity("MeFitBackend.Data.Entities.User", b =>
+            modelBuilder.Entity("MeFitBackend.Data.Entities.Role", b =>
                 {
-                    b.HasOne("MeFitBackend.Data.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
+                    b.HasOne("MeFitBackend.Data.Entities.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.UserExercise", b =>
@@ -541,15 +546,21 @@ namespace MeFitBackend.Migrations
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.UserGoal", b =>
                 {
-                    b.HasOne("MeFitBackend.Data.Entities.Goal", null)
+                    b.HasOne("MeFitBackend.Data.Entities.Goal", "Goal")
                         .WithMany("UserGoals")
-                        .HasForeignKey("GoalId");
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("MeFitBackend.Data.Entities.User", null)
+                    b.HasOne("MeFitBackend.Data.Entities.User", "User")
                         .WithMany("Goals")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Goal");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MeFitBackend.Data.Entities.UserProgram", b =>
@@ -646,6 +657,8 @@ namespace MeFitBackend.Migrations
                     b.Navigation("Created");
 
                     b.Navigation("Goals");
+
+                    b.Navigation("Roles");
 
                     b.Navigation("UserExercises");
 

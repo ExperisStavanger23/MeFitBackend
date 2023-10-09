@@ -20,15 +20,16 @@ namespace MeFitBackend.Data
         public DbSet<Created> Created { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
 
         /* ----------------------- Relationship configurations -------------------------- */
         private void ConfigWorkoutExerciseRelation(ModelBuilder modelBuilder)
         {
             // user
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Roles)
-                .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId);
+            // modelBuilder.Entity<User>()
+            //     .HasMany(u => u.Roles)
+            //     .WithOne(r => r.User)
+            //     .HasForeignKey(r => r.UserId);
 
             // workoutexercise
             base.OnModelCreating(modelBuilder);
@@ -131,7 +132,7 @@ namespace MeFitBackend.Data
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Jeff",
                     Email = "jeffit@gmail.com",
                     ExperienceLvl = Level.Advanced,
@@ -139,8 +140,8 @@ namespace MeFitBackend.Data
                     Weight = 80,
                     Height = 180,
                     Birthday = new DateTime(1999 - 12 - 03),
-                    Roles = new List<Role>
-                    { new Role { Id = 1,}}
+                    // Roles = new List<Role>
+                    // { new Role { Id = 1,}}
                 }
             );
 

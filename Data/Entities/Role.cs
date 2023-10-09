@@ -9,9 +9,9 @@ namespace MeFitBackend.Data.Entities
         public int Id { get; set; }
         public string RoleTitle { get; set; } = null!;
 
-        // FK user
-        public int UserId { get; set; }
-        //Nav user
-        public User User { get; set; }
+        // // FK user
+        // public string UserId { get; set; }
+        // //Nav user
+        // public User User { get; set; }
     }
 }
