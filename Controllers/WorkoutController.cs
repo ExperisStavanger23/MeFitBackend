@@ -36,7 +36,7 @@ namespace MeFitBackend.Controllers
             try
             {
                 var workout = await _workoutService.GetByIdAsync(id);
-                var workoutDTO = _mapper.Map<ExerciseDTO>(workout);
+                var workoutDTO = _mapper.Map<WorkoutDTO>(workout);
                 return Ok(workoutDTO);
             }
             catch (EntityNotFoundException ex)
@@ -71,7 +71,7 @@ namespace MeFitBackend.Controllers
         {
             var workout = _mapper.Map<Workout>(workoutPostDTO);
             var createdWorkout = await _workoutService.AddAsync(workout);
-            var createdWorkoutDTO = _mapper.Map<ExerciseDTO>(createdWorkout);
+            var createdWorkoutDTO = _mapper.Map<WorkoutDTO>(createdWorkout);
             return CreatedAtAction(nameof(GetWorkoutById), new { id = createdWorkoutDTO.Id }, createdWorkoutDTO);
         }
 

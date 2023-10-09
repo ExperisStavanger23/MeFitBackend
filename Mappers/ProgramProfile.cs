@@ -19,7 +19,7 @@ namespace MeFitBackend.Mappers
                         Category = workout.Category,
                         RecommendedLevel = workout.RecommendedLevel,
                         Duration = workout.Duration,
-                        Exercises = workout.Exercises,
+                        WorkoutExercises = workout.WorkoutExercises,
                     })
                     .ToList()));
             CreateMap<ProgramDTO, Program>();

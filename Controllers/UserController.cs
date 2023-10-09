@@ -32,14 +32,9 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(string id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            // id will actually be a string
-            if (!int.TryParse(id, out var userId)) 
-            {
-                return BadRequest();
-            }
-            var user = await _userService.GetByIdAsync(userId);
+            var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound(new EntityNotFoundException(nameof(user), id));

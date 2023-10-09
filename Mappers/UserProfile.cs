@@ -9,8 +9,6 @@ namespace MeFitBackend.Mappers
         public UserProfile() 
         { 
             CreateMap<User, UserDTO>()
-                .ForMember(udto => udto.Id, opt => opt
-                .MapFrom(u => u.Id.ToString()))
                 .ForMember(udto => udto.Goals, opt => opt
                     .MapFrom(u => u.Goals.Select(s => s.Id).ToList()))
                 .ForMember(udto => udto.Created, opt => opt
@@ -20,10 +18,13 @@ namespace MeFitBackend.Mappers
                 .ForMember(udto => udto.UserWorkouts, opt => opt
                     .MapFrom(u => u.UserWorkouts.Select(u => u.Id).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
-                    .MapFrom(udto => udto.UserPrograms.Select(s => s.Id).ToList()));
-            //CreateMap<UserPutDTO, User>().ReverseMap();
-            CreateMap<UserPostDTO, User>();
-            CreateMap<UserPutDTO, User>();
+                    .MapFrom(udto => udto.UserPrograms.Select(s => s.Id).ToList()));;
+
+            // Post
+            CreateMap<UserPostDTO, User>().ReverseMap();
+
+            // Put
+            CreateMap<User, UserPutDTO>().ReverseMap();
         }
     }
 }

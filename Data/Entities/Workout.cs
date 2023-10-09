@@ -15,8 +15,9 @@ namespace MeFitBackend.Data.Entities
         public Level RecommendedLevel { get; set; }
         public string Image {  get; set; }
         public int Duration { get; set; }
+
         // Navigation
-        public ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();     
+        public ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();     
         public ICollection<UserWorkout> UserWorkouts { get; set; } = new List<UserWorkout>();
         
     }

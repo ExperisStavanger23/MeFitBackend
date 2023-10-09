@@ -10,18 +10,12 @@ namespace MeFitBackend.Mappers
         {
             CreateMap<Workout, WorkoutDTO>()
                 .ForMember(workoutDto => workoutDto.Exercises, opt => opt
-                    .MapFrom(workout => workout.Exercises
-                    .Select(exercise => new Exercise
+                    .MapFrom(workout => workout.WorkoutExercises
+                    .Select(workoutexercise => new WorkoutExercise
                     {
-                        Id = exercise.Id,
-                        Name = exercise.Name,
-                        Description = exercise.Description,
-                        MuscleGroups = exercise.MuscleGroups,
-                        Reps = exercise.Reps,
-                        Sets = exercise.Sets,
-                        Image = exercise.Image,
-                        Video = exercise.Video,
-
+                        Id = workoutexercise.Id,
+                        Reps = workoutexercise.Reps,
+                        Sets = workoutexercise.Sets
                     })
                     .ToList()))
                 .ForMember(workoutDto => workoutDto.UserWorkouts, opt => opt

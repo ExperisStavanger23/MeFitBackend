@@ -1,4 +1,4 @@
-﻿using MeFitBackend.Data.Entities;
+using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,22 +20,50 @@ namespace MeFitBackend.Data
         public DbSet<Created> Created { get; set; }
         public DbSet<MuscleGroup> MuscleGroups { get; set; }
         public DbSet<Role> Roles { get; set; }
+
+        /* ----------------------- Relationship configurations -------------------------- */
+        private void ConfigWorkoutExerciseRelation(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WorkoutExercise>()
+                .HasKey(we => we.Id);
+
+            modelBuilder.Entity<WorkoutExercise>()
+                .HasOne(we => we.Workout)
+                .WithMany(w => w.WorkoutExercises)
+                .HasForeignKey(we => we.WorkoutId);
+
+            modelBuilder.Entity<WorkoutExercise>()
+                .HasOne(we => we.Exercise)
+                .WithMany()
+                .HasForeignKey(we => we.ExerciseId);
+        }
+        /* ----------------------------------------------------------------------- */
+
+
+        /* -------------------------------- Seeding ------------------------------ */
+        // Implement Seed data for entities here
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ConfigWorkoutExerciseRelation(modelBuilder);
+
             // MuscleGroup
             modelBuilder.Entity<MuscleGroup>().HasData(
-                new MuscleGroup { 
-                    Id = 1, Name = "Chest" ,
-                    ExerciseId = 1
+                new MuscleGroup
+                {
+                    Id = 1,
+                    Name = "Chest",
                 },
-                new MuscleGroup { 
-                    Id = 2, Name = "Triceps",
-                    ExerciseId = 1
+                new MuscleGroup
+                {
+                    Id = 2,
+                    Name = "Triceps",
                 },
-                new MuscleGroup {
-                    Id = 3, Name = "Shoulders",
-                    ExerciseId = 1
-                });
+                new MuscleGroup
+                {
+                    Id = 3,
+                    Name = "Shoulders",
+                }
+            );
 
             // Exercise
             modelBuilder.Entity<Exercise>().HasData(
@@ -68,19 +96,34 @@ namespace MeFitBackend.Data
                 new Role
                 {
                     Id = 1,
-                    RoleTitle = "Admin"
+                    RoleTitle = "Admin",
                 },
                 new Role
                 {
                     Id = 2,
-                    RoleTitle = "Contributer"
+                    RoleTitle = "Contributer",
                 },
                 new Role
                 {
                     Id = 3,
-                    RoleTitle = "User"
-                });
-            // user
+                    RoleTitle = "User",
+                }
+            );
+
+            // WorkoutExercise
+            modelBuilder.Entity<WorkoutExercise>().HasData(
+                new WorkoutExercise
+                {
+                    Id = 1,
+                    WorkoutId = 1, 
+                    ExerciseId = 1, 
+                    Reps = 8,
+                    Sets = 4,
+                }
+            
+            );
+
+            // User
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
@@ -91,9 +134,12 @@ namespace MeFitBackend.Data
                     Gender = "Male",
                     Weight = 80,
                     Height = 180,
-                    Birthday = new DateTime(1999-12-03),
-                    RoleId = 1
-                });
+                    Birthday = new DateTime(1999 - 12 - 03),
+                    RoleId = 1,
+                }
+            );
+
+            // Created
             modelBuilder.Entity<Created>().HasData(
                 new Created
                 {
@@ -116,5 +162,6 @@ namespace MeFitBackend.Data
                     Duration = 60,
                 });
         }
+        /* ----------------------------------------------------------------------- */
     }
 }
