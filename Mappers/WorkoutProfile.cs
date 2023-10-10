@@ -36,7 +36,7 @@ namespace MeFitBackend.Mappers
                 .ForMember(
                     wdto => wdto.Exercises,
                     options => options.MapFrom(workout => workout.WorkoutExercises
-                        .Select(workoutExercise => new ExerciseInWorkoutDto
+                        .Select(workoutExercise => new ExerciseInWorkoutDTO
                         {
                             ExerciseId = workoutExercise.Exercise != null ? workoutExercise.Exercise.Id : 0, 
                             Name = workoutExercise.Exercise != null ? workoutExercise.Exercise.Name : "Unknown",
