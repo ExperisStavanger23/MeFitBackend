@@ -7,6 +7,7 @@ namespace MeFitBackend.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
+        public ICollection<ExerciseMuscleGroup> ExerciseMuscleGroups { get; set; } = new List<ExerciseMuscleGroup>();
         
     }
 }
