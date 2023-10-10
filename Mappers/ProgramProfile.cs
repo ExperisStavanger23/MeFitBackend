@@ -25,6 +25,7 @@ namespace MeFitBackend.Mappers
             CreateMap<ProgramDTO, Program>();
 
             CreateMap<ProgramPutDTO, Program>().ReverseMap();
+            CreateMap<ProgramPostDTO, Program>();
         }
     }
 }

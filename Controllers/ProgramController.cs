@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.DTO.UserProgram;
 using MeFitBackend.Data.DTO.Workouts;
