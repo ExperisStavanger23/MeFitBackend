@@ -28,12 +28,14 @@ namespace MeFitBackend.Services.Workouts
                 var workout = await _context.Workouts
                     .Where(w => w.Id == id)
                     .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise)
                     .FirstOrDefaultAsync();
 
                 if (workout == null)
                 {
                     throw new EntityNotFoundException(nameof(workout), id);
                 }
+        
                 return workout;
             }
             catch (SqlException ex)
@@ -41,6 +43,7 @@ namespace MeFitBackend.Services.Workouts
                 throw new EntityNotFoundException("Workout", id);
             }
         }
+
 
         public async Task<Workout> AddAsync(Workout obj)
         {

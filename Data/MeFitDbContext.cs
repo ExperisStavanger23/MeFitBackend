@@ -43,7 +43,7 @@ namespace MeFitBackend.Data
 
             modelBuilder.Entity<WorkoutExercise>()
                 .HasOne(we => we.Exercise)
-                .WithMany()
+                .WithMany(e => e.WorkoutExercises)
                 .HasForeignKey(we => we.ExerciseId);
         }
         /* ----------------------------------------------------------------------- */
@@ -166,6 +166,7 @@ namespace MeFitBackend.Data
                     Image =
                         "https://www.mensjournal.com/.image/t_share/MTk2MTM2NjcyOTc1NzI2MDg1/afitasianguyinawhitetanktopdoes.jpg",
                     Duration = 60,
+                    
                 });
         }
         /* ----------------------------------------------------------------------- */
