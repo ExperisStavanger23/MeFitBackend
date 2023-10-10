@@ -148,7 +148,7 @@ namespace MeFitBackend.Services.Workouts
 
             foreach (var wId in workoutexerciseIds)
             {
-                if(!await WorkoutExerciseExistAsync(wId))
+                if (!await WorkoutExerciseExistAsync(wId))
                 {
                     throw new EntityNotFoundException("Workout exersie", id);
                 }
@@ -162,55 +162,55 @@ namespace MeFitBackend.Services.Workouts
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<UserWorkout>> GetUserWorkoutAsync(int id)
-        {
-            if (!await WorkoutExistAsync(id))
-            {
-                throw new EntityNotFoundException("Workout", id);
-            }
+        //public async Task<ICollection<UserWorkout>> GetUserWorkoutAsync(int id)
+        //{
+        //    if (!await WorkoutExistAsync(id))
+        //    {
+        //        throw new EntityNotFoundException("Workout", id);
+        //    }
 
-            List<UserWorkout> userworkouts = new List<UserWorkout>();   
+        //    List<UserWorkout> userworkouts = new List<UserWorkout>();   
 
-            var workouts = await _context.Workouts
-                .Include(w => w.UserWorkouts)
-                .Where(w => w.Id == id).ToListAsync();
+        //    var workouts = await _context.Workouts
+        //        .Include(w => w.UserWorkouts)
+        //        .Where(w => w.Id == id).ToListAsync();
 
-            foreach (var workout in workouts)
-            {
-                foreach (var userworkout in workout.UserWorkouts)
-                {
-                    if (!userworkouts.Contains(userworkout))
-                    {
-                        userworkouts.Add(userworkout);
-                    }
-                }
-            }
-            return userworkouts;
-        }
+        //    foreach (var workout in workouts)
+        //    {
+        //        foreach (var userworkout in workout.UserWorkouts)
+        //        {
+        //            if (!userworkouts.Contains(userworkout))
+        //            {
+        //                userworkouts.Add(userworkout);
+        //            }
+        //        }
+        //    }
+        //    return userworkouts;
+        //}
 
-        public async Task UpdateUserWorkoutsAsync(int id, int[] userworkoutIds)
-        {
-            if (!await WorkoutExistAsync(id))
-            {
-                throw new EntityNotFoundException("Workout", id);
-            }
-            List<UserWorkout> userworkoutList = new List<UserWorkout>();
+        //public async Task UpdateUserWorkoutsAsync(int id, int[] userworkoutIds)
+        //{
+        //    if (!await WorkoutExistAsync(id))
+        //    {
+        //        throw new EntityNotFoundException("Workout", id);
+        //    }
+        //    List<UserWorkout> userworkoutList = new List<UserWorkout>();
 
-            foreach (var uId in userworkoutIds)
-            {
-                if (!await UserWorkoutsExistAsync(id))
-                {
-                    throw new EntityNotFoundException("User workout", id);
-                }
+        //    foreach (var uId in userworkoutIds)
+        //    {
+        //        if (!await UserWorkoutsExistAsync(id))
+        //        {
+        //            throw new EntityNotFoundException("User workout", id);
+        //        }
 
-                userworkoutList.Add(_context.UserWorkouts.Single(u => u.Id == uId));
-            }
+        //        userworkoutList.Add(_context.UserWorkouts.Single(u => u.Id == uId));
+        //    }
 
-            var uwToUpdate = await _context.Workouts.Include(w => w.UserWorkouts).SingleAsync(w => w.Id == id);
-            uwToUpdate.UserWorkouts = userworkoutList;
+        //    var uwToUpdate = await _context.Workouts.Include(w => w.UserWorkouts).SingleAsync(w => w.Id == id);
+        //    uwToUpdate.UserWorkouts = userworkoutList;
 
-            await _context.SaveChangesAsync();
-        }
+        //    await _context.SaveChangesAsync();
+        //}
 
         // Helper functions
         public async Task<bool> WorkoutExistAsync(int id)

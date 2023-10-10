@@ -8,7 +8,7 @@ namespace MeFitBackend.Services.Programs
         Task<ICollection<Workout>> GetWorkoutsAsync(int id);
         Task UpdateWorkoutsAsync(int id, int[] workoutIds);
 
-        Task<ICollection<UserProgram>> GetUserProgramsAsync(int id);
-        Task UpdateUserProgramsAsync(int id, int[] userprogramIds);
+        //Task<ICollection<UserProgram>> GetUserProgramsAsync(int id);
+        //Task UpdateUserProgramsAsync(int id, int[] userprogramIds);
     }
 }

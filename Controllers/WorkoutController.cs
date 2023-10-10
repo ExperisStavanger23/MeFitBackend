@@ -120,33 +120,33 @@ namespace MeFitBackend.Controllers
             }
         }
 
-        [HttpGet("{id}/userworkouts")]
-        public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(int id)
-        {
-            try
-            {
-                var userworkouts = await _workoutService.GetUserWorkoutAsync(id);
-                var uwDTO = _mapper.Map<IEnumerable<UserWorkoutDTO>>(userworkouts);
-                return Ok(uwDTO);
-            }
-            catch(EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
+        //[HttpGet("{id}/userworkouts")]
+        //public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(int id)
+        //{
+        //    try
+        //    {
+        //        var userworkouts = await _workoutService.GetUserWorkoutAsync(id);
+        //        var uwDTO = _mapper.Map<IEnumerable<UserWorkoutDTO>>(userworkouts);
+        //        return Ok(uwDTO);
+        //    }
+        //    catch(EntityNotFoundException ex)
+        //    {
+        //        return NotFound(new NotFoundResponse(ex.Message));
+        //    }
+        //}
 
-        [HttpPut("{id}/userworkouts")]
-        public async Task<ActionResult> PutUserWorkoutAsync(int id, [FromBody] int[] userworkoutIds)
-        {
-            try
-            {
-                await _workoutService.UpdateUserWorkoutsAsync(id, userworkoutIds);
-                return NoContent();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
+        //[HttpPut("{id}/userworkouts")]
+        //public async Task<ActionResult> PutUserWorkoutAsync(int id, [FromBody] int[] userworkoutIds)
+        //{
+        //    try
+        //    {
+        //        await _workoutService.UpdateUserWorkoutsAsync(id, userworkoutIds);
+        //        return NoContent();
+        //    }
+        //    catch (EntityNotFoundException ex)
+        //    {
+        //        return NotFound(new NotFoundResponse(ex.Message));
+        //    }
+        //}
     }
 }
