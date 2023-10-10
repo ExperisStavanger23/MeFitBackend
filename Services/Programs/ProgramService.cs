@@ -147,55 +147,55 @@ namespace MeFitBackend.Services.Programs
             programToUpdate.Workout = workoutList;
         }
 
-        public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
-        {
-            if (!await ProgramExistsAsync(id))
-            {
-                throw new EntityNotFoundException("Program", id);
-            }
+        //public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
+        //{
+        //    if (!await ProgramExistsAsync(id))
+        //    {
+        //        throw new EntityNotFoundException("Program", id);
+        //    }
 
-            List<UserProgram> userprograms = new List<UserProgram>();
+        //    List<UserProgram> userprograms = new List<UserProgram>();
 
-            var programs = await _context.Programs
-                .Include(p => p.UserPrograms)
-                .Where(p => p.Id == id)
-                .ToListAsync();
+        //    var programs = await _context.Programs
+        //        .Include(p => p.UserPrograms)
+        //        .Where(p => p.Id == id)
+        //        .ToListAsync();
 
-            foreach (var program in programs)
-            {
-                foreach (var userprogram in program.UserPrograms)
-                {
-                    if (!userprograms.Contains(userprogram))
-                    {
-                        userprograms.Add(userprogram);
-                    }
-                }
-            }
+        //    foreach (var program in programs)
+        //    {
+        //        foreach (var userprogram in program.UserPrograms)
+        //        {
+        //            if (!userprograms.Contains(userprogram))
+        //            {
+        //                userprograms.Add(userprogram);
+        //            }
+        //        }
+        //    }
 
-            return userprograms;
-        }
+        //    return userprograms;
+        //}
 
-        public async Task UpdateUserProgramsAsync(int id, int[] userprogramIds)
-        {
-            if (!await ProgramExistsAsync(id))
-            {
-                throw new EntityNotFoundException("Program", id);
-            }
+        //public async Task UpdateUserProgramsAsync(int id, int[] userprogramIds)
+        //{
+        //    if (!await ProgramExistsAsync(id))
+        //    {
+        //        throw new EntityNotFoundException("Program", id);
+        //    }
 
-            List<UserProgram> userprogramList = new List<UserProgram>();
-            foreach (var wid in userprogramIds)
-            {
-                if (!await UserProgramExistsAsync(wid))
-                {
-                    throw new EntityNotFoundException("User programs", wid);
-                }
+        //    List<UserProgram> userprogramList = new List<UserProgram>();
+        //    foreach (var wid in userprogramIds)
+        //    {
+        //        if (!await UserProgramExistsAsync(wid))
+        //        {
+        //            throw new EntityNotFoundException("User programs", wid);
+        //        }
 
-                userprogramList.Add(_context.UserPrograms.Single(w => w.Id == wid));
-            }
+        //        userprogramList.Add(_context.UserPrograms.Single(w => w.Id == wid));
+        //    }
 
-            var programToUpdate = await _context.Programs.Include(p => p.UserPrograms).SingleAsync(p => p.Id == id);
-            programToUpdate.UserPrograms = userprogramList;
-        }
+        //    var programToUpdate = await _context.Programs.Include(p => p.UserPrograms).SingleAsync(p => p.Id == id);
+        //    programToUpdate.UserPrograms = userprogramList;
+        //}
 
 
         // helper functions
