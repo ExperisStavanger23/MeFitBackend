@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MeFitBackend.Data.Entities
 {
     [Table(nameof(ExerciseMuscleGroup))]
