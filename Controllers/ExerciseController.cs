@@ -93,12 +93,12 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet("{id}/musclegroups")]
-        public async Task<ActionResult<IEnumerable<MuscleGroupDTO>>> GetAllMusclegroups(int id)
+        public async Task<ActionResult<IEnumerable<MuscleGroupInExerciseDTO>>> GetAllMusclegroups(int id)
         {
             try
             {
                 var musclegroups = await _exerciseService.GetMuscleGroupsAsync(id);
-                var mgDTO = _mapper.Map<IEnumerable<MuscleGroupDTO>>(musclegroups);
+                var mgDTO = _mapper.Map<IEnumerable<MuscleGroupInExerciseDTO>>(musclegroups);
                 return Ok(mgDTO);
             }
             catch (EntityNotFoundException ex)
