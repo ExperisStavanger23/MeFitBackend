@@ -1,9 +1,8 @@
 ﻿namespace MeFitBackend.Data.DTO.MuscleGroup
 {
-    public class MuscleGroupDTO
+    public class MuscleGroupInExerciseDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
     }
 }

@@ -11,7 +11,6 @@ namespace MeFitBackend.Data.DTO.Exercises
         public string Description { get; set; }
         public string Image { get; set; }
         public string Video { get; set; }
-        public ICollection<UserExerciseDTO> UserExercises { get; set; }
-        public ICollection<MuscleGroupDTO> MuscleGroups { get; set; }
+        public int[] MuscleGroupIds { get; set; }
     }
 }
