@@ -17,13 +17,28 @@ namespace MeFitBackend.Mappers
                 .ForMember(udto => udto.Created, opt => opt
                     .MapFrom(u => u.Created.Select(s => s.Id).ToList()))
                 .ForMember(udto => udto.UserExercises, opt => opt
-                    .MapFrom(u => u.UserExercises.Select(s => s.Id).ToList()))
+                    .MapFrom(u => u.UserExercises
+                    .Select(s => new UserExercise
+                    {
+                        Id = s.Id,
+                        Exercise = s.Exercise,
+                    }).ToList()))
                 .ForMember(udto => udto.UserWorkouts, opt => opt
-                    .MapFrom(u => u.UserWorkouts.Select(u => u.Id).ToList()))
+                    .MapFrom(u => u.UserWorkouts
+                    .Select(u => new UserWorkoutDTO
+                    {
+                        Id = u.Id,
+                        Workout = u.Workout,
+                    }).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
-                    .MapFrom(udto => udto.UserPrograms.Select(s => s.Id).ToList())
-                )
-                .ForMember(udto => udto.Role, opt => opt.MapFrom(u => u.Roles.Select(s => s.Id).ToList())); 
+                    .MapFrom(udto => udto.UserPrograms
+                    .Select(s => new UserProgram
+                    {
+                        Id= s.Id,
+                        User = s.User,
+                    }).ToList()))
+                .ForMember(udto => udto.Role, opt => opt
+                    .MapFrom(u => u.Roles.Select(s => s.Id).ToList())); 
                 
 
             // Post

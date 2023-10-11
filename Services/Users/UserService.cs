@@ -17,7 +17,13 @@ namespace MeFitBackend.Services.Users
 
         public async Task<ICollection<User>> GetAllAsync()
         {
-            return await _context.Users.Include(u => u.Roles).Include(u => u.Created).Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout) .ToListAsync();
+            return await _context.Users
+                .Include(u => u.Roles)
+                .Include(u => u.Created)
+                .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
+                .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
+                .Include(u => u.UserPrograms).ThenInclude(up => up.Program)
+                .ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(string id)
@@ -25,7 +31,11 @@ namespace MeFitBackend.Services.Users
             try
             {
                 var usr = await _context.Users.Where(u => u.Id == id)
-                .Include(u => u.Roles).Include(u => u.Created).Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
+                .Include(u => u.Roles)
+                .Include(u => u.Created)
+                .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
+                .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
+                .Include(u => u.UserPrograms).ThenInclude(up => up.Program)
                 .FirstOrDefaultAsync();
 
                 return usr;
@@ -303,6 +313,7 @@ namespace MeFitBackend.Services.Users
                 {
                     UserId = id,
                     WorkoutId = wId,
+                    Workout = workout,
                 };
             }).ToList();
 
