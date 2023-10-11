@@ -11,6 +11,8 @@ namespace MeFitBackend.Mappers
             CreateMap<UserWorkout, UserWorkoutDTO>()
                 .ForMember(uwdto => uwdto.Workout, opt => opt
                 .MapFrom(uw => uw.Workout)).ToString();
+
+            CreateMap<UserWorkoutDTO, UserWorkout>().ReverseMap();
         }
     }
 }

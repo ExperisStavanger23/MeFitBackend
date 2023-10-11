@@ -3,6 +3,7 @@ using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.DTO.UserProgram;
 using MeFitBackend.Data.DTO.Users;
 using MeFitBackend.Data.DTO.UserWorkout;
+using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Mappers
@@ -25,10 +26,18 @@ namespace MeFitBackend.Mappers
                     }).ToList()))
                 .ForMember(udto => udto.UserWorkouts, opt => opt
                     .MapFrom(u => u.UserWorkouts
-                    .Select(u => new UserWorkoutDTO
+                    .Select(u => new UserWorkoutDTO()
                     {
                         Id = u.Id,
-                        Workout = u.Workout,
+                        UserId = u.UserId, 
+                        WorkoutId = u.WorkoutId,
+                        Workout = new Workout
+                        {
+                           Id = u.Workout.Id,
+                           Name = u.Workout.Name,
+                           Description = u.Workout.Description,
+                        }
+                      
                     }).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
                     .MapFrom(udto => udto.UserPrograms
