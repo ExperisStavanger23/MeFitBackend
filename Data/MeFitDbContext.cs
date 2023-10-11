@@ -212,6 +212,16 @@ namespace MeFitBackend.Data
         private void SeedPrograms(ModelBuilder modelBuilder)
         {
             // Method for seeding Program entity
+            modelBuilder.Entity<Program>().HasData(
+                new Program
+                {
+                    Id = 1,
+                    Name = "Upper Body Program",
+                    Description = "Get bigger upper body",
+                    Category = ProgramCategory.MuscleGain,
+                    RecommendedLevel = Level.Beginner,
+                    Duration = 14,
+                });
         }
         /* --------------------------------------------------------- */
 
