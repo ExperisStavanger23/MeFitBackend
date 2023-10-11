@@ -30,16 +30,26 @@ namespace MeFitBackend.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<WorkoutExercise>()
                 .HasKey(we => we.Id);
-
             modelBuilder.Entity<WorkoutExercise>()
                 .HasOne(we => we.Workout)
                 .WithMany(w => w.WorkoutExercises)
                 .HasForeignKey(we => we.WorkoutId);
-
             modelBuilder.Entity<WorkoutExercise>()
                 .HasOne(we => we.Exercise)
                 .WithMany(e => e.WorkoutExercises)
                 .HasForeignKey(we => we.ExerciseId);
+
+           /* modelBuilder.Entity<ExerciseMuscleGroup>()
+                *.HasKey(exmg => exmg.Id);
+            modelBuilder.Entity<Exercise>()
+                 .HasMany(e => e.ExerciseMuscleGroups)
+                 .WithOne(emg => emg.Exercise)
+                 .HasForeignKey(emg => emg.ExerciseId);
+            modelBuilder.Entity<MuscleGroup>()
+                .HasMany(mg => mg.ExerciseMuscleGroups)
+                .WithOne(emg => emg.MuscleGroup)
+                .HasForeignKey(emg => emg.MuscleGroupId);
+           */
         }
         /* --------------------------------------------------------- */
         /* ---------------------------------------------------------------------------------------------------- */
@@ -169,7 +179,6 @@ namespace MeFitBackend.Data
                 {
                     Id = 1,
                     Name = "Barbell Bench Press",
-                    // assign with chest, triceps, shoulders
                     Description = " Lay on your back" +
                 "on a flat bench, lower the barbell down in a slow pace to your chest level, and then" +
                 "press upwards by extending your arms.",
@@ -181,11 +190,38 @@ namespace MeFitBackend.Data
                 {
                     Id = 2,
                     Name = "Situp",
-                    // assign with abs
                     Description = "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.",
                     Image = "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg",
                     Video = "https://www.youtube.com/embed=UMaZGY6CbC4",
                 });
+
+            /* ---- <Assign MuscleGroups to and exercise by their Id's here> ---- */
+            modelBuilder.Entity<ExerciseMuscleGroup>().HasData(
+                new ExerciseMuscleGroup
+                {
+                    Id = 1,
+                    ExerciseId = 1,
+                    MuscleGroupId = 1,
+                },
+                new ExerciseMuscleGroup
+                {
+                    Id = 2,
+                    ExerciseId = 1,
+                    MuscleGroupId = 2,
+                },
+                new ExerciseMuscleGroup
+                {
+                    Id = 3,
+                    ExerciseId = 1,
+                    MuscleGroupId = 3,
+                },
+                new ExerciseMuscleGroup
+                {
+                    Id = 4,
+                    ExerciseId = 2,
+                    MuscleGroupId = 13,
+                });
+            /* ------------------------------------------------------------------ */
         }
         /* --------------------------------------------------------- */
 
