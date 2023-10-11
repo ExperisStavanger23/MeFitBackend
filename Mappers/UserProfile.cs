@@ -21,7 +21,10 @@ namespace MeFitBackend.Mappers
                 .ForMember(udto => udto.UserWorkouts, opt => opt
                     .MapFrom(u => u.UserWorkouts.Select(u => u.Id).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
-                    .MapFrom(udto => udto.UserPrograms.Select(s => s.Id).ToList()));
+                    .MapFrom(udto => udto.UserPrograms.Select(s => s.Id).ToList())
+                )
+                .ForMember(udto => udto.Role, opt => opt.MapFrom(u => u.Roles.Select(s => s.Id).ToList())); 
+                
 
             // Post
             CreateMap<UserPostDTO, User>().ReverseMap();

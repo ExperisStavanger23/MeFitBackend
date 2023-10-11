@@ -5,22 +5,22 @@ namespace MeFitBackend.Data.DTO.Users
 {
     public class UserDTO
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Bio {  get; set; }
-        public string Email { get; set; }
+        public string Id { get; set; }= null!;
+        public string Name { get; set; }= null!;
+        public string Bio {  get; set; }= null!;
+        public string Email { get; set; }= null!;
         public string? ProfilePicture { get; set; }
-        public Level ExperienceLvl { get; set; }
+        public string ExperienceLvl { get; set; }= null!;
         public string Gender { get; set; } = null!;
         public int Weight { get; set; }
         public int Height { get; set; }
         public DateTime Birthday { get; set; }
         // public int RoleId { get; set; }
-        public Role Role { get; set; }
-        public int[] Goals { get; set; }
-        public int[] Created { get; set; }
-        public int[] UserExercises { get; set; }
-        public int[] UserWorkouts { get; set; }
-        public int[] UserPrograms { get; set; }
+        public string Role { get; set; }= null!;
+        public int[] Goals { get; set; }= null!;
+        public int[] Created { get; set; }= null!;
+        public int[] UserExercises { get; set; }= null!;
+        public int[] UserWorkouts { get; set; }= null!;
+        public int[] UserPrograms { get; set; }= null!;
     }
 }
