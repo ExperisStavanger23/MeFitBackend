@@ -22,7 +22,13 @@ namespace MeFitBackend.Mappers
                     .Select(s => new UserExercise
                     {
                         Id = s.Id,
-                        Exercise = s.Exercise,
+                        ExerciseId = s.ExerciseId,
+                        Exercise = new Exercise
+                        {
+                            Id = s.Exercise.Id,
+                            Name = s.Exercise.Name,
+                            Description = s.Exercise.Description,
+                        }
                     }).ToList()))
                 .ForMember(udto => udto.UserWorkouts, opt => opt
                     .MapFrom(u => u.UserWorkouts
@@ -44,7 +50,13 @@ namespace MeFitBackend.Mappers
                     .Select(s => new UserProgram
                     {
                         Id= s.Id,
-                        User = s.User,
+                        ProgramId = s.ProgramId,
+                        Program = new Program
+                        {
+                            Id = s.Program.Id,
+                            Name = s.Program.Name,
+                            Description = s.Program.Description,
+                        }
                     }).ToList()))
                 .ForMember(udto => udto.Role, opt => opt
                     .MapFrom(u => u.Roles.Select(s => s.Id).ToList())); 
