@@ -3,6 +3,7 @@ using MeFitBackend.Data;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace MeFitBackend.Services.Exercises
 {
@@ -143,11 +144,10 @@ namespace MeFitBackend.Services.Exercises
             {
                 throw new EntityNotFoundException(nameof(Exercise), id);
             }
-
-            // get the exercise's musclegroups using the GetExerciseById and extract the
-            // musclegroups only
-            var exercise = await GetByIdAsync(id);
-            var muscleGroups = exercise.ExerciseMuscleGroups.Select(exmg => exmg.MuscleGroup).ToList();
+            var muscleGroups = await _context.ExerciseMuscleGroups
+                               .Where(exmg => exmg.ExerciseId == id)
+                               .Select(exmg => exmg.MuscleGroup)
+                               .ToListAsync();
             return muscleGroups;
         }
 
@@ -155,20 +155,20 @@ namespace MeFitBackend.Services.Exercises
         {
             if (!await ExerciseExistAsync(id))
             {
-                throw new EntityNotFoundException("Exercise", id);
+                throw new EntityNotFoundException(nameof(Exercise), id);
             }
 
-            // get hold of current musclegroups for this exercise using GetMgAsync()
-            var currMuscleGroups = await GetMuscleGroupsAsync(id);
-            // get hold of Exercise entity
-            var relevantExercise = await GetByIdAsync(id);
-            relevantExercise.ExerciseMuscleGroups.Clear();
+            var exercise = await _context.Exercises.FindAsync(id);
 
-            // add
+            // Clear existing relation
+            exercise.ExerciseMuscleGroups.Clear();
+
+            // Add new associations
             foreach (var mgId in musclegroupIds)
             {
-                relevantExercise.ExerciseMuscleGroups.Add(new ExerciseMuscleGroup { ExerciseId = id, MuscleGroupId = mgId });
+                exercise.ExerciseMuscleGroups.Add(new ExerciseMuscleGroup { ExerciseId = id, MuscleGroupId = mgId });
             }
+
             await _context.SaveChangesAsync();
         }
 
