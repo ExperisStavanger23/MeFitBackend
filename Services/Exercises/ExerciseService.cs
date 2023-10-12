@@ -3,6 +3,7 @@ using MeFitBackend.Data;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace MeFitBackend.Services.Exercises
 {
@@ -17,7 +18,10 @@ namespace MeFitBackend.Services.Exercises
 
         public async Task<ICollection<Exercise>> GetAllAsync()
         {
-            return await _context.Exercises.Include(ex => ex.MuscleGroups).ToListAsync();
+            return await _context.Exercises
+                .Include(ex => ex.ExerciseMuscleGroups)
+                .ThenInclude( exmg => exmg.MuscleGroup)
+                .ToListAsync();
         }
 
         public async Task<Exercise> GetByIdAsync(int id)
@@ -26,14 +30,13 @@ namespace MeFitBackend.Services.Exercises
             {
                 var exercise = await _context.Exercises
                     .Where(ex => ex.Id == id)
-                    .Include(ex => ex.MuscleGroups)
+                    .Include(ex => ex.ExerciseMuscleGroups)
+                    .ThenInclude(exmg => exmg.MuscleGroup)
                     .FirstOrDefaultAsync();
-
                 if (exercise == null)
                 {
                     throw new EntityNotFoundException(nameof(exercise), id);
                 }
-
                 return exercise;
             }
             catch (SqlException ex)
@@ -58,9 +61,23 @@ namespace MeFitBackend.Services.Exercises
 
                 if (exerciseToDelete != null)
                 {
-                    // removing related entities cause of fk constain
-                    exerciseToDelete.MuscleGroups.Clear();
-                    exerciseToDelete.UserExercises.Clear();
+                    // Remove related entities first
+                    foreach (var userExercise in exerciseToDelete.UserExercises.ToList())
+                    {
+                        _context.UserExercises.Remove(userExercise);
+                    }
+
+                    foreach (var workoutExercise in exerciseToDelete.WorkoutExercises.ToList())
+                    {
+                        _context.WorkoutExercises.Remove(workoutExercise);
+                    }
+
+                    foreach (var exerciseMuscleGroup in exerciseToDelete.ExerciseMuscleGroups.ToList())
+                    {
+                        _context.ExerciseMuscleGroups.Remove(exerciseMuscleGroup);
+                    }
+
+                    // EREmoval of actual EXERCISE ENTITY FROM DB CONTEXT
                     _context.Exercises.Remove(exerciseToDelete);
                     await _context.SaveChangesAsync();
                 }
@@ -83,27 +100,27 @@ namespace MeFitBackend.Services.Exercises
 
                 if (exerciseToUpdate != null)
                 {
-                    // Clear related entities
-                    exerciseToUpdate.MuscleGroups.Clear();
-                    exerciseToUpdate.UserExercises.Clear();
+                    // Remove related entities first
+                    foreach (var userExercise in exerciseToUpdate.UserExercises.ToList())
+                    {
+                        _context.UserExercises.Remove(userExercise);
+                    }
 
-                    // Update exercise properties only
+                    foreach (var workoutExercise in exerciseToUpdate.WorkoutExercises.ToList())
+                    {
+                        _context.WorkoutExercises.Remove(workoutExercise);
+                    }
+
+                    foreach (var exerciseMuscleGroup in exerciseToUpdate.ExerciseMuscleGroups.ToList())
+                    {
+                        _context.ExerciseMuscleGroups.Remove(exerciseMuscleGroup);
+                    }
+
+                    // Update exercise properties only (not entity props)
                     exerciseToUpdate.Name = obj.Name;
                     exerciseToUpdate.Description = obj.Description;
                     exerciseToUpdate.Image = obj.Image;
                     exerciseToUpdate.Video = obj.Video;
-                    //exerciseToUpdate.Reps = obj.Reps;
-                    //exerciseToUpdate.Sets = obj.Sets;
-
-                    // add back
-                    foreach (var muscleGroup in obj.MuscleGroups)
-                    {
-                        exerciseToUpdate.MuscleGroups.Add(muscleGroup);
-                    }
-                    foreach( var userExercise in obj.UserExercises)
-                    {
-                        exerciseToUpdate.UserExercises.Add(userExercise);
-                    }
 
                     // Save changes
                     await _context.SaveChangesAsync();
@@ -122,27 +139,15 @@ namespace MeFitBackend.Services.Exercises
 
         public async Task<ICollection<MuscleGroup>> GetMuscleGroupsAsync(int id)
         {
+            // check for existance first using the boolean helper method
             if (!await ExerciseExistAsync(id))
             {
-                throw new EntityNotFoundException("Exercise", id);
+                throw new EntityNotFoundException(nameof(Exercise), id);
             }
-
-            List<MuscleGroup> muscleGroups = new List<MuscleGroup>();
-
-            var exercises = await _context.Exercises
-                .Include(e => e.MuscleGroups)
-                .Where(e => e.Id == id).ToListAsync();
-
-            foreach (var exercise in exercises)
-            {
-                foreach (var musclegroup in exercise.MuscleGroups)
-                {
-                    if (!muscleGroups.Contains(musclegroup))
-                    {
-                        muscleGroups.Add(musclegroup);
-                    }
-                }
-            }
+            var muscleGroups = await _context.ExerciseMuscleGroups
+                               .Where(exmg => exmg.ExerciseId == id)
+                               .Select(exmg => exmg.MuscleGroup)
+                               .ToListAsync();
             return muscleGroups;
         }
 
@@ -150,23 +155,19 @@ namespace MeFitBackend.Services.Exercises
         {
             if (!await ExerciseExistAsync(id))
             {
-                throw new EntityNotFoundException("Exercise", id);
+                throw new EntityNotFoundException(nameof(Exercise), id);
             }
 
-            List<MuscleGroup> musclegroupList = new List<MuscleGroup>();
+            var exercise = await _context.Exercises.FindAsync(id);
 
-            foreach (var mId in musclegroupIds)
+            // Clear existing relation
+            exercise.ExerciseMuscleGroups.Clear();
+
+            // Add new associations
+            foreach (var mgId in musclegroupIds)
             {
-                if (!await MuscleGroupExistsAsync(mId))
-                {
-                    throw new EntityNotFoundException("Muscle group", mId);
-                }
-
-                musclegroupList.Add(_context.MuscleGroups.Single(m => m.Id == mId));
+                exercise.ExerciseMuscleGroups.Add(new ExerciseMuscleGroup { ExerciseId = id, MuscleGroupId = mgId });
             }
-
-            var mgToUpdate = await _context.Exercises.Include(e => e.MuscleGroups).SingleAsync(e => e.Id == id);
-            mgToUpdate.MuscleGroups = musclegroupList;
 
             await _context.SaveChangesAsync();
         }
