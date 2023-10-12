@@ -211,7 +211,7 @@ namespace MeFitBackend.Controllers
             try
             {
                 var userprograms = await _userService.GetUserProgramsAsync(id);
-                var upDTO = _mapper.Map<IEnumerable<UserWorkoutDTO>>(userprograms);
+                var upDTO = _mapper.Map<IEnumerable<UserProgramDTO>>(userprograms);
                 return Ok(upDTO);
             }
             catch (EntityNotFoundException ex)
@@ -221,11 +221,11 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPut("{id}/userprogram")]
-        public async Task<ActionResult> PutUserPrograms(string id, [FromBody] int[] programIds)
+        public async Task<ActionResult> PutUserPrograms(string id, [FromBody] int[] programIds, DateTime starttime, DateTime endtime)
         {
             try
             {
-                await _userService.UpdateUserProgramsAsync(id, programIds);
+                await _userService.UpdateUserProgramsAsync(id, programIds, starttime, endtime);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
