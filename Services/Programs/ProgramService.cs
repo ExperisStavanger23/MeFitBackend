@@ -146,6 +146,7 @@ namespace MeFitBackend.Services.Programs
             var programToUpdate = await _context.Programs.Include(p => p.Workout).SingleAsync(p => p.Id == id);
             
             programToUpdate.Workout = workoutList;
+            await _context.SaveChangesAsync();
         }
 
         //public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
