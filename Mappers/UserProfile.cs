@@ -47,7 +47,7 @@ namespace MeFitBackend.Mappers
                     }).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
                     .MapFrom(udto => udto.UserPrograms
-                    .Select(s => new UserProgram
+                    .Select(s => new UserProgramDTO()
                     {
                         Id= s.Id,
                         ProgramId = s.ProgramId,

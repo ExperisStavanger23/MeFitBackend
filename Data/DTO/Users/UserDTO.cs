@@ -17,10 +17,10 @@ namespace MeFitBackend.Data.DTO.Users
         public DateTime Birthday { get; set; }
         // public int RoleId { get; set; }
         public string Role { get; set; }= null!;
-        public int[] Goals { get; set; }= null!;
-        public int[] Created { get; set; }= null!;
-        public int[] UserExercises { get; set; }= null!;
+        public Entities.UserGoal[] Goals { get; set; }= null!;
+        public Entities.Created[] Created { get; set; }= null!;
+        public Entities.UserExercise[] UserExercises { get; set; }= null!;
         public Entities.UserWorkout[] UserWorkouts { get; set; }= null!;
-        public int[] UserPrograms { get; set; }= null!;
+        public Entities.UserProgram[] UserPrograms { get; set; }= null!;
     }
 }
