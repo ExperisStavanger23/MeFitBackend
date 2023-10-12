@@ -13,7 +13,7 @@ namespace MeFitBackend.Services.Users
         Task UpdateCreatedAsync(string id, int[] createdIds);
         Task UpdateUserExercisesAsync(string id, int[] exerciseIds);
         Task UpdateUserWorkoutsAsync(string id, int[] workoutIds);
-        Task UpdateUserProgramsAsync(string id, int[] programIds);
+        Task UpdateUserProgramsAsync(string id, int[] programIds, DateTime starttime, DateTime endtime);
 
     }
 }

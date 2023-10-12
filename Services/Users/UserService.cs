@@ -269,7 +269,7 @@ namespace MeFitBackend.Services.Users
         {
             if (!await UserExistAsync(id))
             {
-                throw new EntityNotFoundException("User workout", id);
+                throw new EntityNotFoundException("User", id);
             }
             List<UserWorkout> userworkouts = new List<UserWorkout>();
 
@@ -348,24 +348,12 @@ namespace MeFitBackend.Services.Users
             return userprograms;
         }
 
-        public async Task UpdateUserProgramsAsync(string id, int[] programIds)
+        public async Task UpdateUserProgramsAsync(string id, int[] programIds, DateTime starttime, DateTime endtime)
         {
             if (!await UserExistAsync(id))
             {
                 throw new EntityNotFoundException("User", id);
             }
-
-            //List<UserProgram> userprogramList = new List<UserProgram>();
-
-            //foreach (var uId in programIds)
-            //{
-            //    if (!await UserProgramExistAsync(uId))
-            //    {
-            //        throw new EntityNotFoundException("User program", uId);
-            //    }
-
-            //    userprogramList.Add(_context.UserPrograms.Single(m => m.Id == uId));
-            //}
 
             var upToUpdate = await _context.Users
                 .Include(e => e.UserPrograms)
@@ -383,6 +371,9 @@ namespace MeFitBackend.Services.Users
                 {
                     UserId = id,
                     ProgramId = pId,
+                    Program = program,
+                    StartDate = starttime,
+                    EndDate = endtime
                 };
             }).ToList();
 

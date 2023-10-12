@@ -8,7 +8,6 @@ namespace MeFitBackend.Data.Entities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public User User { get; set; }
         public int ProgramId { get; set; }
         public Program Program { get; set; }
         public DateTime StartDate { get; set; }
