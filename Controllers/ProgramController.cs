@@ -60,8 +60,8 @@ namespace MeFitBackend.Controllers
                 Name = program.Name,
                 Duration = program.Duration,
                 Description = program.Description,
-                Category = program.Category,
-                RecommendedLevel = program.RecommendedLevel,
+                Category = program.Category.ToString(),
+                RecommendedLevel = program.RecommendedLevel.ToString(),
                 Image = program.Image,
                     
                 Workouts = _mapper.Map<List<WorkoutInProgramDTO>>(program.Workout)
