@@ -13,5 +13,5 @@ public class ProgramWithWorkoutDTO
     public string Image { get; set; }
     public int Duration { get; set; }
 
-    public List<WorkoutDTO> Workouts { get; set; }
+    public List<WorkoutInProgramDTO> Workouts { get; set; }
 }

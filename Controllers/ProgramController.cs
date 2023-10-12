@@ -64,7 +64,7 @@ namespace MeFitBackend.Controllers
                 RecommendedLevel = program.RecommendedLevel,
                 Image = program.Image,
                     
-                Workouts = _mapper.Map<List<WorkoutDTO>>(program.Workout)
+                Workouts = _mapper.Map<List<WorkoutInProgramDTO>>(program.Workout)
             };
 
             return Ok(programWithWorkoutsDTO);
@@ -98,7 +98,7 @@ namespace MeFitBackend.Controllers
             // Pass the WorkoutIds from the DTO to the service
             var newProgram = await _programService.AddAsync(program, programDto.WorkoutIds);
 
-            return CreatedAtAction("GetProgram",
+            return CreatedAtAction("GetProgramWithWorkouts",
                 new { id = newProgram.Id },
                 _mapper.Map<ProgramDTO>(newProgram));
         }
