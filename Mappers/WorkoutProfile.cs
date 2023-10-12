@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.WorkoutExercise;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 
@@ -46,6 +47,11 @@ namespace MeFitBackend.Mappers
                         })
                         .ToList())
                 );
+            CreateMap<WorkoutPostDTO, Workout>()
+                .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises))
+                .ReverseMap();
+            CreateMap<WorkoutExerciseDTO, WorkoutExercise>()
+                .ReverseMap();
         }
     }
 }
