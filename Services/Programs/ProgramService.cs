@@ -38,11 +38,18 @@ namespace MeFitBackend.Services.Programs
             }
         }
 
-        public async Task<Program> AddAsync(Program obj)
+
+        public async Task<Program> AddAsync(Program program, int[] workoutIds)
         {
-            await _context.Programs.AddAsync(obj);
+            var workouts = await _context.Workouts
+                .Where(w => workoutIds.Contains(w.Id))
+                .ToListAsync();
+            program.Workout = workouts;
+
+            await _context.Programs.AddAsync(program);
             await _context.SaveChangesAsync();
-            return obj;
+
+            return program;
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -148,6 +155,12 @@ namespace MeFitBackend.Services.Programs
             programToUpdate.Workout = workoutList;
         }
 
+        public async Task<Program> AddAsync(Program program)
+        {
+            await _context.Programs.AddAsync(program);
+            await _context.SaveChangesAsync();
+            return program;
+        }
         //public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
         //{
         //    if (!await ProgramExistsAsync(id))

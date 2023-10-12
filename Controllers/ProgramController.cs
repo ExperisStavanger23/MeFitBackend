@@ -64,9 +64,12 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProgramDTO>> PostProgram(ProgramPostDTO program)
+        public async Task<ActionResult<ProgramPostDTO>> PostProgram(ProgramPostDTO programDto)
         {
-            var newProgram = await _programService.AddAsync(_mapper.Map<Program>(program));
+            var program = _mapper.Map<Program>(programDto);
+
+            // Pass the WorkoutIds from the DTO to the service
+            var newProgram = await _programService.AddAsync(program, programDto.WorkoutIds);
 
             return CreatedAtAction("GetProgram",
                 new { id = newProgram.Id },
