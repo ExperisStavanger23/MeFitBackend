@@ -12,6 +12,7 @@ namespace MeFitBackend.Data.DTO.Programs
         public string RecommendedLevel { get; set; }
         public string Image {  get; set; }
         public int Duration { get; set; }
-        public Workout[] Workout { get; set; }
+        public int[] Workout { get; set; }
+
     }
 }
