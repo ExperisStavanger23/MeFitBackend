@@ -70,12 +70,11 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkoutDTO>> CreateWorkout(WorkoutPostDTO workoutPostDTO)
+        public async Task<ActionResult<WorkoutPostDTO>> CreateWorkout(WorkoutPostDTO workoutPostDTO)
         {
             var workout = _mapper.Map<Workout>(workoutPostDTO);
             var createdWorkout = await _workoutService.AddAsync(workout);
-            var createdWorkoutDTO = _mapper.Map<WorkoutDTO>(createdWorkout);
-            return CreatedAtAction(nameof(GetWorkoutById), new { id = createdWorkoutDTO.Id }, createdWorkoutDTO);
+            return CreatedAtAction(nameof(GetWorkoutById), new { id = createdWorkout.Id }, createdWorkout);
         }
 
         [HttpDelete("{id}")]

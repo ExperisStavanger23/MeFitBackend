@@ -195,7 +195,7 @@ namespace MeFitBackend.Data
                     Name = "Situp",
                     Description = "Situps are classic abdominal exercises done by lying on your back and lifting your torso. They use your body weight to strengthen and tone the core-stabilizing abdominal muscles.",
                     Image = "https://images.healthshots.com/healthshots/en/uploads/2022/10/27130441/sit-ups-vs-crunches.jpg",
-                    Video = "https://www.youtube.com/embed=UMaZGY6CbC4",
+                    Video = "https://www.youtube.com/embed/UMaZGY6CbC4",
                 });
 
             /* ---- <Assign MuscleGroups to and exercise by their Id's here> ---- */
@@ -257,6 +257,7 @@ namespace MeFitBackend.Data
                     Id = 1,
                     Name = "Upper Body Program",
                     Description = "Get bigger upper body",
+                    Image = "https://media.gq-magazine.co.uk/photos/63d3b425a8dee570a85a25f1/16:9/w_2560%2Cc_limit/Workout-HEADER.jpg",
                     Category = ProgramCategory.MuscleGain,
                     RecommendedLevel = Level.Beginner,
                     Duration = 14,

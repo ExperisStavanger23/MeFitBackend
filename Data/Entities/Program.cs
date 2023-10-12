@@ -1,4 +1,4 @@
-﻿using MeFitBackend.Data.Enums;
+using MeFitBackend.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
