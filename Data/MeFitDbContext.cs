@@ -1,6 +1,7 @@
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MeFitBackend.Data
 {
@@ -39,6 +40,8 @@ namespace MeFitBackend.Data
                 .HasOne(we => we.Exercise)
                 .WithMany(e => e.WorkoutExercises)
                 .HasForeignKey(we => we.ExerciseId);
+            
+            modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(em => new {em.MuscleGroupId, em.ExerciseId});
         }
         /* --------------------------------------------------------- */
         /* ---------------------------------------------------------------------------------------------------- */
