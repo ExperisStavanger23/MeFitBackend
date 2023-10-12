@@ -1,4 +1,5 @@
-﻿using MeFitBackend.Data.Entities;
+﻿using MeFitBackend.Data.DTO.Programs;
+using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Services.Programs
 {
@@ -9,5 +10,6 @@ namespace MeFitBackend.Services.Programs
         Task UpdateWorkoutsAsync(int id, int[] workoutIds);
         Task<Program> AddAsync(Program program);
         Task<Program> AddAsync(Program program, int[] workoutIds);
+        Task<Program> GetProgramWithWorkoutsAsync(int programId);
     }
 }

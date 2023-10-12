@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MeFitBackend.Data;
+using MeFitBackend.Data.DTO.Programs;
+using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -161,55 +163,13 @@ namespace MeFitBackend.Services.Programs
             await _context.SaveChangesAsync();
             return program;
         }
-        //public async Task<ICollection<UserProgram>> GetUserProgramsAsync(int id)
-        //{
-        //    if (!await ProgramExistsAsync(id))
-        //    {
-        //        throw new EntityNotFoundException("Program", id);
-        //    }
-
-        //    List<UserProgram> userprograms = new List<UserProgram>();
-
-        //    var programs = await _context.Programs
-        //        .Include(p => p.UserPrograms)
-        //        .Where(p => p.Id == id)
-        //        .ToListAsync();
-
-        //    foreach (var program in programs)
-        //    {
-        //        foreach (var userprogram in program.UserPrograms)
-        //        {
-        //            if (!userprograms.Contains(userprogram))
-        //            {
-        //                userprograms.Add(userprogram);
-        //            }
-        //        }
-        //    }
-
-        //    return userprograms;
-        //}
-
-        //public async Task UpdateUserProgramsAsync(int id, int[] userprogramIds)
-        //{
-        //    if (!await ProgramExistsAsync(id))
-        //    {
-        //        throw new EntityNotFoundException("Program", id);
-        //    }
-
-        //    List<UserProgram> userprogramList = new List<UserProgram>();
-        //    foreach (var wid in userprogramIds)
-        //    {
-        //        if (!await UserProgramExistsAsync(wid))
-        //        {
-        //            throw new EntityNotFoundException("User programs", wid);
-        //        }
-
-        //        userprogramList.Add(_context.UserPrograms.Single(w => w.Id == wid));
-        //    }
-
-        //    var programToUpdate = await _context.Programs.Include(p => p.UserPrograms).SingleAsync(p => p.Id == id);
-        //    programToUpdate.UserPrograms = userprogramList;
-        //}
+        public async Task<Program> GetProgramWithWorkoutsAsync(int programId)
+        {
+            return await _context.Programs
+                .Include(p => p.Workout)
+                .Where(p => p.Id == programId)
+                .FirstOrDefaultAsync();
+        }
 
 
         // helper functions

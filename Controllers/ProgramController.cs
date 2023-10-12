@@ -31,16 +31,43 @@ namespace MeFitBackend.Controllers
             return Ok(_mapper.Map<IEnumerable<ProgramDTO>>(programs));
         }
 
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<ProgramDTO>> GetProgram(int id)
+        // {
+        //     var program = await _programService.GetByIdAsync(id);
+        //     if (program == null)
+        //     {
+        //         return NotFound(new EntityNotFoundException("program", id));
+        //     }
+        //
+        //     return Ok(_mapper.Map<ProgramDTO>(program));
+        // }
+        
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProgramDTO>> GetProgram(int id)
+        public async Task<ActionResult<ProgramWithWorkoutDTO>> GetProgramWithWorkouts(int id)
         {
-            var program = await _programService.GetByIdAsync(id);
+            var program = await _programService.GetProgramWithWorkoutsAsync(id);
+
             if (program == null)
             {
-                return NotFound(new EntityNotFoundException("program", id));
+                return NotFound(); // Handle the case where the program is not found
             }
 
-            return Ok(_mapper.Map<ProgramDTO>(program));
+            
+            var programWithWorkoutsDTO = new ProgramWithWorkoutDTO
+            {
+                Id = program.Id,
+                Name = program.Name,
+                Duration = program.Duration,
+                Description = program.Description,
+                Category = program.Category,
+                RecommendedLevel = program.RecommendedLevel,
+                Image = program.Image,
+                    
+                Workouts = _mapper.Map<List<WorkoutDTO>>(program.Workout)
+            };
+
+            return Ok(programWithWorkoutsDTO);
         }
 
         [HttpPut("{id}")]
