@@ -52,6 +52,7 @@ namespace MeFitBackend.Mappers
                     .Select(up => new UserProgramDTO()
                     {
                         Id= up.Id,
+                        UserId= up.UserId,
                         ProgramId = up.ProgramId,
                         Program = new Program
                         {

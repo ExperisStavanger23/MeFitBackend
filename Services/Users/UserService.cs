@@ -284,28 +284,39 @@ namespace MeFitBackend.Services.Users
                 .Include(e => e.UserPrograms)
                 .SingleAsync(e => e.Id == id);
 
+            var userprogramList = new List<UserProgram>();
 
-            var userprogramList = programIds.Select(pId =>
+            foreach (int pId in programIds)
             {
-                var program = _context.Programs.FirstOrDefault(p => p.Id == pId);
+                var program = await _context.Programs
+                    .Include(p => p.Workout)
+                    .FirstOrDefaultAsync(p => p.Id == pId);
+
                 if (program == null)
                 {
                     throw new EntityNotFoundException("Program", pId);
                 }
-                return new UserProgram
+
+                int[] workoutIds = program.Workout.Select(w => w.Id).ToArray();
+
+                // Update user workouts for the program within this loop
+                await UpdateUserWorkoutsAsync(id, workoutIds);
+
+                userprogramList.Add(new UserProgram
                 {
                     UserId = id,
                     ProgramId = pId,
                     Program = program,
                     StartDate = starttime,
                     EndDate = endtime
-                };
-            }).ToList();
+                });
+            }
 
             upToUpdate.UserPrograms = userprogramList;
 
             await _context.SaveChangesAsync();
         }
+
 
         // Helper functions
         public async Task<bool> UserExistAsync(string id)
