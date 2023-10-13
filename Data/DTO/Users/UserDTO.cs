@@ -16,7 +16,7 @@ namespace MeFitBackend.Data.DTO.Users
         public int Height { get; set; }
         public int WorkoutGoal {  get; set; }
         public DateTime Birthday { get; set; }
-        public Role[] Role { get; set; }= null!;
+        public Entities.UserRole[] UserRoles { get; set; }= null!;
         public Entities.UserExercise[] UserExercises { get; set; }= null!;
         public Entities.UserWorkout[] UserWorkouts { get; set; }= null!;
         public Entities.UserProgram[] UserPrograms { get; set; }= null!;

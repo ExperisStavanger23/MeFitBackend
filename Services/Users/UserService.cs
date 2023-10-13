@@ -19,8 +19,7 @@ namespace MeFitBackend.Services.Users
         public async Task<ICollection<User>> GetAllAsync()
         {
             return await _context.Users
-                .Include(u => u.Roles)
-                .Include(u => u.Created)
+                .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
                 .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
                 .Include(u => u.UserPrograms).ThenInclude(up => up.Program)
@@ -32,8 +31,7 @@ namespace MeFitBackend.Services.Users
             try
             {
                 var usr = await _context.Users.Where(u => u.Id == id)
-                .Include(u => u.Roles)
-                .Include(u => u.Created)
+                .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
                 .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
                 .Include(u => u.UserPrograms).ThenInclude(up => up.Program)
@@ -103,6 +101,40 @@ namespace MeFitBackend.Services.Users
             {
                 throw ex;
             }
+        }
+
+
+        public async Task UpdateUserRolesAsync(string id, int[] roleIds)
+        {
+            if (!await UserExistAsync(id))
+            {
+                throw new EntityNotFoundException("User", id);
+            }
+
+            var userToUpdate = await _context.Users
+                .Include(e => e.UserRoles)
+                .SingleAsync(e => e.Id == id);
+
+
+            var userroleList = roleIds.Select(rId =>
+            {
+                var role = _context.Roles.FirstOrDefault(e => e.Id == rId);
+                if (role == null)
+                {
+                    throw new EntityNotFoundException("Role", rId);
+                }
+
+                return new UserRole
+                {
+                    UserId = id,
+                    RoleId = role.Id,
+                };
+            }).ToList();
+
+
+            userToUpdate.UserRoles = userroleList;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ICollection<UserExercise>> GetUserExercisesAsync(string id)

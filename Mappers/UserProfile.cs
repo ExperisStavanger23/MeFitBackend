@@ -2,6 +2,7 @@
 using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.DTO.UserProgram;
+using MeFitBackend.Data.DTO.UserRole;
 using MeFitBackend.Data.DTO.Users;
 using MeFitBackend.Data.DTO.UserWorkout;
 using MeFitBackend.Data.DTO.Workouts;
@@ -75,8 +76,20 @@ namespace MeFitBackend.Mappers
                             }).ToList(),
                         }
                     }).ToList()))
-                .ForMember(udto => udto.Role, opt => opt
-                    .MapFrom(u => u.Roles.Select(s => s.Id).ToList())); 
+                .ForMember(udto => udto.UserRoles, opt => opt
+                    .MapFrom(udto => udto.UserRoles
+                    .Select(ur => new UserRoleDTO()
+                    {
+                        Id = ur.Id,
+                        UserId = ur.UserId,
+                        RoleId = ur.RoleId,
+                        Role = new Role
+                        {
+                            Id = ur.Role.Id,
+                            RoleTitle = ur.Role.RoleTitle
+                        }
+
+                    }).ToList())); 
                 
 
             // Post
@@ -90,6 +103,10 @@ namespace MeFitBackend.Mappers
             CreateMap<UserWorkout, UserWorkoutDTO>();
 
             CreateMap<UserProgram, UserProgramDTO>();
+
+            CreateMap<UserRoleDTO, UserRole>();
+            CreateMap<UserRole, UserRoleDTO>();
+
         }
     }
 }

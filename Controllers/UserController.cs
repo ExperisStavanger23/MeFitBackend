@@ -86,7 +86,21 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
-     
+
+        [HttpPut("{id}/userroles")]
+        public async Task<ActionResult> PutUserRoles(string id, [FromBody] int[] roleIds)
+        {
+            try
+            {
+                await _userService.UpdateUserRolesAsync(id, roleIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
 
         [HttpGet("{id}/userexercises")]
         public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(string id)
