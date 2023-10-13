@@ -9,6 +9,8 @@ namespace MeFitBackend.Data.Entities
         public string UserId { get; set; }
       
         public int WorkoutId { get; set; }
+
+        public DateTime? DoneDate { get; set; }
         public Workout Workout { get; set; }
     }
 }
