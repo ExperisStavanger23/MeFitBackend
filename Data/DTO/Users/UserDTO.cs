@@ -14,11 +14,12 @@ namespace MeFitBackend.Data.DTO.Users
         public string Gender { get; set; } = null!;
         public int Weight { get; set; }
         public int Height { get; set; }
+        public int WorkoutGoal {  get; set; }
         public DateTime Birthday { get; set; }
         // public int RoleId { get; set; }
         public string Role { get; set; }= null!;
-        public Entities.UserGoal[] Goals { get; set; }= null!;
-        public Entities.Created[] Created { get; set; }= null!;
+        // public Entities.UserGoal[] Goals { get; set; }= null!;
+        // public Entities.Created[] Created { get; set; }= null!;
         public Entities.UserExercise[] UserExercises { get; set; }= null!;
         public Entities.UserWorkout[] UserWorkouts { get; set; }= null!;
         public Entities.UserProgram[] UserPrograms { get; set; }= null!;

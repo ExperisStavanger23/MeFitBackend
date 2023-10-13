@@ -5,9 +5,7 @@ using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using MeFitBackend.Services.Users;
 using MeFitBackend.Data.DTO.UserExercise;
-using MeFitBackend.Data.DTO.Created;
 using MeFitBackend.Data.DTO.UserWorkout;
-using MeFitBackend.Data.DTO.UserGoal;
 using MeFitBackend.Data.DTO.UserProgram;
 
 namespace MeFitBackend.Controllers
@@ -88,64 +86,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
-
-        [HttpGet("{id}/usergoals")]
-        public async Task<ActionResult<IEnumerable<UserGoalDTO>>> GetAllUserGoals(string id)
-        {
-            try
-            {
-                var usergoals = await _userService.GetUserGoalsAsync(id);
-                var ugDTO = _mapper.Map<IEnumerable<UserGoalDTO>>(usergoals);
-                return Ok(ugDTO);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
-
-        [HttpPut("{id}/usergoals")]
-        public async Task<ActionResult> PutUserGoals(string id, [FromBody] int[] usergoalIds)
-        {
-            try
-            {
-                await _userService.UpdateUserGoalsAsync(id, usergoalIds);
-                return NoContent();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
-
-        [HttpGet("{id}/created")]
-        public async Task<ActionResult<IEnumerable<CreatedDTO>>> GetAllCreated(string id)
-        {
-            try
-            {
-                var created = await _userService.GetUserGoalsAsync(id);
-                var createdDTO = _mapper.Map<IEnumerable<CreatedDTO>>(created);
-                return Ok(createdDTO);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
-
-        [HttpPut("{id}/created")]
-        public async Task<ActionResult> PutCreated(string id, [FromBody] int[] createdIds)
-        {
-            try
-            {
-                await _userService.UpdateCreatedAsync(id, createdIds);
-                return NoContent();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
+     
 
         [HttpGet("{id}/userexercises")]
         public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(string id)
@@ -197,6 +138,20 @@ namespace MeFitBackend.Controllers
             try
             {
                 await _userService.UpdateUserWorkoutsAsync(id, workoutIds);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}/userworkout/{wId}/workoutgoal")]
+        public async Task<ActionResult> UpdateWorkoutGoal(string id, int wId, DateTime? done)
+        {
+            try
+            {
+                await _userService.UpdateWorkoutGoal(id, wId, done);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
