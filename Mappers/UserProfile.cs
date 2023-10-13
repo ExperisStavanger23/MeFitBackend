@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.DTO.UserProgram;
 using MeFitBackend.Data.DTO.Users;
@@ -39,20 +40,38 @@ namespace MeFitBackend.Mappers
                            Id = u.Workout.Id,
                            Name = u.Workout.Name,
                            Description = u.Workout.Description,
+                           Category = u.Workout.Category,
+                           RecommendedLevel = u.Workout.RecommendedLevel,
+                           Image = u.Workout.Image,
+                           Duration = u.Workout.Duration
                         }
                       
                     }).ToList()))
                 .ForMember(udto => udto.UserPrograms,  opt => opt
                     .MapFrom(udto => udto.UserPrograms
-                    .Select(s => new UserProgramDTO()
+                    .Select(up => new UserProgramDTO()
                     {
-                        Id= s.Id,
-                        ProgramId = s.ProgramId,
+                        Id= up.Id,
+                        ProgramId = up.ProgramId,
                         Program = new Program
                         {
-                            Id = s.Program.Id,
-                            Name = s.Program.Name,
-                            Description = s.Program.Description,
+                            Id = up.Program.Id,
+                            Name = up.Program.Name,
+                            Description = up.Program.Description,
+                            Category = up.Program.Category,
+                            RecommendedLevel = up.Program.RecommendedLevel,
+                            Image = up.Program.Image,
+                            Duration = up.Program.Duration,
+                            Workout = up.Program.Workout.Select(w => new Workout
+                            {
+                                Id = w.Id,
+                                Name= w.Name,
+                                Description = w.Description,
+                                Category = w.Category,
+                                RecommendedLevel = w.RecommendedLevel,
+                                Image = w.Image,
+                                Duration = w.Duration,
+                            }).ToList(),
                         }
                     }).ToList()))
                 .ForMember(udto => udto.Role, opt => opt
