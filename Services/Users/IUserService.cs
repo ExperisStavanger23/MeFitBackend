@@ -2,18 +2,16 @@
 
 namespace MeFitBackend.Services.Users
 {
-    public interface IUserService : ICRUDService<User, int>
+    public interface IUserService : ICRUDService<User, string>
     {
-        Task<ICollection<UserGoal>> GetUserGoalsAsync(int id);
-        Task<ICollection<Created>> GetCreatedAsync(int id);
-        Task<ICollection<UserExercise>> GetUserExercisesAsync(int id);
-        Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(int id);
-        Task<ICollection<UserProgram>> GetUserProgramsAsync(int id);
-        Task UpdateUserGoalsAsync(int id, int[] usergoalIds);
-        Task UpdateCreatedAsync(int id, int[] createdIds);
-        Task UpdateUserExercisesAsync(int id, int[] userexerciseIds);
-        Task UpdateUserWorkoutsAsync(int id, int[] userworkoutIds);
-        Task UpdateUserProgramsAsync(int id, int[] userprogramIds);
+        Task<ICollection<UserExercise>> GetUserExercisesAsync(string id);
+        Task<ICollection<UserWorkout>> GetUserWorkoutsAsync(string id);
+        Task<ICollection<UserProgram>> GetUserProgramsAsync(string id);
+        Task UpdateUserRolesAsync(string id, int[] roleIds);
+        Task UpdateWorkoutGoal(string id, int wId, DateTime? datefinished);
+        Task UpdateUserExercisesAsync(string id, int[] exerciseIds);
+        Task UpdateUserWorkoutsAsync(string id, int[] workoutIds);
+        Task UpdateUserProgramsAsync(string id, int[] programIds, DateTime starttime, DateTime endtime);
 
     }
 }
