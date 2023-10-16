@@ -27,7 +27,7 @@ namespace MeFitBackend.Services.Exercises
         {
             try
             {
-                var exercise = await _context.Exercises.Include(e => e.ExerciseMuscleGroups)
+                var exercise = await _context.Exercises.Where(e => e.Id == id).Include(e => e.ExerciseMuscleGroups)
                 .ThenInclude(emg => emg.MuscleGroup).FirstOrDefaultAsync();
                 if (exercise == null)
                 {
