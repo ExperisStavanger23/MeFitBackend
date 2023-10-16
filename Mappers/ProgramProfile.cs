@@ -1,5 +1,8 @@
 using AutoMapper;
+using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.Programs;
+using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Mappers
@@ -9,10 +12,21 @@ namespace MeFitBackend.Mappers
         public ProgramProfile() 
         {
             CreateMap<Program, ProgramDTO>()
-                .ForMember(dest => dest.Workout, opt => opt.MapFrom(src => src.Workout.Select(w => w.Id).ToArray()));
-            CreateMap<ProgramDTO, Program>();
+                .ForMember(pDto => pDto.Workouts, opt => opt
+                .MapFrom(p => p.Workout
+                .Select(w => new WorkoutDTO
+                {
+                    Id = w.Id,
+                    Name = w.Name,
+                    Description = w.Description,
+                    Category = w.Category,
+                    RecomendedLevel = w.RecommendedLevel,
+                    Image = w.Image,
+                    Duration = w.Duration,
+                }).ToList()));
 
-            CreateMap<ProgramPutDTO, Program>().ReverseMap();
+            CreateMap<ProgramPutDTO, Program>();
+                
             CreateMap<ProgramPostDTO, Program>();
         }
     }

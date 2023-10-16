@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.Entities;
 
@@ -8,7 +9,7 @@ namespace MeFitBackend.Mappers
     {
         public MuscleGroupProfile()
         {
-            CreateMap<MuscleGroup, MuscleGroupInExerciseDTO>().ReverseMap();
+            CreateMap<MuscleGroup, ExerciseMuscleGroupDTO>().ReverseMap();
         }
     }
 }

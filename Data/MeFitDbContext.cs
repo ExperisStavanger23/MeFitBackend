@@ -40,17 +40,19 @@ namespace MeFitBackend.Data
             
             modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(em => new {em.MuscleGroupId, em.ExerciseId});
 
-           /* modelBuilder.Entity<ExerciseMuscleGroup>()
-                *.HasKey(exmg => exmg.Id);
-            modelBuilder.Entity<Exercise>()
-                 .HasMany(e => e.ExerciseMuscleGroups)
-                 .WithOne(emg => emg.Exercise)
-                 .HasForeignKey(emg => emg.ExerciseId);
-            modelBuilder.Entity<MuscleGroup>()
-                .HasMany(mg => mg.ExerciseMuscleGroups)
-                .WithOne(emg => emg.MuscleGroup)
+            modelBuilder.Entity<ExerciseMuscleGroup>()
+                .HasKey(emg => new { emg.ExerciseId, emg.MuscleGroupId });
+            modelBuilder.Entity<ExerciseMuscleGroup>()
+               .HasOne(emg => emg.Exercise)
+               .WithMany(e => e.ExerciseMuscleGroups)
+               .HasForeignKey(emg => emg.ExerciseId);
+
+            modelBuilder.Entity<ExerciseMuscleGroup>()
+                .HasOne(emg => emg.MuscleGroup)
+                .WithMany(mg => mg.ExerciseMuscleGroups)
                 .HasForeignKey(emg => emg.MuscleGroupId);
-           */
+
+
         }
         /* --------------------------------------------------------- */
         /* ---------------------------------------------------------------------------------------------------- */
@@ -200,25 +202,25 @@ namespace MeFitBackend.Data
             modelBuilder.Entity<ExerciseMuscleGroup>().HasData(
                 new ExerciseMuscleGroup
                 {
-                    Id = 1,
+                    //Id = 1,
                     ExerciseId = 1,
                     MuscleGroupId = 1,
                 },
                 new ExerciseMuscleGroup
                 {
-                    Id = 2,
+                    //Id  = 2,
                     ExerciseId = 1,
                     MuscleGroupId = 2,
                 },
                 new ExerciseMuscleGroup
                 {
-                    Id = 3,
+                    //Id = 3,
                     ExerciseId = 1,
                     MuscleGroupId = 3,
                 },
                 new ExerciseMuscleGroup
                 {
-                    Id = 4,
+                    //Id = 4,
                     ExerciseId = 2,
                     MuscleGroupId = 13,
                 });

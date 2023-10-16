@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
+using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.WorkoutExercise;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
@@ -38,16 +39,16 @@ namespace MeFitBackend.Mappers
                 .ForMember(
                     wdto => wdto.Exercises,
                     options => options.MapFrom(workout => workout.WorkoutExercises
-                        .Select(workoutExercise => new ExerciseInWorkoutDTO
+                        .Select(workoutExercise => new ExerciseDTO
                         {
-                            ExerciseId = workoutExercise.Exercise != null ? workoutExercise.Exercise.Id : 0, 
+                            Id = workoutExercise.Exercise != null ? workoutExercise.Exercise.Id : 0, 
                             Name = workoutExercise.Exercise != null ? workoutExercise.Exercise.Name : "Unknown",
-                            Sets = workoutExercise.Sets,
-                            Reps = workoutExercise.Reps,
-                            Id = workoutExercise.Id
-                        })
-                        .ToList())
+                            //Sets = workoutExercise.Sets,
+                            //Reps = workoutExercise.Reps,
+                        }).ToList())
                 );
+
+            //CreateMap<ExerciseMuscleGroup, Data.DTO.MuscleGroup.ExerciseMuscleGroupDTO>();
             CreateMap<WorkoutPostDTO, Workout>()
                 .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises))
                 .ReverseMap();
