@@ -1,5 +1,6 @@
 using MeFitBackend.Data;
 using MeFitBackend.Services.Exercises;
+using MeFitBackend.Services.MuscleGroups;
 using MeFitBackend.Services.Programs;
 using MeFitBackend.Services.Users;
 using MeFitBackend.Services.Workouts;
@@ -18,6 +19,7 @@ namespace MeFitBackend
             builder.Services.AddScoped<IProgramService, ProgramService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+            builder.Services.AddScoped<IMuscleGroupService, MuscleGroupService>();
             builder.Services.AddCors();
 
 

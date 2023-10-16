@@ -10,6 +10,7 @@ namespace MeFitBackend.Mappers
         public MuscleGroupProfile()
         {
             CreateMap<MuscleGroup, ExerciseMuscleGroupDTO>().ReverseMap();
+            CreateMap<MuscleGroup, MuscleGroupDTO>().ReverseMap();
         }
     }
 }
