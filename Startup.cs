@@ -4,7 +4,9 @@ using MeFitBackend.Services.MuscleGroups;
 using MeFitBackend.Services.Programs;
 using MeFitBackend.Services.Users;
 using MeFitBackend.Services.Workouts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace MeFitBackend
@@ -31,6 +33,30 @@ namespace MeFitBackend
                         .AllowAnyMethod());
             });
 
+            var test = FetchJwksAsync("https://lemur-10.cloud-iam.com/auth/realms/aiam/protocol/openid-connect/certs");
+            System.Console.WriteLine(test.Result[0]);
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                // Configure the token validation parameters
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = "https://lemur-10.cloud-iam.com/auth/realms/aiam", // iss in token
+                    ValidAudience = "account", // aud in token
+                    IssuerSigningKey = test.Result[0], // singing key set (some/url/certs)
+                    ValidateIssuer = true, // Validate the token's issuer
+                    ValidateAudience = true, // Validate the token's audience
+                    ValidateLifetime = true, // Check if the token is expired
+                    ValidateIssuerSigningKey = true
+                };
+            });
+            builder.Services.AddAuthorization();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -72,19 +98,33 @@ namespace MeFitBackend
             app.UseCors("AllowSwagger");
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapControllers();
             app.Run();
 
         }
+
+        static async Task<SecurityKey[]> FetchJwksAsync(string jwksUri)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var jwksJson = await httpClient.GetStringAsync(jwksUri);
+
+                // Parse the JWKS JSON and build the SecurityKey array
+                var jwks = JsonWebKeySet.Create(jwksJson);
+                return jwks.Keys.ToArray();
+            }
+        }
     }
+
+
 }
+
