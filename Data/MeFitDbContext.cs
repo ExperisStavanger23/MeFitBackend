@@ -24,36 +24,80 @@ namespace MeFitBackend.Data
 
         /* ----------------------------------- Custom relationship configurations ----------------------------- */
         /* -------------- WorkoutExercise Relation ----------------- */
+        //private void CustomRelationConfigs(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<WorkoutExercise>()
+        //        .HasKey(we => we.Id);
+        //    modelBuilder.Entity<WorkoutExercise>()
+        //        .HasOne(we => we.Workout)
+        //        .WithMany(w => w.WorkoutExercises)
+        //        .HasForeignKey(we => we.WorkoutId);
+        //    modelBuilder.Entity<WorkoutExercise>()
+        //        .HasOne(we => we.Exercise)
+        //        .WithMany(e => e.WorkoutExercises)
+        //        .HasForeignKey(we => we.ExerciseId);
+
+        //    modelBuilder.Entity<ExerciseMuscleGroup>()
+        //        .HasKey(em => new {em.MuscleGroupId, em.ExerciseId});
+
+
+        //    modelBuilder.Entity<ExerciseMuscleGroup>()
+        //        .HasKey(emg => new { emg.ExerciseId, emg.MuscleGroupId });
+        //    modelBuilder.Entity<ExerciseMuscleGroup>()
+        //       .HasOne(emg => emg.Exercise)
+        //       .WithMany(e => e.ExerciseMuscleGroups)
+        //       .HasForeignKey(emg => emg.ExerciseId);
+
+        //    modelBuilder.Entity<ExerciseMuscleGroup>()
+        //        .HasOne(emg => emg.MuscleGroup)
+        //        .WithMany(mg => mg.ExerciseMuscleGroups)
+        //        .HasForeignKey(emg => emg.MuscleGroupId);
+
+
+        //}
         private void CustomRelationConfigs(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Define the primary key for WorkoutExercise
             modelBuilder.Entity<WorkoutExercise>()
                 .HasKey(we => we.Id);
+
+            // Define the relationship between WorkoutExercise, Workout, and Exercise
             modelBuilder.Entity<WorkoutExercise>()
                 .HasOne(we => we.Workout)
                 .WithMany(w => w.WorkoutExercises)
                 .HasForeignKey(we => we.WorkoutId);
+
             modelBuilder.Entity<WorkoutExercise>()
                 .HasOne(we => we.Exercise)
                 .WithMany(e => e.WorkoutExercises)
                 .HasForeignKey(we => we.ExerciseId);
-            
-            modelBuilder.Entity<ExerciseMuscleGroup>().HasKey(em => new {em.MuscleGroupId, em.ExerciseId});
 
+            // Define the primary key for ExerciseMuscleGroup
             modelBuilder.Entity<ExerciseMuscleGroup>()
                 .HasKey(emg => new { emg.ExerciseId, emg.MuscleGroupId });
+
+            // Define the relationship between ExerciseMuscleGroup, Exercise, and MuscleGroup
             modelBuilder.Entity<ExerciseMuscleGroup>()
-               .HasOne(emg => emg.Exercise)
-               .WithMany(e => e.ExerciseMuscleGroups)
-               .HasForeignKey(emg => emg.ExerciseId);
+                .HasOne(emg => emg.Exercise)
+                .WithMany(e => e.ExerciseMuscleGroups)
+                .HasForeignKey(emg => emg.ExerciseId);
 
             modelBuilder.Entity<ExerciseMuscleGroup>()
                 .HasOne(emg => emg.MuscleGroup)
                 .WithMany(mg => mg.ExerciseMuscleGroups)
                 .HasForeignKey(emg => emg.MuscleGroupId);
 
+            // Define the primary key for UserExercise (if not defined already)
+            modelBuilder.Entity<UserExercise>()
+                .HasKey(ue => ue.Id);
+
+            // Define relationships for UserExercise as needed
 
         }
+
         /* --------------------------------------------------------- */
         /* ---------------------------------------------------------------------------------------------------- */
 

@@ -73,8 +73,9 @@ namespace MeFitBackend.Controllers
         {
             var exercise = _mapper.Map<Exercise>(exercisePostDTO);
             var createdExercise = await _exerciseService.AddAsync(exercise);
-            var exerciseDTO = _mapper.Map<ExerciseDTO>(createdExercise);
-            return CreatedAtAction(nameof(GetExerciseById), new { id = exerciseDTO.Id }, exerciseDTO);
+            //var exerciseDTO = _mapper.Map<ExerciseDTO>(createdExercise);
+            //return CreatedAtAction(nameof(GetExerciseById), new { id = exerciseDTO.Id }, exerciseDTO);
+            return Ok();
         }
     
 
@@ -120,34 +121,5 @@ namespace MeFitBackend.Controllers
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
-
-        //[HttpGet("{id}/userexercises")]
-        //public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(int id)
-        //{
-        //    try
-        //    {
-        //        var userexercises = await _exerciseService.GetUserExerciseAsync(id);
-        //        var ueDTO = _mapper.Map<IEnumerable<UserExerciseDTO>>(userexercises);
-        //        return Ok(ueDTO);
-        //    }
-        //    catch (EntityNotFoundException ex)
-        //    {
-        //        return NotFound(new NotFoundResponse(ex.Message));
-        //    }
-        //}
-
-        //[HttpPut("{id}/userexercises")]
-        //public async Task<ActionResult> PutUserExercises(int id, [FromBody] int[] userexerciseIds)
-        //{
-        //    try
-        //    {
-        //        await _exerciseService.UpdateUserExercisesAsync(id, userexerciseIds);
-        //        return NoContent();
-        //    }
-        //    catch (EntityNotFoundException ex)
-        //    {
-        //        return NotFound(new NotFoundResponse(ex.Message));
-        //    }
-        //}
     }
 }

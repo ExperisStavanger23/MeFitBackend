@@ -6,8 +6,11 @@ namespace MeFitBackend.Data.Entities
     public class ExerciseMuscleGroup
     {
         public int ExerciseId { get; set; }
+        [ForeignKey("ExerciseId")]
         public Exercise Exercise { get; set; }
+
         public int MuscleGroupId { get; set; }
+        [ForeignKey("MuscleGroupId")]
         public MuscleGroup MuscleGroup { get; set; }
     }
 }

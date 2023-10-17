@@ -23,7 +23,14 @@ namespace MeFitBackend.Mappers
                         Name = emg.MuscleGroup.Name,
                     }
                 })));
-            CreateMap<ExercisePostDTO, Exercise>().ReverseMap();
+            CreateMap<ExercisePostDTO, Exercise>()
+                .ForMember(e => e.ExerciseMuscleGroups, opt => opt
+                .MapFrom(ePostDTO => ePostDTO.MuscleGroups
+                .Select(mgDTO => new ExerciseMuscleGroup
+                {
+                    MuscleGroupId = mgDTO.Id
+                })));
+
             CreateMap<ExercisePutDTO, Exercise>().ReverseMap();
         }
     }
