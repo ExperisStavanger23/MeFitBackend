@@ -22,7 +22,7 @@ namespace MeFitBackend.Services.Users
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
                 .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
-                .Include(u => u.UserPrograms).ThenInclude(up => up.Program).ThenInclude(p => p.Workout)
+                .Include(u => u.UserPrograms).ThenInclude(up => up.Program).ThenInclude(p => p.Workouts)
                 .ToListAsync();
         }
 
@@ -34,7 +34,7 @@ namespace MeFitBackend.Services.Users
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
                 .Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
                 .Include(u => u.UserWorkouts).ThenInclude(uw => uw.Workout)
-                .Include(u => u.UserPrograms).ThenInclude(up => up.Program).ThenInclude(p => p.Workout)
+                .Include(u => u.UserPrograms).ThenInclude(up => up.Program).ThenInclude(p => p.Workouts)
                 .FirstOrDefaultAsync();
 
                 return usr;

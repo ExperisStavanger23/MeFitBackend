@@ -24,7 +24,7 @@ namespace MeFitBackend.Mappers
                     Name = w.Name,
                     Description = w.Description,
                     Category = w.Category,
-                    RecommendedLevel = w.RecommendedLevel,
+                    RecomendedLevel = w.RecommendedLevel,
                     Image = w.Image,
                     Duration = w.Duration,
                     WorkoutExercises = w.WorkoutExercises
