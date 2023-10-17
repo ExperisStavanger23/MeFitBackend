@@ -7,6 +7,7 @@ using MeFitBackend.Services.Users;
 using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.DTO.UserWorkout;
 using MeFitBackend.Data.DTO.UserProgram;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MeFitBackend.Controllers
 {
@@ -14,6 +15,7 @@ namespace MeFitBackend.Controllers
     [ApiController]
     [Produces("application/Json")]
     [Consumes("application/Json")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -160,12 +162,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
-        [HttpPut("{id}/userworkout/{wId}/workoutgoal")]
-        public async Task<ActionResult> UpdateWorkoutGoal(string id, int wId, DateTime? done)
+        [HttpPut("{id}/userworkout/{uwId}/workoutgoal")]
+        public async Task<ActionResult> UpdateWorkoutGoal(string id, int uwId, DateTime? done)
         {
             try
             {
-                await _userService.UpdateWorkoutGoal(id, wId, done);
+                await _userService.UpdateWorkoutGoal(id, uwId, done);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
