@@ -19,6 +19,7 @@ namespace MeFitBackend.Data.Entities
         // Navigation
         public ICollection<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();     
         public ICollection<UserWorkout> UserWorkouts { get; set; } = new List<UserWorkout>();
-        
+        public ICollection<Program>? Programs { get; set; }
+
     }
 }
