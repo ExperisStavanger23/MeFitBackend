@@ -1,4 +1,4 @@
-﻿using MeFitBackend.Data.DTO.WorkoutExercise;
+﻿using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Programs

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.MuscleGroup;
-using MeFitBackend.Data.DTO.WorkoutExercise;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
+using System.Numerics;
 
 namespace MeFitBackend.Mappers
 {
@@ -14,11 +14,31 @@ namespace MeFitBackend.Mappers
             CreateMap<Workout, WorkoutDTO>()
                 .ForMember(workoutDto => workoutDto.Exercises, opt => opt
                     .MapFrom(workout => workout.WorkoutExercises
-                    .Select(workoutexercise => new WorkoutExercise
+                    .Select(workoutexercise => new WorkoutExerciseDTO
                     {
-                        Id = workoutexercise.Id,
+                        WorkoutId = workoutexercise.WorkoutId,
+                        ExerciseId = workoutexercise.ExerciseId,
                         Reps = workoutexercise.Reps,
-                        Sets = workoutexercise.Sets
+                        Sets = workoutexercise.Sets,
+                        Exercise = new ExerciseDTO
+                        {
+                            Id = workoutexercise.ExerciseId,
+                            Name = workoutexercise.Exercise.Name,
+                            Description = workoutexercise.Exercise.Description,
+                            Image = workoutexercise.Exercise.Image,
+                            Video = workoutexercise.Exercise.Video,
+                            ExerciseMuscleGroups = workoutexercise.Exercise.ExerciseMuscleGroups
+                            .Select( emg => new ExerciseMuscleGroupDTO
+                            {
+                                ExerciseId = emg.ExerciseId,
+                                MuscleGroupId = emg.MuscleGroupId,
+                                MuscleGroup = new MuscleGroupDTO
+                                {
+                                    Id = emg.MuscleGroup.Id,
+                                    Name = emg.MuscleGroup.Name,
+                                }
+                            }).ToList()
+                        }
                     })
                     .ToList()))
                 .ForMember(workoutDto => workoutDto.UserWorkouts, opt => opt
@@ -29,7 +49,26 @@ namespace MeFitBackend.Mappers
                         WorkoutId = userWorkout.Id,
                     })
                     .ToList()));
-            CreateMap<WorkoutDTO, Workout>();
+            CreateMap<WorkoutExercise, ExerciseDTO>()
+                .ForMember(eDto => eDto.Id, opt => opt.MapFrom(we => we.Exercise.Id))
+                .ForMember(eDto => eDto.Name, opt => opt.MapFrom(we => we.Exercise.Name))
+                .ForMember(eDto => eDto.Description, opt => opt.MapFrom(src => src.Exercise.Description))
+                .ForMember(eDto => eDto.Image, opt => opt.MapFrom(we => we.Exercise.Image))
+                .ForMember(eDto => eDto.Video, opt => opt.MapFrom(we => we.Exercise.Video))
+                .ForMember(eDto => eDto.ExerciseMuscleGroups, opt => opt.MapFrom(we => we.Exercise.ExerciseMuscleGroups
+                .Select(emg => new ExerciseMuscleGroupDTO
+                {
+                    ExerciseId = emg.ExerciseId,
+                    MuscleGroupId = emg.MuscleGroupId,
+                    MuscleGroup = new MuscleGroupDTO
+                    {
+                        Id = emg.MuscleGroup.Id,
+                        Name = emg.MuscleGroup.Name
+                    }
+                })));
+
+            CreateMap<Workout, WorkoutDTO>()
+                .ForMember(workoutDto => workoutDto.Exercises, opt => opt.MapFrom(workout => workout.WorkoutExercises));
             CreateMap< Workout, WorkoutInProgramDTO>();
             
             CreateMap<WorkoutPutDTO, Workout>().ReverseMap();

@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\DTO\WorkoutExercise\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
