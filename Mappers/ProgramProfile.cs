@@ -18,7 +18,7 @@ namespace MeFitBackend.Mappers
             CreateMap<Program, ProgramDTO>()
                 .ForMember(pDto => pDto.Workouts, opt => opt
                 .MapFrom(p => p.Workouts
-                .Select(w => new WorkoutInProgramDTO
+                .Select(w => new WorkoutDTO
                 {
                     Id = w.Id,
                     Name = w.Name,
@@ -69,7 +69,7 @@ namespace MeFitBackend.Mappers
                 .ForMember(dest => dest.RecomendedLevel, opt => opt.MapFrom(src => src.RecomendedLevel))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
                 .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration))
-                .ForMember(dest => dest.Exercises, opt => opt.MapFrom(src => src.WorkoutExercises
+                .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises
                 .Select(we => we.Exercise)))
                 .ForMember(dest => dest.UserWorkouts, opt => opt.Ignore());
         }
