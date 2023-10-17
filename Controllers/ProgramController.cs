@@ -46,7 +46,7 @@ namespace MeFitBackend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProgramDTO>> GetProgramWithWorkouts(int id)
         {
-            var program = await _programService.GetProgramWithWorkoutsAsync(id);
+            var program = await _programService.GetByIdAsync(id);
 
             if (program == null)
             {

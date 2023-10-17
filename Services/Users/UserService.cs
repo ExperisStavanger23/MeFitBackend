@@ -321,7 +321,7 @@ namespace MeFitBackend.Services.Users
             foreach (int pId in programIds)
             {
                 var program = await _context.Programs
-                    .Include(p => p.Workout)
+                    .Include(p => p.Workouts)
                     .FirstOrDefaultAsync(p => p.Id == pId);
 
                 if (program == null)
@@ -329,7 +329,7 @@ namespace MeFitBackend.Services.Users
                     throw new EntityNotFoundException("Program", pId);
                 }
 
-                int[] workoutIds = program.Workout.Select(w => w.Id).ToArray();
+                int[] workoutIds = program.Workouts.Select(w => w.Id).ToArray();
 
                 // Update user workouts for the program within this loop
                 await UpdateUserWorkoutsAsync(id, workoutIds);

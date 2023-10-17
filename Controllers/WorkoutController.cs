@@ -71,10 +71,20 @@ namespace MeFitBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<WorkoutPostDTO>> CreateWorkout(WorkoutPostDTO workoutPostDTO)
         {
+            if (workoutPostDTO == null)
+            {
+                return BadRequest("Workout data is missing.");
+            }
+
             var workout = _mapper.Map<Workout>(workoutPostDTO);
+
+            // Adding fully mapped workout to service and save it
             var createdWorkout = await _workoutService.AddAsync(workout);
-            return CreatedAtAction(nameof(GetWorkoutById), new { id = createdWorkout.Id }, createdWorkout);
+            var createdWorkoutDto = _mapper.Map<WorkoutDTO>(createdWorkout);
+
+            return CreatedAtAction(nameof(GetWorkoutById), new { id = createdWorkoutDto.Id }, createdWorkoutDto);
         }
+    
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkout(int id)

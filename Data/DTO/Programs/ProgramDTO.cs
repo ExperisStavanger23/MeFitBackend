@@ -14,6 +14,5 @@ namespace MeFitBackend.Data.DTO.Programs
         public string Image {  get; set; }
         public int Duration { get; set; }
         public ICollection<WorkoutDTO> Workouts { get; set; }
-
     }
 }

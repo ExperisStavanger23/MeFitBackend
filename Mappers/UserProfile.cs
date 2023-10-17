@@ -64,7 +64,7 @@ namespace MeFitBackend.Mappers
                             RecommendedLevel = up.Program.RecommendedLevel,
                             Image = up.Program.Image,
                             Duration = up.Program.Duration,
-                            Workout = up.Program.Workout.Select(w => new Workout
+                            Workouts = up.Program.Workouts.Select(w => new Workout
                             {
                                 Id = w.Id,
                                 Name= w.Name,
