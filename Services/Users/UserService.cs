@@ -254,7 +254,7 @@ namespace MeFitBackend.Services.Users
         }
 
 
-        public async Task UpdateWorkoutGoal(string id, int wId, DateTime? datefinished)
+        public async Task UpdateWorkoutGoal(string id, int uwId, DateTime? datefinished)
         {
             if (!await UserExistAsync(id))
             {
@@ -265,7 +265,7 @@ namespace MeFitBackend.Services.Users
                 .Include(u => u.UserWorkouts)
                 .SingleAsync(u => u.Id == id);
 
-            var userWorkout = user.UserWorkouts.FirstOrDefault(uw => uw.WorkoutId == wId);
+            var userWorkout = user.UserWorkouts.FirstOrDefault(uw => uw.Id == uwId);
 
             if (userWorkout != null)
             {
@@ -274,7 +274,7 @@ namespace MeFitBackend.Services.Users
             }
             else
             {
-                throw new EntityNotFoundException("Workout", wId);
+                throw new EntityNotFoundException("Workout", uwId);
             }
         }
 
