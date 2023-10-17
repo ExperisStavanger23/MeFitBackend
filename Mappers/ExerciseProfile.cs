@@ -32,6 +32,8 @@ namespace MeFitBackend.Mappers
                 })));
 
             CreateMap<ExercisePutDTO, Exercise>().ReverseMap();
+            CreateMap<ExerciseMuscleGroup, ExerciseMuscleGroupDTO>();
+
         }
     }
 }
