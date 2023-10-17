@@ -19,7 +19,12 @@ namespace MeFitBackend.Services.Workouts
 
         public async Task<ICollection<Workout>> GetAllAsync()
         {
-            return await _context.Workouts.Include(w => w.WorkoutExercises).ToListAsync();
+            return await _context.Workouts
+                .Include(we => we.WorkoutExercises)
+                .ThenInclude( we => we.Exercise)
+                .ThenInclude(e => e.ExerciseMuscleGroups)
+                .ThenInclude(emg => emg.MuscleGroup)
+                .ToListAsync();
         }
 
         public async Task<Workout> GetByIdAsync(int id)
@@ -30,6 +35,8 @@ namespace MeFitBackend.Services.Workouts
                     .Where(w => w.Id == id)
                     .Include(w => w.WorkoutExercises)
                     .ThenInclude(we => we.Exercise)
+                    .ThenInclude(e => e.ExerciseMuscleGroups)
+                    .ThenInclude(emg => emg.MuscleGroup)
                     .FirstOrDefaultAsync();
 
                 if (workout == null)

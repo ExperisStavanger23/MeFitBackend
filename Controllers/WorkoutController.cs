@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.UserWorkout;
-using MeFitBackend.Data.DTO.WorkoutExercise;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
@@ -26,19 +25,19 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkoutGetAllDTO>>> GetAllWorkouts()
+        public async Task<ActionResult<IEnumerable<WorkoutDTO>>> GetAllWorkouts()
         {
             var workouts = await _workoutService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<WorkoutGetAllDTO>>(workouts));
+            return Ok(_mapper.Map<IEnumerable<WorkoutDTO>>(workouts));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkoutGetByIdDTO>> GetWorkoutById(int id)
+        public async Task<ActionResult<WorkoutDTO>> GetWorkoutById(int id)
         {
             try
             {
                 var workout = await _workoutService.GetByIdAsync(id);
-                var workoutDTO = _mapper.Map<WorkoutGetByIdDTO>(workout);
+                var workoutDTO = _mapper.Map<WorkoutDTO>(workout);
                 return Ok(workoutDTO);
             }
             catch (EntityNotFoundException ex)
