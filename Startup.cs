@@ -88,6 +88,26 @@ namespace MeFitBackend
                 //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 //options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
+                // Add JWT Authentication support in Swagger
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter your JWT token",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // The name of the HTTP Authorization scheme to be used in the Swagger UI
+                    BearerFormat = "JWT", // JWT format
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+                options.AddSecurityDefinition("Bearer", securityScheme);
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securityScheme, new List<string>() }
+                });
             });
 
 
