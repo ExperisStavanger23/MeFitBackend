@@ -72,6 +72,8 @@ namespace MeFitBackend.Mappers
                 .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises
                 .Select(we => we.Exercise)))
                 .ForMember(dest => dest.UserWorkouts, opt => opt.Ignore());
+
+            CreateMap<Program, ProgramGetByIdDTO>();
         }
     }
 }

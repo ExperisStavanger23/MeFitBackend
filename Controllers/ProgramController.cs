@@ -44,7 +44,7 @@ namespace MeFitBackend.Controllers
         // }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProgramDTO>> GetProgramWithWorkouts(int id)
+        public async Task<ActionResult<ProgramGetByIdDTO>> GetProgramWithWorkouts(int id)
         {
             var program = await _programService.GetByIdAsync(id);
 
@@ -54,7 +54,7 @@ namespace MeFitBackend.Controllers
             }
 
             
-            var pDto = _mapper.Map<ProgramDTO>(program);
+            var pDto = _mapper.Map<ProgramGetByIdDTO>(program);
 
             return Ok(pDto);
         }
