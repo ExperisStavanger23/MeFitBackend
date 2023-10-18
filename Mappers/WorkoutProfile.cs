@@ -92,18 +92,8 @@ namespace MeFitBackend.Mappers
             CreateMap<WorkoutPutDTO, Workout>().ReverseMap();
 
             CreateMap<Workout,WorkoutGetAllDTO>();
-            CreateMap<Workout, WorkoutGetByIdDTO>()
-                .ForMember(
-                    wdto => wdto.Exercises,
-                    options => options.MapFrom(workout => workout.WorkoutExercises
-                        .Select(workoutExercise => new ExerciseDTO
-                        {
-                            Id = workoutExercise.Exercise != null ? workoutExercise.Exercise.Id : 0, 
-                            Name = workoutExercise.Exercise != null ? workoutExercise.Exercise.Name : "Unknown",
-                            //Sets = workoutExercise.Sets,
-                            //Reps = workoutExercise.Reps,
-                        }).ToList())
-                );
+            CreateMap<Workout, WorkoutGetByIdDTO>();
+                
 
             //CreateMap<ExerciseMuscleGroup, Data.DTO.MuscleGroup.ExerciseMuscleGroupDTO>();
             CreateMap<WorkoutPostDTO, Workout>()
