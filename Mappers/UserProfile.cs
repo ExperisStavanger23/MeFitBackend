@@ -55,6 +55,8 @@ namespace MeFitBackend.Mappers
                         Id= up.Id,
                         UserId= up.UserId,
                         ProgramId = up.ProgramId,
+                        StartDate = up.StartDate,
+                        EndDate = up.EndDate,
                         Program = new Program
                         {
                             Id = up.Program.Id,
