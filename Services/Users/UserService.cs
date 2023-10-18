@@ -4,6 +4,7 @@ using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
+using MeFitBackend.Data.DTO.UserProgram;
 
 namespace MeFitBackend.Services.Users
 {
@@ -305,7 +306,7 @@ namespace MeFitBackend.Services.Users
             return userprograms;
         }
 
-        public async Task UpdateUserProgramsAsync(string id, int[] programIds, DateTime starttime, DateTime endtime)
+        public async Task UpdateUserProgramsAsync(string id, UserProgramPutDTO[] userProgramList)
         {
             if (!await UserExistAsync(id))
             {
@@ -318,15 +319,15 @@ namespace MeFitBackend.Services.Users
 
             var userprogramList = new List<UserProgram>();
 
-            foreach (int pId in programIds)
+            foreach (UserProgramPutDTO pId in userProgramList)
             {
                 var program = await _context.Programs
                     .Include(p => p.Workouts)
-                    .FirstOrDefaultAsync(p => p.Id == pId);
+                    .FirstOrDefaultAsync(p => p.Id == pId.Id);
 
                 if (program == null)
                 {
-                    throw new EntityNotFoundException("Program", pId);
+                    throw new EntityNotFoundException("Program", pId.Id);
                 }
 
                 int[] workoutIds = program.Workouts.Select(w => w.Id).ToArray();
@@ -337,10 +338,10 @@ namespace MeFitBackend.Services.Users
                 userprogramList.Add(new UserProgram
                 {
                     UserId = id,
-                    ProgramId = pId,
+                    ProgramId = pId.Id,
                     Program = program,
-                    StartDate = starttime,
-                    EndDate = endtime
+                    StartDate = pId.StartDate,
+                    EndDate = pId.EndDate,
                 });
             }
 
