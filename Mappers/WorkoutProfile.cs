@@ -12,7 +12,7 @@ namespace MeFitBackend.Mappers
         public WorkoutProfile() 
         {
             CreateMap<Workout, WorkoutDTO>()
-                .ForMember(workoutDto => workoutDto.Exercises, opt => opt
+                .ForMember(workoutDto => workoutDto.WorkoutExercises, opt => opt
                     .MapFrom(workout => workout.WorkoutExercises
                     .Select(workoutexercise => new WorkoutExerciseDTO
                     {
@@ -39,8 +39,7 @@ namespace MeFitBackend.Mappers
                                 }
                             }).ToList()
                         }
-                    })
-                    .ToList()))
+                    }).ToList()))
                 .ForMember(workoutDto => workoutDto.UserWorkouts, opt => opt
                     .MapFrom(workout => workout.UserWorkouts
                     .Select(userWorkout => new UserWorkout
@@ -49,7 +48,9 @@ namespace MeFitBackend.Mappers
                         WorkoutId = userWorkout.Id,
                     })
                     .ToList()));
-            CreateMap<WorkoutExercise, ExerciseDTO>()
+
+            // Helper mapper used to WorkoutExercise -> ExerciseDTO
+           /* CreateMap<WorkoutExercise, ExerciseDTO>()
                 .ForMember(eDto => eDto.Id, opt => opt.MapFrom(we => we.Exercise.Id))
                 .ForMember(eDto => eDto.Name, opt => opt.MapFrom(we => we.Exercise.Name))
                 .ForMember(eDto => eDto.Description, opt => opt.MapFrom(src => src.Exercise.Description))
@@ -65,10 +66,27 @@ namespace MeFitBackend.Mappers
                         Id = emg.MuscleGroup.Id,
                         Name = emg.MuscleGroup.Name
                     }
-                })));
+                })));*/
+            CreateMap<WorkoutExerciseDTO, ExerciseDTO>()
+                .ForMember(eDto => eDto.Id, opt => opt.MapFrom(we => we.Exercise.Id))
+                .ForMember(eDto => eDto.Name, opt => opt.MapFrom(we => we.Exercise.Name))
+                .ForMember(eDto => eDto.Description, opt => opt.MapFrom(src => src.Exercise.Description))
+                .ForMember(eDto => eDto.Image, opt => opt.MapFrom(we => we.Exercise.Image))
+                .ForMember(eDto => eDto.Video, opt => opt.MapFrom(we => we.Exercise.Video))
+                .ForMember(eDto => eDto.ExerciseMuscleGroups, opt => opt.MapFrom(we => we.Exercise.ExerciseMuscleGroups
+                    .Select(emg => new ExerciseMuscleGroupDTO
+                    {
+                        ExerciseId = emg.ExerciseId,
+                        MuscleGroupId = emg.MuscleGroupId,
+                        MuscleGroup = new MuscleGroupDTO
+                        {
+                            Id = emg.MuscleGroup.Id,
+                            Name = emg.MuscleGroup.Name
+                        }
+                    })));
 
-            CreateMap<Workout, WorkoutDTO>()
-                .ForMember(workoutDto => workoutDto.Exercises, opt => opt.MapFrom(workout => workout.WorkoutExercises));
+            //CreateMap<Workout, WorkoutDTO>()
+            //.ForMember(workoutDto => workoutDto.Exercises, opt => opt.MapFrom(workout => workout.WorkoutExercises));
             CreateMap< Workout, WorkoutInProgramDTO>();
             
             CreateMap<WorkoutPutDTO, Workout>().ReverseMap();
@@ -89,10 +107,13 @@ namespace MeFitBackend.Mappers
 
             //CreateMap<ExerciseMuscleGroup, Data.DTO.MuscleGroup.ExerciseMuscleGroupDTO>();
             CreateMap<WorkoutPostDTO, Workout>()
-                .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises))
+                .ForMember(w => w.WorkoutExercises, opt => opt.MapFrom(wPostDto => wPostDto.WorkoutExercises))
                 .ReverseMap();
-            CreateMap<WorkoutExerciseDTO, WorkoutExercise>()
-                .ReverseMap();
+            CreateMap<WorkoutExercise, WorkoutExerciseDTO>();
+            CreateMap<WorkoutExercisePostDTO, WorkoutExercise>()
+                .ForMember(we => we.Sets, opt => opt.MapFrom(wePostDto => wePostDto.Sets))
+                .ForMember(we => we.Reps, opt => opt.MapFrom(wePostDto => wePostDto.Reps));
+
         }
     }
 }

@@ -20,7 +20,12 @@ namespace MeFitBackend.Services.Programs
 
         public async Task<ICollection<Program>> GetAllAsync()
         {
-            return await _context.Programs.Include(p => p.Workout).ToListAsync();
+            return await _context.Programs.Include(p => p.Workouts)
+                .ThenInclude(w => w.WorkoutExercises)
+                .ThenInclude(we => we.Exercise)
+                .ThenInclude(e => e.ExerciseMuscleGroups)
+                .ThenInclude(emg => emg.MuscleGroup)
+                .ToListAsync();
         }
 
         public async Task<Program> GetByIdAsync(int id)
@@ -28,13 +33,12 @@ namespace MeFitBackend.Services.Programs
 
             try
             {
-                return await _context.Programs
-                        .Where(p => p.Id == id)
-                        .Include(p => p.Workout) // Include the workouts
-                            .ThenInclude(w => w.WorkoutExercises) // Include the workout exercises
-                                .ThenInclude(we => we.Exercise) // Include the exercises
-                                .ThenInclude(e => e.ExerciseMuscleGroups) // Include the exercise muscle groups
-                                .ThenInclude(emg => emg.MuscleGroup) // Include the muscle group
+                return await _context.Programs.Where(p => p.Id == id)
+                    .Include(p => p.Workouts) // Include the workouts
+                        .ThenInclude(w => w.WorkoutExercises) // Include the workout exercises
+                        .ThenInclude(we => we.Exercise) // Include the exercises
+                        .ThenInclude(e => e.ExerciseMuscleGroups) // Include the exercise muscle groups
+                        .ThenInclude(emg => emg.MuscleGroup) // Include the muscle group
                         .FirstOrDefaultAsync();
             }
             catch
@@ -49,7 +53,7 @@ namespace MeFitBackend.Services.Programs
             var workouts = await _context.Workouts
                 .Where(w => workoutIds.Contains(w.Id))
                 .ToListAsync();
-            program.Workout = workouts;
+            program.Workouts = workouts;
 
             await _context.Programs.AddAsync(program);
             await _context.SaveChangesAsync();
@@ -119,13 +123,13 @@ namespace MeFitBackend.Services.Programs
             List<Workout> workouts = new List<Workout>();
 
             var programs = await _context.Programs
-                .Include(p => p.Workout)
+                .Include(p => p.Workouts)
                 .Where(p => p.Id == id)
                 .ToListAsync();
 
             foreach (var program in programs)
             {
-                foreach (var workout in program.Workout)
+                foreach (var workout in program.Workouts)
                 {
                     if (!workouts.Contains(workout))
                     {
@@ -155,9 +159,9 @@ namespace MeFitBackend.Services.Programs
                 workoutList.Add(_context.Workouts.Single(w => w.Id == wid));
             }
 
-            var programToUpdate = await _context.Programs.Include(p => p.Workout).SingleAsync(p => p.Id == id);
+            var programToUpdate = await _context.Programs.Include(p => p.Workouts).SingleAsync(p => p.Id == id);
             
-            programToUpdate.Workout = workoutList;
+            programToUpdate.Workouts = workoutList;
             await _context.SaveChangesAsync();
         }
 
@@ -170,7 +174,7 @@ namespace MeFitBackend.Services.Programs
         public async Task<Program> GetProgramWithWorkoutsAsync(int programId)
         {
             return await _context.Programs
-                .Include(p => p.Workout)
+                .Include(p => p.Workouts)
                 .Where(p => p.Id == programId)
                 .FirstOrDefaultAsync();
         }
