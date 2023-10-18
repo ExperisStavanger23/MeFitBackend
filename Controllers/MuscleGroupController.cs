@@ -20,6 +20,10 @@ namespace MeFitBackend.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves a list of musclegroups
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MuscleGroupDTO>>> GetAllMuscleGroups()
         {
