@@ -66,13 +66,13 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> PostUser(UserPostDTO user)
+        public async Task<ActionResult<UserPostDTO>> PostUser(UserPostDTO user)
         {
             var newUser = await _userService.AddAsync(_mapper.Map<User>(user));
 
             return CreatedAtAction("GetUser",
                 new { id = newUser.Id },
-                _mapper.Map<UserDTO>(newUser));
+                newUser);
         }
 
         [HttpDelete("{id}")]
