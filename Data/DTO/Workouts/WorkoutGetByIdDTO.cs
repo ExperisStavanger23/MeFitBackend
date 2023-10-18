@@ -11,7 +11,7 @@ public class WorkoutGetByIdDTO
     public string Name { get; set; }
     public string Description { get; set; }
     public string Category { get; set; }
-    public string RecomendedLevel { get; set; } 
+    public string RecommendedLevel { get; set; } 
     public string Image { get; set; }
     public int Duration { get; set; }
     public ICollection<WorkoutExerciseDTO> Exercises { get; set; }

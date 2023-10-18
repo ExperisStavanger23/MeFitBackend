@@ -24,7 +24,7 @@ namespace MeFitBackend.Mappers
                     Name = w.Name,
                     Description = w.Description,
                     Category = w.Category,
-                    RecomendedLevel = w.RecommendedLevel,
+                    RecommendedLevel = w.RecommendedLevel,
                     Image = w.Image,
                     Duration = w.Duration,
                     WorkoutExercises = w.WorkoutExercises
@@ -66,7 +66,7 @@ namespace MeFitBackend.Mappers
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-                .ForMember(dest => dest.RecomendedLevel, opt => opt.MapFrom(src => src.RecomendedLevel))
+                .ForMember(dest => dest.RecommendedLevel, opt => opt.MapFrom(src => src.RecommendedLevel))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
                 .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration))
                 .ForMember(dest => dest.WorkoutExercises, opt => opt.MapFrom(src => src.WorkoutExercises
