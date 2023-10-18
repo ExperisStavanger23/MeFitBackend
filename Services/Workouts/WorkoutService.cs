@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MeFitBackend.Data;
-using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;

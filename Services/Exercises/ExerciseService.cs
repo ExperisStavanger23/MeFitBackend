@@ -3,7 +3,6 @@ using MeFitBackend.Data;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
-using System.Security.Cryptography;
 
 namespace MeFitBackend.Services.Exercises
 {

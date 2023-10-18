@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MeFitBackend.Data;
-using MeFitBackend.Data.DTO.Programs;
-using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -190,11 +188,6 @@ namespace MeFitBackend.Services.Programs
         public async Task<bool> WorkoutExistsAsync(int id)
         {
             return await _context.Workouts.AnyAsync(w => w.Id == id);
-        }
-
-        public async Task<bool> UserProgramExistsAsync(int id)
-        {
-            return await _context.UserPrograms.AnyAsync(w => w.Id == id);
         }
     }
 }

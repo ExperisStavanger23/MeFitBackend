@@ -1,6 +1,4 @@
-﻿using MeFitBackend.Data.Enums;
-
-namespace MeFitBackend.Data.DTO.Programs
+﻿namespace MeFitBackend.Data.DTO.Programs
 {
     public class ProgramPutDTO
     {

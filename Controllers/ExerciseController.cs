@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
-using MeFitBackend.Data.DTO.MuscleGroup;
-using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using MeFitBackend.Services.Exercises;

@@ -1,8 +1,4 @@
-﻿using MeFitBackend.Data.DTO.MuscleGroup;
-using MeFitBackend.Data.DTO.UserExercise;
-using MeFitBackend.Data.Entities;
-
-namespace MeFitBackend.Data.DTO.Exercises
+﻿namespace MeFitBackend.Data.DTO.Exercises
 {
     /* Exercise DTO used for plain Exercise (not for a workout) */
     public class ExerciseDTO

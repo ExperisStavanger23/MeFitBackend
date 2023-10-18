@@ -1,6 +1,5 @@
 ﻿using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.UserWorkout;
-using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Workouts;
 /// <summary>
