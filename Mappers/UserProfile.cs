@@ -95,7 +95,11 @@ namespace MeFitBackend.Mappers
                 
 
             // Post
-            CreateMap<UserPostDTO, User>().ReverseMap();
+            CreateMap<UserPostDTO, User>()
+                .ForMember( u => u.UserRoles, opt => opt
+                .MapFrom(uPostDto => uPostDto.UserRoleIds
+                .Select(rId => new UserRole 
+                { RoleId = rId })));
 
             // Put
             CreateMap<User, UserPutDTO>().ReverseMap();
