@@ -1,3 +1,4 @@
+using System.Reflection;
 using MeFitBackend.Data;
 using MeFitBackend.Services.Exercises;
 using MeFitBackend.Services.MuscleGroups;
@@ -108,6 +109,8 @@ namespace MeFitBackend
                 {
                     { securityScheme, new List<string>() }
                 });
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
 
