@@ -1,6 +1,4 @@
-﻿using MeFitBackend.Data.Enums;
-
-namespace MeFitBackend.Data.DTO.Workouts;
+﻿namespace MeFitBackend.Data.DTO.Workouts;
 
 public class WorkoutGetAllDTO
 {

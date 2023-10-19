@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.DTO.UserProgram;
 using MeFitBackend.Data.DTO.UserRole;
 using MeFitBackend.Data.DTO.Users;
 using MeFitBackend.Data.DTO.UserWorkout;
-using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Mappers

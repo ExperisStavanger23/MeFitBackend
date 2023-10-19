@@ -1,6 +1,4 @@
-﻿using MeFitBackend.Data.DTO.MuscleGroup;
-
-namespace MeFitBackend.Data.DTO.Exercises
+﻿namespace MeFitBackend.Data.DTO.Exercises
 {
     public class ExercisePutDTO
     {

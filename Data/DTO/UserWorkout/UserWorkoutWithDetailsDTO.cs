@@ -13,7 +13,5 @@ namespace MeFitBackend.Data.DTO.UserWorkout
         public Level RecommendLevel { get; set; }
         public string Image { get; set; }
         public int Duration { get; set; }
-        //public ICollection<ExerciseWithDetailsDTO> Exercises { get; set; }
-       // public ICollection<MuscleGroupInExerciseDTO> MuscleGroups { get; set;}
     }
 }

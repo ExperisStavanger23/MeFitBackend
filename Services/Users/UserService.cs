@@ -5,6 +5,7 @@ using MeFitBackend.Data.Exceptions;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using MeFitBackend.Data.DTO.UserProgram;
+using MeFitBackend.Data.DTO.UserWorkout;
 
 namespace MeFitBackend.Services.Users
 {
@@ -222,7 +223,7 @@ namespace MeFitBackend.Services.Users
             return userworkouts;
         }
 
-        public async Task UpdateUserWorkoutsAsync(string id, int[] workoutIds)
+        public async Task UpdateUserWorkoutsAsync(string id, UserWorkoutPostDTO[] workouts)
         {
             if (!await UserExistAsync(id))
             {
@@ -232,24 +233,27 @@ namespace MeFitBackend.Services.Users
             var uwToUpdate = await _context.Users
                 .Include(e => e.UserWorkouts)
                 .SingleAsync(e => e.Id == id);
+            
+            var userWorkoutList = new List<UserWorkout>();
 
-            var userworkoutList = workoutIds.Select(wId =>
+            foreach (UserWorkoutPostDTO wId in workouts)
             {
-                var workout = _context.Workouts.FirstOrDefault(w => w.Id == wId);
+                var workout = _context.Workouts.FirstOrDefault(w => w.Id == wId.Id);
                 if (workout == null)
                 {
-                    throw new EntityNotFoundException("Workout", wId);
+                    throw new EntityNotFoundException("Workout", wId.Id);
                 }
-
-                return new UserWorkout
+                
+                userWorkoutList.Add(new UserWorkout
                 {
                     UserId = id,
-                    WorkoutId = wId,
+                    WorkoutId = wId.Id,
                     Workout = workout,
-                };
-            }).ToList();
+                    DoneDate = wId.DoneDate,
+                });
+            }
 
-            uwToUpdate.UserWorkouts = userworkoutList;
+            uwToUpdate.UserWorkouts = userWorkoutList;
 
             await _context.SaveChangesAsync();
         }
@@ -317,9 +321,9 @@ namespace MeFitBackend.Services.Users
                 .Include(e => e.UserPrograms)
                 .SingleAsync(e => e.Id == id);
 
-            var userprogramList = new List<UserProgram>();
-
-            foreach (UserProgramPutDTO pId in userProgramList)
+            var userProgramsToAdd = new List<UserProgram>();
+            var workoutToAdd = Array.Empty<UserWorkoutPostDTO>();
+            foreach (var pId in userProgramList)
             {
                 var program = await _context.Programs
                     .Include(p => p.Workouts)
@@ -329,13 +333,15 @@ namespace MeFitBackend.Services.Users
                 {
                     throw new EntityNotFoundException("Program", pId.Id);
                 }
-
-                int[] workoutIds = program.Workouts.Select(w => w.Id).ToArray();
-
-                // Update user workouts for the program within this loop
-                await UpdateUserWorkoutsAsync(id, workoutIds);
-
-                userprogramList.Add(new UserProgram
+                
+                //new to be added
+                workoutToAdd = program.Workouts.Select(w => new UserWorkoutPostDTO
+                {
+                    Id = w.Id,
+                    DoneDate = null
+                }).ToArray();
+                
+                userProgramsToAdd.Add(new UserProgram
                 {
                     UserId = id,
                     ProgramId = pId.Id,
@@ -344,12 +350,18 @@ namespace MeFitBackend.Services.Users
                     EndDate = pId.EndDate,
                 });
             }
-
-            upToUpdate.UserPrograms = userprogramList;
+            // what user has
+            var allUserWorkouts = await GetUserWorkoutsAsync(id);
+            UserWorkoutPostDTO[] currentUserWorkouts = Array.Empty<UserWorkoutPostDTO>();
+            currentUserWorkouts = allUserWorkouts.Aggregate(currentUserWorkouts, (current, userWorkout) => current.Append(new UserWorkoutPostDTO { Id = userWorkout.WorkoutId, DoneDate = userWorkout.DoneDate }).ToArray());
+            // add new workouts to the user
+            UserWorkoutPostDTO[] resultWorkouts = currentUserWorkouts.Concat(workoutToAdd).ToArray();
+            // Update user workouts for the program within this loop
+            await UpdateUserWorkoutsAsync(id, resultWorkouts);
+            upToUpdate.UserPrograms = userProgramsToAdd;
 
             await _context.SaveChangesAsync();
         }
-
 
         // Helper functions
         public async Task<bool> UserExistAsync(string id)

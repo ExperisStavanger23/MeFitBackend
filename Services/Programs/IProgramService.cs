@@ -1,5 +1,4 @@
-﻿using MeFitBackend.Data.DTO.Programs;
-using MeFitBackend.Data.Entities;
+﻿using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Services.Programs
 {
