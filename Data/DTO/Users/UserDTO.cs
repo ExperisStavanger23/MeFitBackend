@@ -10,7 +10,7 @@ namespace MeFitBackend.Data.DTO.Users
         public string Bio {  get; set; }= null!;
         public string Email { get; set; }= null!;
         public string? ProfilePicture { get; set; }
-        public string ExperienceLvl { get; set; }= null!;
+        public int ExperienceLvl { get; set; }
         public string Gender { get; set; } = null!;
         public int Weight { get; set; }
         public int Height { get; set; }
