@@ -93,9 +93,6 @@ namespace MeFitBackend.Data
             // Define the primary key for UserExercise (if not defined already)
             modelBuilder.Entity<UserExercise>()
                 .HasKey(ue => ue.Id);
-
-            // Define relationships for UserExercise as needed
-
         }
 
         /* --------------------------------------------------------- */

@@ -91,8 +91,8 @@ namespace MeFitBackend.Controllers
             var exercise = _mapper.Map<Exercise>(exercisePostDTO);
             var createdExercise = await _exerciseService.AddAsync(exercise);
             //var exerciseDTO = _mapper.Map<ExerciseDTO>(createdExercise);
-            //return CreatedAtAction(nameof(GetExerciseById), new { id = exerciseDTO.Id }, exerciseDTO);
-            return Ok();
+            return CreatedAtAction(nameof(GetExerciseById), new { id = createdExercise.Id }, exercisePostDTO);
+            //return Ok();
         }
     
         /// <summary>

@@ -11,7 +11,7 @@ namespace MeFitBackend.Mappers
     public class UserProfile : Profile
     {
         public UserProfile() 
-        { 
+        {
             CreateMap<User, UserDTO>()
                 .ForMember(udto => udto.UserExercises, opt => opt
                     .MapFrom(u => u.UserExercises
@@ -31,27 +31,27 @@ namespace MeFitBackend.Mappers
                     .Select(u => new UserWorkoutDTO()
                     {
                         Id = u.Id,
-                        UserId = u.UserId, 
+                        UserId = u.UserId,
                         WorkoutId = u.WorkoutId,
                         DoneDate = u.DoneDate,
                         Workout = new Workout
                         {
-                           Id = u.Workout.Id,
-                           Name = u.Workout.Name,
-                           Description = u.Workout.Description,
-                           Category = u.Workout.Category,
-                           RecommendedLevel = u.Workout.RecommendedLevel,
-                           Image = u.Workout.Image,
-                           Duration = u.Workout.Duration
+                            Id = u.Workout.Id,
+                            Name = u.Workout.Name,
+                            Description = u.Workout.Description,
+                            Category = u.Workout.Category,
+                            RecommendedLevel = u.Workout.RecommendedLevel,
+                            Image = u.Workout.Image,
+                            Duration = u.Workout.Duration
                         }
-                      
+
                     }).ToList()))
-                .ForMember(udto => udto.UserPrograms,  opt => opt
+                .ForMember(udto => udto.UserPrograms, opt => opt
                     .MapFrom(udto => udto.UserPrograms
                     .Select(up => new UserProgramDTO()
                     {
-                        Id= up.Id,
-                        UserId= up.UserId,
+                        Id = up.Id,
+                        UserId = up.UserId,
                         ProgramId = up.ProgramId,
                         StartDate = up.StartDate,
                         EndDate = up.EndDate,
@@ -67,7 +67,7 @@ namespace MeFitBackend.Mappers
                             Workouts = up.Program.Workouts.Select(w => new Workout
                             {
                                 Id = w.Id,
-                                Name= w.Name,
+                                Name = w.Name,
                                 Description = w.Description,
                                 Category = w.Category,
                                 RecommendedLevel = w.RecommendedLevel,
@@ -80,23 +80,23 @@ namespace MeFitBackend.Mappers
                     .MapFrom(udto => udto.UserRoles
                     .Select(ur => new UserRoleDTO()
                     {
-                        Id = ur.Id,
                         UserId = ur.UserId,
                         RoleId = ur.RoleId,
                         Role = new Role
                         {
-                            Id = ur.Role.Id,
+                            Id = ur.RoleId,
                             RoleTitle = ur.Role.RoleTitle
                         }
 
-                    }).ToList())); 
-                
+                    }).ToList()));
+
+
 
             // Post
             CreateMap<UserPostDTO, User>()
                 .ForMember( u => u.UserRoles, opt => opt
                 .MapFrom(uPostDto => uPostDto.UserRoleIds
-                .Select(rId => new UserRole 
+                .Select(rId => new UserRoleDTO 
                 { RoleId = rId })));
 
             // Put
