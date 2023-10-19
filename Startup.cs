@@ -35,7 +35,6 @@ namespace MeFitBackend
             });
 
             var test = FetchJwksAsync("https://lemur-10.cloud-iam.com/auth/realms/aiam/protocol/openid-connect/certs");
-            System.Console.WriteLine(test.Result[0]);
 
             builder.Services.AddAuthentication(options =>
             {
