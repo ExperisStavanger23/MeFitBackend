@@ -58,7 +58,12 @@ namespace MeFitBackend.Services.Users
         {
             try
             {
-                var userToDelete = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+                var userToDelete = await _context.Users
+                    .Include(u => u.UserRoles)
+                    .Include(u => u.UserPrograms)
+                    .Include(u => u.UserWorkouts)
+                    .Include(u => u.UserExercises)
+                    .SingleOrDefaultAsync(u => u.Id == id);
 
                 if (userToDelete == null)
                 {
@@ -66,6 +71,13 @@ namespace MeFitBackend.Services.Users
                 } 
                 else
                 {
+                    // use RemoveRange for Collection
+                    _context.UserRoles.RemoveRange(userToDelete.UserRoles);
+                    _context.UserPrograms.RemoveRange(userToDelete.UserPrograms);
+                    _context.UserWorkouts.RemoveRange(userToDelete.UserWorkouts);
+                    _context.UserExercises.RemoveRange(userToDelete.UserExercises);
+
+                    // finally remove the user using .Remove
                     _context.Remove(userToDelete);
                     await _context.SaveChangesAsync();
                 }
