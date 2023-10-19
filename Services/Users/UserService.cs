@@ -362,38 +362,6 @@ namespace MeFitBackend.Services.Users
 
             await _context.SaveChangesAsync();
         }
-        
-        private async Task UpdateUserWorkoutsAsyncForProgram(string id, int[] workoutIds)
-        {
-            if (!await UserExistAsync(id))
-            {
-                throw new EntityNotFoundException("User", id);
-            }
-
-            var uwToUpdate = await _context.Users
-                .Include(e => e.UserWorkouts)
-                .SingleAsync(e => e.Id == id);
-
-            var userworkoutList = workoutIds.Select(wId =>
-            {
-                var workout = _context.Workouts.FirstOrDefault(w => w.Id == wId);
-                if (workout == null)
-                {
-                    throw new EntityNotFoundException("Workout", wId);
-                }
-
-                return new UserWorkout
-                {
-                    UserId = id,
-                    WorkoutId = wId,
-                    Workout = workout,
-                };
-            }).ToList();
-
-            uwToUpdate.UserWorkouts = userworkoutList;
-
-            await _context.SaveChangesAsync();
-        }
 
         // Helper functions
         public async Task<bool> UserExistAsync(string id)
