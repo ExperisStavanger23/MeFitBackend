@@ -1,7 +1,4 @@
-﻿using MeFitBackend.Data.Entities;
-using MeFitBackend.Data.Enums;
-
-namespace MeFitBackend.Data.DTO.Users
+﻿namespace MeFitBackend.Data.DTO.Users
 {
     public class UserPutDTO
     {

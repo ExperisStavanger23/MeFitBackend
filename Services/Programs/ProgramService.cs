@@ -31,13 +31,15 @@ namespace MeFitBackend.Services.Programs
 
             try
             {
-                return await _context.Programs.Where(p => p.Id == id)
+                var program = await _context.Programs.Where(p => p.Id == id)
                     .Include(p => p.Workouts) // Include the workouts
                         .ThenInclude(w => w.WorkoutExercises) // Include the workout exercises
                         .ThenInclude(we => we.Exercise) // Include the exercises
                         .ThenInclude(e => e.ExerciseMuscleGroups) // Include the exercise muscle groups
                         .ThenInclude(emg => emg.MuscleGroup) // Include the muscle group
                         .FirstOrDefaultAsync();
+
+                return program;
             }
             catch
             {

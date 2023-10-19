@@ -3,7 +3,6 @@ using MeFitBackend.Data.DTO.Exercises;
 using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
-using System.Numerics;
 
 namespace MeFitBackend.Mappers
 {

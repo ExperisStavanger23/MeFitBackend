@@ -1,5 +1,4 @@
-﻿using MeFitBackend.Data.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeFitBackend.Data.Entities
