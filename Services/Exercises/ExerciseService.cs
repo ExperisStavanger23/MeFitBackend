@@ -96,7 +96,13 @@ namespace MeFitBackend.Services.Exercises
 
                 if (exerciseToUpdate != null)
                 {
-                    // Remove related entities first
+                    // Update exercise properties only (not entity props)
+                    exerciseToUpdate.Name = obj.Name;
+                    exerciseToUpdate.Description = obj.Description;
+                    exerciseToUpdate.Image = obj.Image;
+                    exerciseToUpdate.Video = obj.Video;
+
+                    // Remove related entities (excluding EXMG)
                     foreach (var userExercise in exerciseToUpdate.UserExercises.ToList())
                     {
                         _context.UserExercises.Remove(userExercise);
@@ -106,17 +112,6 @@ namespace MeFitBackend.Services.Exercises
                     {
                         _context.WorkoutExercises.Remove(workoutExercise);
                     }
-
-                    foreach (var exerciseMuscleGroup in exerciseToUpdate.ExerciseMuscleGroups.ToList())
-                    {
-                        _context.ExerciseMuscleGroups.Remove(exerciseMuscleGroup);
-                    }
-
-                    // Update exercise properties only (not entity props)
-                    exerciseToUpdate.Name = obj.Name;
-                    exerciseToUpdate.Description = obj.Description;
-                    exerciseToUpdate.Image = obj.Image;
-                    exerciseToUpdate.Video = obj.Video;
 
                     // Save changes
                     await _context.SaveChangesAsync();

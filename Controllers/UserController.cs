@@ -66,7 +66,7 @@ namespace MeFitBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserPostDTO>> PostUser(UserPostDTO user)
+        public async Task<ActionResult<User>> PostUser(UserPostDTO user)
         {
             var newUser = await _userService.AddAsync(_mapper.Map<User>(user));
 

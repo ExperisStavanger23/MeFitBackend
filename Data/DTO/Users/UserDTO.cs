@@ -1,4 +1,5 @@
-﻿using MeFitBackend.Data.Entities;
+﻿using MeFitBackend.Data.DTO.UserRole;
+using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Enums;
 
 namespace MeFitBackend.Data.DTO.Users
