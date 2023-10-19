@@ -27,6 +27,11 @@ namespace MeFitBackend.Controllers
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// Retrieves a list of users
+        /// </summary>
+        /// <returns>List of user objects</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
@@ -34,6 +39,11 @@ namespace MeFitBackend.Controllers
             return Ok(_mapper.Map<IEnumerable<UserDTO>>(users));
         }
 
+        /// <summary>
+        /// Retrieves user by their unique identifier
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <returns>The user object with the specified Id</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
@@ -45,6 +55,14 @@ namespace MeFitBackend.Controllers
             return Ok(_mapper.Map<UserDTO>(user));
         }
 
+
+        /// <summary>
+        /// Updates an existing users information
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="user">The updated user data</param>
+        /// <returns>NoContent if the update is successful</returns>
+        /// <exception cref="EntityNotFoundException">Error message that implies that user does not exist</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(string id, UserPutDTO user)
         {
@@ -65,6 +83,11 @@ namespace MeFitBackend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="user">Data of the new user</param>
+        /// <returns>The newly created user</returns>
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(UserPostDTO user)
         {
@@ -75,6 +98,11 @@ namespace MeFitBackend.Controllers
                 newUser);
         }
 
+        /// <summary>
+        /// Deletes a user by their unique identifier
+        /// </summary>
+        /// <param name="id">The unique identifier of the user to delete</param>
+        /// <returns>NoContent if the deletion is successful</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -89,6 +117,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the role of user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="roleIds">The Ids of the new appointed roles of user</param>
+        /// <returns>NoContent if the role update is successful</returns>
         [HttpPut("{id}/userroles")]
         public async Task<ActionResult> PutUserRoles(string id, [FromBody] int[] roleIds)
         {
@@ -119,6 +153,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update exercises in user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="exerciseIds">The unique identifier of the exercise</param>
+        /// <returns>NoContent if the userexercise update is successful</returns>
         [HttpPut("{id}/userexercises")]
         public async Task<ActionResult> PutUserExercises(string id, [FromBody] int[] exerciseIds)
         {
@@ -147,7 +187,12 @@ namespace MeFitBackend.Controllers
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
-
+        /// <summary>
+        /// Update workouts in user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="workoutIds">The unique identifiers of the workouts</param>
+        /// <returns>NoContent if the userexercise update is successful</returns>
         [HttpPut("{id}/userworkout")]
         public async Task<ActionResult> PutUserWorkouts(string id, [FromBody] int[] workoutIds)
         {
@@ -162,6 +207,13 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update workout goal in user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="uwId">The unique identifier of the userworkout</param>
+        /// <param name="done">The date for when workout is done<param>
+        /// <returns>NoContent if the userworkout update is successful</returns>
         [HttpPut("{id}/userworkout/{uwId}/workoutgoal")]
         public async Task<ActionResult> UpdateWorkoutGoal(string id, int uwId, DateTime? done)
         {
@@ -191,6 +243,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update programs in user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <param name="userPrograms">The unique identifiers of the programs</param>
+        /// <returns>NoContent if the userprogram update is successful</returns>
         [HttpPut("{id}/userprogram")]
         public async Task<ActionResult> PutUserPrograms(string id, UserProgramPutDTO[] userPrograms)
         {

@@ -4,10 +4,6 @@ using MeFitBackend.Data.DTO.MuscleGroup;
 using MeFitBackend.Data.DTO.Programs;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
-using System.Configuration;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Policy;
 
 namespace MeFitBackend.Mappers
 {

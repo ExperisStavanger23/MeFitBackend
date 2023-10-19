@@ -23,7 +23,10 @@ namespace MeFitBackend.Controllers
             _programService = programService;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Retrieves a list of programs
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProgramDTO>>> GetPrograms()
         {
@@ -43,6 +46,11 @@ namespace MeFitBackend.Controllers
         //     return Ok(_mapper.Map<ProgramDTO>(program));
         // }
         
+        /// <summary>
+        /// Retrive user by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ProgramGetByIdDTO>> GetProgramWithWorkouts(int id)
         {
@@ -59,6 +67,13 @@ namespace MeFitBackend.Controllers
             return Ok(pDto);
         }
 
+        /// <summary>
+        /// Updates an existing programs information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="program"></param>
+        /// <returns></returns>
+        /// <exception cref="EntityNotFoundException"></exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProgram(int id, ProgramPutDTO program)
         {
@@ -79,6 +94,11 @@ namespace MeFitBackend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a new program
+        /// </summary>
+        /// <param name="programDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<ProgramPostDTO>> PostProgram(ProgramPostDTO programDto)
         {
@@ -92,6 +112,11 @@ namespace MeFitBackend.Controllers
                 _mapper.Map<ProgramDTO>(newProgram));
         }
 
+        /// <summary>
+        /// Deletes a user by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -105,6 +130,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
 
         [HttpGet("{id}/workouts")]
         public async Task<ActionResult<IEnumerable<WorkoutDTO>>> GetAllWorkouts(int id)
@@ -121,6 +147,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates workouts in program
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="workoutIds"></param>
+        /// <returns></returns>
         [HttpPut("{id}/workouts")]
         public async Task<ActionResult> PutProgramWorkouts(int id, [FromBody] int[] workoutIds)
         {
@@ -134,34 +166,5 @@ namespace MeFitBackend.Controllers
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
-
-        //[HttpGet("{id}/userprograms")]
-        //public async Task<ActionResult<IEnumerable<UserProgramDTO>>> GetAllUserPrograms(int id)
-        //{
-        //    try
-        //    {
-        //        var userprograms = await _programService.GetUserProgramsAsync(id);
-        //        var userprogramDTO = _mapper.Map<IEnumerable<UserProgramDTO>>(userprograms);
-        //        return Ok(userprogramDTO);
-        //    }
-        //    catch (EntityNotFoundException ex)
-        //    {
-        //        return NotFound(new NotFoundResponse(ex.Message));
-        //    }
-        //}
-
-        //[HttpPut("{id}/userprograms")]
-        //public async Task<ActionResult> PutUserPrograms(int id, [FromBody] int[] userprogramIds)
-        //{
-        //    try
-        //    {
-        //        await _programService.UpdateUserProgramsAsync(id, userprogramIds);
-        //        return NoContent();
-        //    }
-        //    catch (EntityNotFoundException ex)
-        //    {
-        //        return NotFound(new NotFoundResponse(ex.Message));
-        //    }
-        //}
     }
 }

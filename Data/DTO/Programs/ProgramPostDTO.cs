@@ -1,5 +1,3 @@
-using MeFitBackend.Data.Enums;
-
 namespace MeFitBackend.Data.DTO.Programs
 {
     public class ProgramPostDTO

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
-using MeFitBackend.Data.DTO.UserWorkout;
 using MeFitBackend.Data.DTO.Workouts;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
@@ -24,6 +23,11 @@ namespace MeFitBackend.Controllers
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// Retrieves a list of workouts
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkoutDTO>>> GetAllWorkouts()
         {
@@ -31,6 +35,11 @@ namespace MeFitBackend.Controllers
             return Ok(_mapper.Map<IEnumerable<WorkoutDTO>>(workouts));
         }
 
+        /// <summary>
+        /// Retrieves workout by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkoutGetByIdDTO>> GetWorkoutById(int id)
         {
@@ -46,7 +55,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Updates an existing workouts unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="workoutPutDTO"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWorkout(int id, WorkoutPutDTO workoutPutDTO)
         {
@@ -67,6 +81,11 @@ namespace MeFitBackend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a new workout
+        /// </summary>
+        /// <param name="workoutPostDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<WorkoutPostDTO>> CreateWorkout(WorkoutPostDTO workoutPostDTO)
         {
@@ -77,7 +96,11 @@ namespace MeFitBackend.Controllers
                 workoutPostDTO);
         }
     
-
+        /// <summary>
+        /// Deletes an workout by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkout(int id)
         {
@@ -91,6 +114,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
 
         [HttpGet("{id}/workoutexercises")]
         public async Task<ActionResult<IEnumerable<WorkoutExerciseDTO>>> GetAllWorkoutExercises(int id)
@@ -107,6 +131,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates exercises in workout
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="workoutexerciseIds"></param>
+        /// <returns></returns>
         [HttpPut("{id}/workoutexercises")]
         public async Task<ActionResult> PutWorkoutExercises(int id, [FromBody] int[] workoutexerciseIds)
         {

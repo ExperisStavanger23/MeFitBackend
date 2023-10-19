@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MeFitBackend.Data.DTO.Exercises;
-using MeFitBackend.Data.DTO.MuscleGroup;
-using MeFitBackend.Data.DTO.UserExercise;
 using MeFitBackend.Data.Entities;
 using MeFitBackend.Data.Exceptions;
 using MeFitBackend.Services.Exercises;
@@ -24,7 +22,10 @@ namespace MeFitBackend.Controllers
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// Retrieves a list of exercises
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetAllExercises()
         {
@@ -32,6 +33,11 @@ namespace MeFitBackend.Controllers
             return Ok(_mapper.Map<IEnumerable<ExerciseDTO>>(exercises));
         }
 
+        /// <summary>
+        /// Retrieves exercise by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ExerciseDTO>> GetExerciseById(int id)
         {
@@ -47,6 +53,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing exercises information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="exercisePutDTO"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateExercise(int id, ExercisePutDTO exercisePutDTO)
         {
@@ -68,6 +80,11 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new exercise
+        /// </summary>
+        /// <param name="exercisePostDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<ExerciseDTO>> CreateExercise([FromBody] ExercisePostDTO exercisePostDTO)
         {
@@ -78,7 +95,11 @@ namespace MeFitBackend.Controllers
             //return Ok();
         }
     
-
+        /// <summary>
+        /// Deletes an exercise by their unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExercise(int id)
         {
@@ -92,6 +113,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
 
         [HttpGet("{id}/musclegroups")]
         public async Task<ActionResult<IEnumerable<ExerciseMuscleGroupDTO>>> GetAllMusclegroups(int id)
@@ -108,6 +130,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates musclegroups in an exercise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="musclegroupIds"></param>
+        /// <returns></returns>
         [HttpPut("{id}/musclegroups")]
         public async Task<ActionResult> PutMuscleGroups(int id, [FromBody] int[] musclegroupIds)
         {
