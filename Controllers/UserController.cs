@@ -89,7 +89,7 @@ namespace MeFitBackend.Controllers
         /// <param name="user">Data of the new user</param>
         /// <returns>The newly created user</returns>
         [HttpPost]
-        public async Task<ActionResult<UserPostDTO>> PostUser(UserPostDTO user)
+        public async Task<ActionResult<User>> PostUser(UserPostDTO user)
         {
             var newUser = await _userService.AddAsync(_mapper.Map<User>(user));
 
@@ -194,11 +194,12 @@ namespace MeFitBackend.Controllers
         /// <param name="workoutIds">The unique identifiers of the workouts</param>
         /// <returns>NoContent if the userexercise update is successful</returns>
         [HttpPut("{id}/userworkout")]
-        public async Task<ActionResult> PutUserWorkouts(string id, [FromBody] int[] workoutIds)
+        public async Task<ActionResult> PutUserWorkouts(string id, UserWorkoutPostDTO[] workouts)
         {
+            Console.WriteLine("UpdateUserWorkoutsAsync");
             try
             {
-                await _userService.UpdateUserWorkoutsAsync(id, workoutIds);
+                await _userService.UpdateUserWorkoutsAsync(id, workouts);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)

@@ -1,4 +1,5 @@
 ﻿using MeFitBackend.Data.DTO.UserProgram;
+using MeFitBackend.Data.DTO.UserWorkout;
 using MeFitBackend.Data.Entities;
 
 namespace MeFitBackend.Services.Users
@@ -11,7 +12,7 @@ namespace MeFitBackend.Services.Users
         Task UpdateUserRolesAsync(string id, int[] roleIds);
         Task UpdateWorkoutGoal(string id, int wId, DateTime? datefinished);
         Task UpdateUserExercisesAsync(string id, int[] exerciseIds);
-        Task UpdateUserWorkoutsAsync(string id, int[] workoutIds);
+        Task UpdateUserWorkoutsAsync(string id, UserWorkoutPostDTO[] workouts);
         Task UpdateUserProgramsAsync(string id, UserProgramPutDTO[] userProgramList);
 
     }
