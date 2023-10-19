@@ -14,7 +14,7 @@ namespace MeFitBackend.Data.DTO.Users
         public int Weight { get; set; }
         public int Height { get; set; }
         public int WorkoutGoal { get; set; }
-        public string ExperienceLvl { get; set; }
+        public int ExperienceLvl { get; set; }
         public DateTime Birthday { get; set; }
         public int[] UserRoleIds { get; set; }
     }
