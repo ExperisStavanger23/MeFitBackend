@@ -12,6 +12,7 @@ namespace MeFitBackend.Mappers
     {
         public UserProfile() 
         {
+            /* GETs */
             CreateMap<User, UserDTO>()
                 .ForMember(udto => udto.UserExercises, opt => opt
                     .MapFrom(u => u.UserExercises
@@ -77,9 +78,10 @@ namespace MeFitBackend.Mappers
                         }
                     }).ToList()))
                 .ForMember(udto => udto.UserRoles, opt => opt
-                    .MapFrom(udto => udto.UserRoles
-                    .Select(ur => new UserRoleDTO()
+                    .MapFrom(u => u.UserRoles
+                    .Select(ur => new UserRoleDTO
                     {
+                        Id = ur.Id,
                         UserId = ur.UserId,
                         RoleId = ur.RoleId,
                         Role = new Role
@@ -90,27 +92,22 @@ namespace MeFitBackend.Mappers
 
                     }).ToList()));
 
-
-
-            // Post
+            /* POST */
             CreateMap<UserPostDTO, User>()
-                .ForMember( u => u.UserRoles, opt => opt
+                .ForMember(u => u.UserRoles, opt => opt
                 .MapFrom(uPostDto => uPostDto.UserRoleIds
-                .Select(rId => new UserRoleDTO 
-                { RoleId = rId })));
+                    .Select(rId => new UserRoleDTO
+                    { RoleId = rId }))); 
 
-            // Put
+            /* PUT */
             CreateMap<User, UserPutDTO>().ReverseMap();
 
+            /* HELPER MAPPERS */
             CreateMap<UserExercise, UserExerciseDTO>();
-
             CreateMap<UserWorkout, UserWorkoutDTO>();
-
             CreateMap<UserProgram, UserProgramDTO>();
-
             CreateMap<UserRoleDTO, UserRole>();
             CreateMap<UserRole, UserRoleDTO>();
-
         }
     }
 }
