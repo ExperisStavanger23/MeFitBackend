@@ -123,10 +123,6 @@ namespace MeFitBackend.Controllers
         /// Gets all muscle groups associated with a specific exercise identified by 'id' using a HTTP GET request.
         /// </summary>
         /// <param name="id">The unique identifier of the exercise to get from.</param>
-        /// <returns>
-        ///   - HTTP 200 (OK) if the get is successful. With a list of all muscle groups associated with the exercise.
-        ///   - HTTP 404 (Not Found) with an error message if the exercise with the provided 'id' is not found.
-        /// </returns>
         /// <exception cref="EntityNotFoundException">Thrown when the exercise with the provided 'id' is not found.</exception>
         /// <response code="200">Ok - Success <br/></response>
         /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
@@ -153,8 +149,6 @@ namespace MeFitBackend.Controllers
         /// <exception cref="EntityNotFoundException">Thrown when the resource with the provided 'id' is not found.</exception>
         /// <response code="200">Ok - Success <br/></response>
         /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPut("{id}/musclegroups")]
         public async Task<ActionResult> PutMuscleGroups(int id, [FromBody] int[] musclegroupIds)
         {
