@@ -16,7 +16,7 @@ namespace MeFitBackend.Data.Entities
         public int Sets { get; set; }
 
         // Navs
-        public Workout Workout { get; set; }
-        public Exercise Exercise { get; set; }
+        public Workout? Workout { get; set; }
+        public Exercise? Exercise { get; set; }
     }
 }

@@ -9,11 +9,11 @@ namespace MeFitBackend.Data.Entities
     {
         public int Id { get; set; }
         [StringLength(50)]
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public WorkoutCategory Category { get; set; }
         public Level RecommendedLevel { get; set; }
-        public string Image {  get; set; }
+        public string? Image {  get; set; }
         public int Duration { get; set; }
 
         // Navigation

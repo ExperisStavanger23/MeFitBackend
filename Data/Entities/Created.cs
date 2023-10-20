@@ -10,6 +10,6 @@ namespace MeFitBackend.Data.Entities
         public int EntityId { get; set; }
         public Enums.EntityType EntityType { get; set; }
         public int CreatorId { get; set; }
-        public User Creator { get; set; }
+        public User? Creator { get; set; }
     }
 }

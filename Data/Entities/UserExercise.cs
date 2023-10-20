@@ -7,10 +7,10 @@ namespace MeFitBackend.Data.Entities
     public class UserExercise
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public string? UserId { get; set; }
+        public User? User { get; set; }
         public int ExerciseId { get; set; }
-        public Exercise Exercise { get; set; }
+        public Exercise? Exercise { get; set; }
 
     }
 }
