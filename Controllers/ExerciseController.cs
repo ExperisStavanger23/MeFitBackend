@@ -11,6 +11,7 @@ namespace MeFitBackend.Controllers
     [ApiController]
     [Produces("application/Json")]
     [Consumes("application/Json")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class ExerciseController : ControllerBase
     {
         private readonly IExerciseService _exerciseService;
@@ -37,7 +38,9 @@ namespace MeFitBackend.Controllers
         /// Retrieves exercise by their unique identifier
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the exercise with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<ExerciseDTO>> GetExerciseById(int id)
         {
@@ -58,7 +61,9 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="exercisePutDTO"></param>
-        /// <returns></returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the exercise with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateExercise(int id, ExercisePutDTO exercisePutDTO)
         {
@@ -90,23 +95,23 @@ namespace MeFitBackend.Controllers
         {
             var exercise = _mapper.Map<Exercise>(exercisePostDTO);
             var createdExercise = await _exerciseService.AddAsync(exercise);
-            //var exerciseDTO = _mapper.Map<ExerciseDTO>(createdExercise);
             return CreatedAtAction(nameof(GetExerciseById), new { id = createdExercise.Id }, exercisePostDTO);
-            //return Ok();
         }
     
         /// <summary>
-        /// Deletes an exercise by their unique identifier
+        /// Deletes an exercise by its unique identifier.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the exercise to delete.</param>
+        /// <exception cref="EntityNotFoundException">Thrown when the exercise with the provided 'id' is not found.</exception>
+        /// <response code="204">No Content - Success <br/></response> 
+        /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExercise(int id)
         {
             try
             {
                 await _exerciseService.DeleteByIdAsync(id);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
@@ -114,7 +119,17 @@ namespace MeFitBackend.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Gets all muscle groups associated with a specific exercise identified by 'id' using a HTTP GET request.
+        /// </summary>
+        /// <param name="id">The unique identifier of the exercise to get from.</param>
+        /// <returns>
+        ///   - HTTP 200 (OK) if the get is successful. With a list of all muscle groups associated with the exercise.
+        ///   - HTTP 404 (Not Found) with an error message if the exercise with the provided 'id' is not found.
+        /// </returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the exercise with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
         [HttpGet("{id}/musclegroups")]
         public async Task<ActionResult<IEnumerable<ExerciseMuscleGroupDTO>>> GetAllMusclegroups(int id)
         {
@@ -131,18 +146,22 @@ namespace MeFitBackend.Controllers
         }
 
         /// <summary>
-        /// Updates musclegroups in an exercise
+        /// Updates the muscle groups associated with a specific exercise identified by 'id' using a HTTP PUT request.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="musclegroupIds"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the exercise to update.</param>
+        /// <param name="musclegroupIds">An array of integers representing the updated muscle group associations.</param>
+        /// <exception cref="EntityNotFoundException">Thrown when the resource with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The exercise with the given ID was not found.</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPut("{id}/musclegroups")]
         public async Task<ActionResult> PutMuscleGroups(int id, [FromBody] int[] musclegroupIds)
         {
             try
             {
                 await _exerciseService.UpdateMuscleGroupsAsync(id, musclegroupIds);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
