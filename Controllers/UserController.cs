@@ -15,6 +15,7 @@ namespace MeFitBackend.Controllers
     [ApiController]
     [Produces("application/Json")]
     [Consumes("application/Json")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     [Authorize]
     public class UserController : ControllerBase
     {
@@ -44,6 +45,8 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
         /// <returns>The user object with the specified Id</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
@@ -52,6 +55,7 @@ namespace MeFitBackend.Controllers
             {
                 return NotFound(new EntityNotFoundException(nameof(user), id));
             }
+
             return Ok(_mapper.Map<UserDTO>(user));
         }
 
@@ -63,14 +67,15 @@ namespace MeFitBackend.Controllers
         /// <param name="user">The updated user data</param>
         /// <returns>NoContent if the update is successful</returns>
         /// <exception cref="EntityNotFoundException">Error message that implies that user does not exist</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(string id, UserPutDTO user)
         {
-            if(id != user.Id)
+            if (id != user.Id)
             {
                 throw new EntityNotFoundException(nameof(user), id);
             }
-
             try
             {
                 await _userService.UpdateAsync(_mapper.Map<User>(user));
@@ -80,7 +85,7 @@ namespace MeFitBackend.Controllers
                 return NotFound(ex.Message);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
@@ -102,14 +107,15 @@ namespace MeFitBackend.Controllers
         /// Deletes a user by their unique identifier
         /// </summary>
         /// <param name="id">The unique identifier of the user to delete</param>
-        /// <returns>NoContent if the deletion is successful</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
                 await _userService.DeleteByIdAsync(id);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
@@ -122,14 +128,15 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
         /// <param name="roleIds">The Ids of the new appointed roles of user</param>
-        /// <returns>NoContent if the role update is successful</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpPut("{id}/userroles")]
         public async Task<ActionResult> PutUserRoles(string id, [FromBody] int[] roleIds)
         {
             try
             {
                 await _userService.UpdateUserRolesAsync(id, roleIds);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
@@ -137,7 +144,13 @@ namespace MeFitBackend.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Retrieves a users exercises by their unique identifier
+        /// </summary>
+        /// <param name="id">The id of the user to retrieve the exercises from</param>
+        /// <exception cref="EntityNotFoundException">Thrown when the user with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpGet("{id}/userexercises")]
         public async Task<ActionResult<IEnumerable<UserExerciseDTO>>> GetAllUserExercises(string id)
         {
@@ -158,20 +171,28 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
         /// <param name="exerciseIds">The unique identifier of the exercise</param>
-        /// <returns>NoContent if the userexercise update is successful</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpPut("{id}/userexercises")]
         public async Task<ActionResult> PutUserExercises(string id, [FromBody] int[] exerciseIds)
         {
             try
             {
                 await _userService.UpdateUserExercisesAsync(id, exerciseIds);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
+        /// <summary>
+        /// Retrieves a users workouts by their unique identifier
+        /// </summary>
+        /// <param name="id">The id of the user to retrieve the workouts from</param>
+        /// <exception cref="EntityNotFoundException">Thrown when the user with the provided 'id' is not found.</exception>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
 
         [HttpGet("{id}/userworkout")]
         public async Task<ActionResult<IEnumerable<UserWorkoutDTO>>> GetAllUserWorkouts(string id)
@@ -187,12 +208,14 @@ namespace MeFitBackend.Controllers
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
+
         /// <summary>
         /// Update workouts in user
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
         /// <param name="workoutIds">The unique identifiers of the workouts</param>
-        /// <returns>NoContent if the userexercise update is successful</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpPut("{id}/userworkout")]
         public async Task<ActionResult> PutUserWorkouts(string id, UserWorkoutPostDTO[] workouts)
         {
@@ -200,7 +223,7 @@ namespace MeFitBackend.Controllers
             try
             {
                 await _userService.UpdateUserWorkoutsAsync(id, workouts);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
@@ -214,21 +237,27 @@ namespace MeFitBackend.Controllers
         /// <param name="id">The unique identifier of the user</param>
         /// <param name="uwId">The unique identifier of the userworkout</param>
         /// <param name="done">The date for when workout is done<param>
-        /// <returns>NoContent if the userworkout update is successful</returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user or userWorkout with the given ID was not found.</response>
         [HttpPut("{id}/userworkout/{uwId}/workoutgoal")]
         public async Task<ActionResult> UpdateWorkoutGoal(string id, int uwId, DateTime? done)
         {
             try
             {
                 await _userService.UpdateWorkoutGoal(id, uwId, done);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
-
+        /// <summary>
+        /// Gets all userPrograms for a user
+        /// </summary>
+        /// <param name="id">The unique identifier of the user</param>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpGet("{id}/userprogram")]
         public async Task<ActionResult<IEnumerable<UserProgramDTO>>> GetAllUserPrograms(string id)
         {
@@ -248,22 +277,21 @@ namespace MeFitBackend.Controllers
         /// Update programs in user
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
-        /// <param name="userPrograms">The unique identifiers of the programs</param>
-        /// <returns>NoContent if the userprogram update is successful</returns>
+        /// <param name="userPrograms">The unique identifiers of the programs in a list</param>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The user with the given ID was not found.</response>
         [HttpPut("{id}/userprogram")]
         public async Task<ActionResult> PutUserPrograms(string id, UserProgramPutDTO[] userPrograms)
         {
             try
             {
                 await _userService.UpdateUserProgramsAsync(id, userPrograms);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
         }
-
-
     }
 }
