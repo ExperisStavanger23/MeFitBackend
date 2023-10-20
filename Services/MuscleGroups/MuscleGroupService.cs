@@ -20,7 +20,7 @@ namespace MeFitBackend.Services.MuscleGroups
             return obj;
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public Task DeleteByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace MeFitBackend.Services.MuscleGroups
                .ToListAsync();
         }
 
-        public async Task<MuscleGroup> GetByIdAsync(int id)
+        public Task<MuscleGroup> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<MuscleGroup> UpdateAsync(MuscleGroup obj)
+        public Task<MuscleGroup> UpdateAsync(MuscleGroup obj)
         {
             throw new NotImplementedException();
         }

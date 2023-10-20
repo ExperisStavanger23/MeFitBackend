@@ -166,7 +166,7 @@ namespace MeFitBackend.Services.Workouts
                 workoutexersieList.Add(_context.WorkoutExercises.Single(m => m.Id == wId));
             }
 
-            var weToUpdate = await _context.Workouts.Include(w => w.WorkoutExercises).SingleAsync(w => w.Id == id); ;
+            var weToUpdate = await _context.Workouts.Include(w => w.WorkoutExercises).SingleAsync(w => w.Id == id);
             weToUpdate.WorkoutExercises = workoutexersieList;
 
             await _context.SaveChangesAsync();

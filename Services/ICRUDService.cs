@@ -1,4 +1,6 @@
-﻿namespace MeFitBackend.Services
+﻿using MeFitBackend.Data.Exceptions;
+
+namespace MeFitBackend.Services
 {
     public interface ICRUDService<TEntity, TID>
     {

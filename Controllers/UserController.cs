@@ -236,7 +236,7 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user</param>
         /// <param name="uwId">The unique identifier of the userworkout</param>
-        /// <param name="done">The date for when workout is done<param>
+        /// <param name="done">The date for when workout is done</param>
         /// <response code="200">Ok - Success <br/></response>
         /// <response code="404">Not Found - The user or userWorkout with the given ID was not found.</response>
         [HttpPut("{id}/userworkout/{uwId}/workoutgoal")]
