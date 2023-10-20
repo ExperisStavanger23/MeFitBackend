@@ -9,6 +9,7 @@ namespace MeFitBackend.Controllers
     [ApiController]
     [Produces("application/Json")]
     [Consumes("application/Json")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class MuscleGroupController : ControllerBase
     {
         private readonly IMuscleGroupService _musclegroupService;

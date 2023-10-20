@@ -12,6 +12,7 @@ namespace MeFitBackend.Controllers
     [ApiController]
     [Produces("application/Json")]
     [Consumes("application/Json")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class WorkoutController : ControllerBase
     {
         private readonly IWorkoutService _workoutService;
@@ -38,8 +39,9 @@ namespace MeFitBackend.Controllers
         /// <summary>
         /// Retrieves workout by their unique identifier
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> The id of the workout to get</param>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The workout with the given ID was not found.</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkoutGetByIdDTO>> GetWorkoutById(int id)
         {
@@ -60,7 +62,9 @@ namespace MeFitBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="workoutPutDTO"></param>
-        /// <returns></returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The workout with the given ID was not found.</response>
+        /// <response code="400">Bad Request - The Id of workout and new workout data does not match </response>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWorkout(int id, WorkoutPutDTO workoutPutDTO)
         {
@@ -72,13 +76,12 @@ namespace MeFitBackend.Controllers
             {
                 var workout = _mapper.Map<Workout>(workoutPutDTO);
                 await _workoutService.UpdateAsync(workout);
-                // var updatedWorkoutDTO = _mapper.Map<Workout>(workoutPutDTO);
             }
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
@@ -100,14 +103,15 @@ namespace MeFitBackend.Controllers
         /// Deletes an workout by their unique identifier
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The workout with the given ID was not found.</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkout(int id)
         {
             try
             {
                 await _workoutService.DeleteByIdAsync(id);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
@@ -115,7 +119,12 @@ namespace MeFitBackend.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Gets all exercises in workout
+        /// </summary>
+        /// <param name="id"> Id of the workout to get exercise from</param>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The workout with the given ID was not found.</response>
         [HttpGet("{id}/workoutexercises")]
         public async Task<ActionResult<IEnumerable<WorkoutExerciseDTO>>> GetAllWorkoutExercises(int id)
         {
@@ -134,16 +143,17 @@ namespace MeFitBackend.Controllers
         /// <summary>
         /// Updates exercises in workout
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="workoutexerciseIds"></param>
-        /// <returns></returns>
+        /// <param name="id"> Id of the workout to put exercise into</param>
+        /// <param name="workoutexerciseIds">Ids of exercises</param>
+        /// <response code="200">Ok - Success <br/></response>
+        /// <response code="404">Not Found - The workout with the given ID was not found.</response>
         [HttpPut("{id}/workoutexercises")]
         public async Task<ActionResult> PutWorkoutExercises(int id, [FromBody] int[] workoutexerciseIds)
         {
             try
             {
                 await _workoutService.UpdateWorkoutExersiesAsync(id, workoutexerciseIds);
-                return NoContent();
+                return Ok();
             }
             catch (EntityNotFoundException ex)
             {
